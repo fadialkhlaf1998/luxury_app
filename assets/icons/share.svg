@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16">
+  <g id="share-icon" transform="translate(-1235 -896) rotate(-90)">
+    <path id="Path_37228" data-name="Path 37228" d="M0,0V5" transform="translate(-902 1240.603) rotate(-30)" fill="none" stroke="#f2e8da" stroke-linecap="round" stroke-width="1"/>
+    <path id="Path_37233" data-name="Path 37233" d="M0,0V5" transform="translate(-905.75 1239.603) rotate(30)" fill="none" stroke="#f2e8da" stroke-linecap="round" stroke-width="1"/>
+    <g id="Ellipse_22" data-name="Ellipse 22" transform="translate(-907 1250) rotate(180)" fill="none" stroke="#d59f54" stroke-width="1">
+      <circle cx="2.5" cy="2.5" r="2.5" stroke="none"/>
+      <circle cx="2.5" cy="2.5" r="2" fill="none"/>
+    </g>
+    <g id="Ellipse_23" data-name="Ellipse 23" transform="translate(-896 1250) rotate(180)" fill="none" stroke="#d59f54" stroke-width="1">
+      <circle cx="2.5" cy="2.5" r="2.5" stroke="none"/>
+      <circle cx="2.5" cy="2.5" r="2" fill="none"/>
+    </g>
+    <g id="Ellipse_24" data-name="Ellipse 24" transform="translate(-902 1240) rotate(180)" fill="none" stroke="#d59f54" stroke-width="1">
+      <circle cx="2.5" cy="2.5" r="2.5" stroke="none"/>
+      <circle cx="2.5" cy="2.5" r="2" fill="none"/>
+    </g>
+  </g>
+</svg>
