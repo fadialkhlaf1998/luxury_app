@@ -9,6 +9,7 @@ import 'package:luxury_app/controller/product_details_controller.dart';
 import 'package:luxury_app/helper/api.dart';
 import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/helper/global.dart';
+import 'package:luxury_app/model/all-cars.dart';
 import 'package:luxury_app/model/car-info.dart';
 import 'package:luxury_app/view/book.dart';
 import 'package:luxury_app/widgets/container_with_image.dart';
@@ -153,8 +154,17 @@ class ProductDetails extends StatelessWidget {
             height: 45,
             text: App_Localization.of(context).translate("book_now").toUpperCase(),
             onPressed: () {
+              var bookedCar = Car(id: car!.id, typeId: car!.typeId, brandId: car!.brandId, bodyId: car!.bodyId, slug: car!.slug,
+                  slugGroup: car!.slugGroup, model: car!.model, year: car!.year, innerColor: car!.innerColor,
+                  outerColor: car!.outerColor, seats: car!.seats, oldDailyPrice: car!.oldDailyPrice, dailyPrice: car!.dailyPrice,
+                  oldHourlyPrice: car!.oldHourlyPrice, hourlyPrice: car!.hourlyPrice, descriptionEn: car!.descriptionEn,
+                  descriptionAr: car!.descriptionAr, imgs: car!.imgs, metaTitleEn: car!.metaTitleEn,
+                  metaTitleAr: car!.metaTitleAr, metaKeywordsEn: car!.metaKeywordsEn,
+                  metaKeywordsAr: car!.metaKeywordsAr, metaDescriptionEn: car!.metaDescriptionEn,
+                  metaDescriptionAr: car!.metaDescriptionAr, metaImage: car!.metaImage,
+                  brands: car!.brands!, types: null, bodies: car!.bodies);
               Navigator.of(context).push(PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) => Book(),
+                pageBuilder: (context, animation, secondaryAnimation) => Book(bookedCar),
                 transitionsBuilder: (context, animation, secondaryAnimation, child) {
                   const begin = Offset(1.0,0.0);
                   const end = Offset.zero;

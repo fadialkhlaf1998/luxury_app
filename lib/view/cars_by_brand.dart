@@ -23,7 +23,8 @@ class CarsByBrand extends StatelessWidget {
   AllBrands allBrands;
   int index;
 
-  CarsByBrand(this.allBrands,this.index);
+  CarsByBrand(this.allBrands,this.index) {
+  }
 
   HomeController homeController = Get.find();
   IntroductionController introductionController = Get.find();
@@ -413,6 +414,7 @@ class CarsByBrand extends StatelessWidget {
                 trackVisibility: true,
                 controller: scrollController,
                 child: SingleChildScrollView(
+                    controller: scrollController,
                     child: Column(
                       children: [
                         Html(

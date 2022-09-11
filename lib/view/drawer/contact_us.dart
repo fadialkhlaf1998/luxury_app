@@ -9,13 +9,12 @@ import 'package:luxury_app/controller/introduction_controller.dart';
 import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/widgets/custom_button.dart';
 import 'package:luxury_app/widgets/drawer.dart';
-import 'package:luxury_app/widgets/text_app.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 class ContactUs extends StatelessWidget {
-  ContactUs({Key? key}) : super(key: key) {
 
+  ContactUs() {
+    contactUsController.clearTextField();
   }
 
   ContactUsController contactUsController = Get.put(ContactUsController());

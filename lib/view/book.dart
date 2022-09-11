@@ -11,86 +11,50 @@ import 'package:luxury_app/controller/home_controller.dart';
 import 'package:luxury_app/controller/introduction_controller.dart';
 import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/helper/global.dart';
+import 'package:luxury_app/model/all-cars.dart';
 import 'package:luxury_app/widgets/container_with_image.dart';
 import 'package:luxury_app/widgets/custom_button.dart';
 import 'package:luxury_app/widgets/text_app.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+
 class Book extends StatelessWidget {
 
-  Book();
+  Book(Car car){
+    bookController.car = car;
+  }
 
   HomeController homeController = Get.find();
   IntroductionController introductionController = Get.find();
   BookController bookController = Get.put(BookController());
-
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
       backgroundColor: App.darkGrey,
       body: SafeArea(
-        child: Container(
-          width: App.getDeviceWidthPercent(100, context),
-          height: App.getDeviceHeightPercent(100, context),
-          color: App.darkGrey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _header(context),
-                const SizedBox(height: 15),
-                _date(context),
-                const SizedBox(height: 20),
-                Container(
-                  width: App.getDeviceWidthPercent(75, context),
-                  child: Divider(
-                    color: App.orange,
-                    thickness: 2,
-                  ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              width: App.getDeviceWidthPercent(100, context),
+              height: App.getDeviceHeightPercent(100, context),
+              color: App.darkGrey,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _header(context),
+                    SizedBox(height: 15),
+                    _stepper(context),
+                    SizedBox(height: 20),
+                    _body(context),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                textFields(context),
-                const SizedBox(height: 20),
-                Container(
-                  width: App.getDeviceWidthPercent(75, context),
-                  child: Divider(
-                    color: App.orange,
-                    thickness: 2,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                babySeat(context),
-                const SizedBox(height: 15),
-                additionalDriver(context),
-                const SizedBox(height: 15),
-                payNowLater(context),
-                const SizedBox(height: 20),
-                Container(
-                  width: App.getDeviceWidthPercent(75, context),
-                  child: Divider(
-                    color: App.orange,
-                    thickness: 2,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                subTotalVatTotal(context),
-                const SizedBox(height: 15),
-                CustomButton(
-                  width: App.getDeviceWidthPercent(90, context),
-                  height: 50,
-                  text: App_Localization.of(context).translate("confirmation").toUpperCase(),
-                  onPressed: () {
-                    /// confirm
-                  },
-                  color: App.orange,
-                  borderRadius: 20,
-                  textStyle: CommonTextStyle.textStyleForBigWhiteNormal,
-                ),
-                const SizedBox(height: 20),
-              ],
+              ),
             ),
-          ),
-        ),
+            ///loading
+          ],
+        )
       ),
     ));
   }
@@ -103,7 +67,7 @@ class Book extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              Get.back();
+              bookController.clear();
             },
             child: ContainerWithImage(
                 width: 30,
@@ -142,6 +106,147 @@ class Book extends StatelessWidget {
       ),
     );
   }
+  _stepper(context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const SizedBox(width: 20),
+          Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      color: bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange,
+                      width: 2)
+              ),
+              child: Center(
+                child: Container(
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color:  bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange,
+                  ),
+                ),
+              )
+          ),
+          Expanded(child: Divider(
+              color: bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange, thickness: 1.2),),
+          Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      color: bookController.activeCurrentStep.value < 2 ? App.lightGrey : App.orange,
+                      width: 2)
+              ),
+              child: Center(
+                child: Container(
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color:  bookController.activeCurrentStep.value < 2 ? App.lightGrey : App.orange,
+                  ),
+                ),
+              )
+          ),
+          Expanded(child: Divider(
+              color: bookController.activeCurrentStep.value < 2 ? App.lightGrey : App.orange,thickness: 1.2),),
+          Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      color: bookController.activeCurrentStep.value < 3 ? App.lightGrey : App.orange,
+                      width: 2)
+              ),
+              child: Center(
+                child: Container(
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color:  bookController.activeCurrentStep.value < 3 ? App.lightGrey : App.orange,
+                  ),
+                ),
+              )
+          ),
+          SizedBox(width: 20),
+        ],
+      ),
+    );
+  }
+  _body(BuildContext context) {
+    return Container(
+        height: MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.22 - 24,
+      width: App.getDeviceWidthPercent(100, context),
+      child: Column(
+        children: [
+          Expanded(
+            flex: 6,
+            child: bookController.activeCurrentStep.value < 1 ? _date(context) :
+            bookController.activeCurrentStep.value < 2 ? textFields(context) :
+            Column(
+              children: [
+                babySeat(context),
+                const SizedBox(height: 20),
+                additionalDriver(context),
+                const SizedBox(height: 20),
+                payNowLater(context),
+                const SizedBox(height: 20),
+                Container(
+                  width: App.getDeviceWidthPercent(75, context),
+                  child: Divider(
+                    color: App.orange,
+                    thickness: 2,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                subTotalVatTotal(context),
+              ],
+            ),
+          ),
+          MediaQuery.of(context).viewInsets.bottom == 0 ?
+          Expanded(
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomButton(
+                  width: App.getDeviceWidthPercent(35, context),
+                  height: 45,
+                  text: App_Localization.of(context).translate("back").toUpperCase(),
+                  onPressed: () {
+                    bookController.backwardStep();
+                  },
+                  color: App.orange,
+                  borderRadius: 10,
+                  textStyle: CommonTextStyle.textStyleForBigWhiteNormal,
+                ),
+                CustomButton(
+                  width: App.getDeviceWidthPercent(35, context),
+                  height: 45,
+                  text: App_Localization.of(context).translate("next").toUpperCase(),
+                  onPressed: () {
+                    bookController.forwardStep(context);
+                  },
+                  color: App.orange,
+                  borderRadius: 10,
+                  textStyle: CommonTextStyle.textStyleForBigWhiteNormal,
+                ),
+              ],
+            ),
+          ) : Text(''),
+        ],
+      )
+    );
+  }
   _date(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,9 +260,9 @@ class Book extends StatelessWidget {
             )
           ],
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 20),
         perDayHour(context),
-        const SizedBox(height: 15),
+        const SizedBox(height: 20),
         GestureDetector(
           onTap: () {
             dateDialog(context);
@@ -167,7 +272,10 @@ class Book extends StatelessWidget {
             height: 50,
             decoration: BoxDecoration(
               color: App.grey,
-              borderRadius: BorderRadius.circular(15)
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(
+                color: !bookController.pickUpValidate.value && !bookController.saveDate.value ? Colors.red : App.grey,
+              )
             ),
             child: Center(
               child: Text(
@@ -181,7 +289,7 @@ class Book extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 20),
         pickUpDropOffTime(context)
       ],
     );
@@ -479,6 +587,7 @@ class Book extends StatelessWidget {
   textFields(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: 20,),
         normalTextField(
           context: context,
           textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
@@ -492,7 +601,7 @@ class Book extends StatelessWidget {
           ),
           errorText: App_Localization.of(context).translate("this_field_is_required"),
         ),
-        SizedBox(height: 15),
+        SizedBox(height: 20),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -541,7 +650,7 @@ class Book extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 15),
+        SizedBox(height: 20),
         normalTextField(
           context: context,
           textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
@@ -555,6 +664,7 @@ class Book extends StatelessWidget {
           ),
           errorText: App_Localization.of(context).translate("this_field_is_required"),
         ),
+        const SizedBox(height: 20),
       ],
     );
   }
@@ -578,6 +688,7 @@ class Book extends StatelessWidget {
             value: bookController.babySeatValue.value ,
             onChanged: (bool value) {
               bookController.babySeatValue.value = value;
+              bookController.getTotal();
             },
             trackColor: App.grey,
           ),
@@ -695,7 +806,7 @@ class Book extends StatelessWidget {
               Text(App_Localization.of(context).translate("sub_total:"),
                 style: CommonTextStyle.textStyleForMediumWhiteNormal,
               ),
-              Text("2250",
+              Text(bookController.subTotal.value.toStringAsFixed(2),
                 style: CommonTextStyle.textStyleForMediumOrangeNormal,
               ),
             ],
@@ -707,7 +818,7 @@ class Book extends StatelessWidget {
               Text(App_Localization.of(context).translate("vat:"),
                 style: CommonTextStyle.textStyleForMediumWhiteNormal,
               ),
-              Text("10",
+              Text(bookController.vat.value.toStringAsFixed(2),
                 style: CommonTextStyle.textStyleForMediumOrangeNormal,
               ),
             ],
@@ -719,7 +830,7 @@ class Book extends StatelessWidget {
               Text(App_Localization.of(context).translate("total:"),
                 style: CommonTextStyle.textStyleForMediumWhiteNormal,
               ),
-              Text("10",
+              Text(bookController.total.value.toStringAsFixed(2),
                 style: CommonTextStyle.textStyleForMediumOrangeNormal,
               ),
             ],
@@ -728,7 +839,6 @@ class Book extends StatelessWidget {
       ),
     );
   }
-
 
   /// static widget
   normalTextField({required BuildContext context, required TextStyle textStyle,required double width,
