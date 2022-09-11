@@ -145,7 +145,7 @@ class Home extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             BottomNavyBarItem(
-              icon: Icon(Icons.category,color: homeController.selectNavDrawer.value == 1 ? App.orange : App.lightGrey),
+              icon:  SvgPicture.asset("assets/icons/brand_nav_bar.svg",width: 28,height: 28,color: homeController.selectNavDrawer.value == 1 ? App.orange : App.lightGrey,),
               title: Text(App_Localization.of(context).translate("brands").toUpperCase(),
                 style: TextStyle(
                     color: homeController.selectNavDrawer.value == 1 ? App.orange : App.lightGrey,
@@ -686,7 +686,8 @@ class Home extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         color: App.grey,
                                         borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(15)
+                                            bottomLeft: Radius.circular(Global.languageCode == "en" ? 15 : 0),
+                                            bottomRight: Radius.circular(Global.languageCode == "en" ? 0 : 15)
                                         )
                                     ),
                                     child: Padding(
@@ -743,7 +744,7 @@ class Home extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).push(PageRouteBuilder(
-                                    pageBuilder: (context, animation, secondaryAnimation) => Book(),
+                                    pageBuilder: (context, animation, secondaryAnimation) => Book(introductionController.allCars!.data!.cars[index]),
                                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                       const begin = Offset(1.0,0.0);
                                       const end = Offset.zero;
@@ -758,10 +759,11 @@ class Home extends StatelessWidget {
                                 },
                                 child: Container(
                                     width: App.getDeviceWidthPercent(92, context) / 4,
-                                    decoration: const BoxDecoration(
+                                    decoration: BoxDecoration(
                                         color: App.grey,
                                         borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(15)
+                                            bottomRight: Radius.circular(Global.languageCode == "en" ? 15 : 0),
+                                            bottomLeft: Radius.circular(Global.languageCode == "en" ? 0 : 15)
                                         )
                                     ),
                                     child: Padding(

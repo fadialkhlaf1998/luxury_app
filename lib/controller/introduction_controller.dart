@@ -149,6 +149,7 @@ class IntroductionController extends GetxController{
     API.filter(vehicleType.toString(), rentType.toString(), minPrice.toString(), maxPrice.toString(), brands, "0").then((value) {
       loading.value = false;
       allCars = value;
+      homeController.selectNavDrawer.value = 0;
       Get.back();
     });
   }

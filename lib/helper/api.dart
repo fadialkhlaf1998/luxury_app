@@ -285,16 +285,89 @@ class API {
      http.StreamedResponse response = await request.send();
      var data = await response.stream.bytesToString();
      // print(data);
-     var dataRes = ContactUsResult.fromMap(jsonDecode(data));
-     if(dataRes.code == 1){
+     var newData = jsonDecode(data);
+     print(newData);
+      if(newData["code"] == 1){
        return true;
-     }else{
+      }else{
        return false;
      }
    }catch(err){
      return false;
    }
-
   }
 
+  static Future<bool> book (String rental_type,String payment_method,String car_id,
+      String has_babyseat, String has_driver , String from_date, String to_date ,
+      String customer_name,String customer_phone,String customer_email)async{
+    // print('--------------------');
+    var headers = {
+      'accept-language': 'en'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse(url + '/api/book'));
+    request.fields.addAll({
+      'rental_type': rental_type,
+      'payment_method': payment_method,
+      'car_id': car_id,
+      'has_babyseat': has_babyseat,
+      'has_driver': has_driver,
+      'from_date': from_date,
+      'to_date': to_date,
+      'customer_name': customer_name,
+      'customer_phone': customer_phone,
+      'customer_email': customer_email
+    });
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200 || response.statusCode == 201 ||response.statusCode == 202) {
+      var data = await response.stream.bytesToString();
+      print(data);
+      var newData = jsonDecode(data);
+      print(newData);
+      if(newData["code"] == 1){
+        print('/////////////////');
+        return true;
+      }else{
+        return false;
+      }
+    }
+    else {
+    print(response.reasonPhrase);
+    return false;
+    }
+  }
+
+  static Future<bool> bookState(String rental_number , String invoice_id)async{
+    var headers = {
+      'accept-language': 'en'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse(url + '/api/bookState'));
+    request.fields.addAll({
+      'rental_number': rental_number,
+      'invoice_id': invoice_id
+    });
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var data = (await response.stream.bytesToString());
+      print(data);
+      var dataRes = ContactUsResult.fromMap(jsonDecode(data));
+      if(dataRes.code == 1){
+        return true;
+      }else{
+       return false;
+      }
+    }
+    else {
+    print(response.reasonPhrase);
+    return false;
+    }
+
+  }
 }

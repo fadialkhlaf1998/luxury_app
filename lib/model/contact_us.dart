@@ -17,8 +17,8 @@ class ContactUsResult {
   String toJson() => json.encode(toMap());
 
   factory ContactUsResult.fromMap(Map<String, dynamic> json) => ContactUsResult(
-    code: json["code"] == null ? null : json["code"],
-    message: json["message"] == null ? null : json["message"],
+    code: json["code"] == null ? -1 : json["code"],
+    message: json["message"] == null ? "" : json["message"],
     data: json["data"],
   );
 

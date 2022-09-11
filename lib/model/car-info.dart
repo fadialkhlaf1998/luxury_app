@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:luxury_app/model/all-cars.dart';
+
 class CarInfo {
   CarInfo({
     required this.code,
@@ -174,118 +176,4 @@ class CarDetail {
   };
 }
 
-class Bodies {
-  Bodies({
-    required this.id,
-    required this.nameEn,
-    required this.nameAr,
-    required this.img,
-    required this.updatedAt,
-  });
 
-  int id;
-  String nameEn;
-  String nameAr;
-  String img;
-  dynamic updatedAt;
-
-  factory Bodies.fromJson(Map<String, dynamic> json) => Bodies(
-    id: json["id"] == null ? null : json["id"],
-    nameEn: json["name_en"] == null ? null : json["name_en"],
-    nameAr: json["name_ar"] == null ? null : json["name_ar"],
-    img: json["img"] == null ? null : json["img"],
-    updatedAt: json["updated_at"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id == null ? null : id,
-    "name_en": nameEn == null ? null : nameEn,
-    "name_ar": nameAr == null ? null : nameAr,
-    "img": img == null ? null : img,
-    "updated_at": updatedAt,
-  };
-}
-
-class Brands {
-  Brands({
-    required this.id,
-    required this.name,
-    required this.titleEn,
-    required this.titleAr,
-    required this.img,
-    required this.cover,
-    required this.descriptionEn,
-    required this.descriptionAr,
-    required this.slug,
-    required this.orderNum,
-    required this.metaTitleEn,
-    required this.metaTitleAr,
-    required this.metaKeywordsEn,
-    required this.metaKeywordsAr,
-    required this.metaDescriptionEn,
-    required this.metaDescriptionAr,
-    required this.metaImage,
-    // required this.updatedAt,
-  });
-
-  int id;
-  String name;
-  String titleEn;
-  String titleAr;
-  String img;
-  String cover;
-  String descriptionEn;
-  dynamic descriptionAr;
-  String slug;
-  int orderNum;
-  String metaTitleEn;
-  String metaTitleAr;
-  String metaKeywordsEn;
-  String metaKeywordsAr;
-  String metaDescriptionEn;
-  dynamic metaDescriptionAr;
-  String metaImage;
-  // DateTime updatedAt;
-
-  factory Brands.fromJson(Map<String, dynamic> json) => Brands(
-    id: json["id"] == null ? null : json["id"],
-    name: json["name"] == null ? null : json["name"],
-    titleEn: json["title_en"] == null ? null : json["title_en"],
-    titleAr: json["title_ar"] == null ? null : json["title_ar"],
-    img: json["img"] == null ? null : json["img"],
-    cover: json["cover"] == null ? null : json["cover"],
-    descriptionEn: json["description_en"] == null ? null : json["description_en"],
-    descriptionAr: json["description_ar"],
-    slug: json["slug"] == null ? null : json["slug"],
-    orderNum: json["order_num"] == null ? null : json["order_num"],
-    metaTitleEn: json["meta_title_en"] == null ? null : json["meta_title_en"],
-    metaTitleAr: json["meta_title_ar"] == null ? null : json["meta_title_ar"],
-    metaKeywordsEn: json["meta_keywords_en"] == null ? null : json["meta_keywords_en"],
-    metaKeywordsAr: json["meta_keywords_ar"] == null ? null : json["meta_keywords_ar"],
-    metaDescriptionEn: json["meta_description_en"] == null ? null : json["meta_description_en"],
-    metaDescriptionAr: json["meta_description_ar"],
-    metaImage: json["meta_image"] == null ? null : json["meta_image"],
-    // updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id == null ? null : id,
-    "name": name == null ? null : name,
-    "title_en": titleEn == null ? null : titleEn,
-    "title_ar": titleAr == null ? null : titleAr,
-    "img": img == null ? null : img,
-    "cover": cover == null ? null : cover,
-    "description_en": descriptionEn == null ? null : descriptionEn,
-    "description_ar": descriptionAr,
-    "slug": slug == null ? null : slug,
-    "order_num": orderNum == null ? null : orderNum,
-    "meta_title_en": metaTitleEn == null ? null : metaTitleEn,
-    "meta_title_ar": metaTitleAr == null ? null : metaTitleAr,
-    "meta_keywords_en": metaKeywordsEn == null ? null : metaKeywordsEn,
-    "meta_keywords_ar": metaKeywordsAr == null ? null : metaKeywordsAr,
-    "meta_description_en": metaDescriptionEn == null ? null : metaDescriptionEn,
-    "meta_description_ar": metaDescriptionAr,
-    "meta_image": metaImage == null ? null : metaImage,
-    // "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-  };
-}

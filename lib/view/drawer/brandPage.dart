@@ -76,8 +76,9 @@ class BrandPage extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 50),
-          brandsImages(context),
+          SizedBox(height: 30),
+          body(context),
+          // brandsImages(context),
           SizedBox(height: 20),
         ],
       ),
@@ -129,6 +130,39 @@ class BrandPage extends StatelessWidget {
               )
           ).toList(),
         )
+    );
+  }
+  body(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: App.getDeviceWidthPercent(95, context),
+          child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5,
+                childAspectRatio: 1.4,
+                mainAxisSpacing: 20
+              ),
+              itemCount: introductionController.homeData!.data!.brands.length,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context,index) {
+                return GestureDetector(
+                  onTap: () {
+                    introductionController.carsByBrand(context,
+                        introductionController.homeData!.data!.brands[index].id,index);
+                  },
+                  child: Container(
+                      child: SvgPicture.network(
+                        API.url + "/" + introductionController.homeData!.data!.brands[index].img,
+                        fit: BoxFit.contain,
+                      ),
+                  ),
+                );
+              }),
+        ),
+      ],
     );
   }
 }

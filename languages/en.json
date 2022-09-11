@@ -68,5 +68,7 @@
   "english": "English",
   "arabic": "Arabic",
   "language": "Language",
-  "location": "Location"
+  "location": "Location",
+  "back": "Back",
+  "next": "Next"
 }
