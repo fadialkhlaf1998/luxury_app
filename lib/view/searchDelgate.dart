@@ -46,6 +46,9 @@ class SearchTextField extends SearchDelegate<String> {
         color: App.darkGrey,
         elevation: 0,
       ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: Colors.red
+      ),
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: App.orange
       ),
@@ -65,7 +68,86 @@ class SearchTextField extends SearchDelegate<String> {
     final suggestions = introController.allCars!.data!.cars.where((elm) {
       return elm.slug.toLowerCase().contains(query.toLowerCase());
     });
-    return Container();
+    return suggestions.isEmpty ?
+    Container(
+        height: App.getDeviceHeightPercent(100, context),
+        width: App.getDeviceWidthPercent(100, context),
+        color: App.grey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(App_Localization.of(context).translate("no_results_matched"),
+              style: const TextStyle(
+                fontSize: CommonTextStyle.mediumTextStyle,
+                color: App.orange,
+                fontWeight: FontWeight.normal,
+              ),
+            )
+          ],
+        )
+    ) :
+    Container(
+        height: App.getDeviceHeightPercent(100, context),
+        width: App.getDeviceWidthPercent(100, context),
+        color: App.grey,
+        child: ListView.builder(
+          itemCount: suggestions.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                children: [
+                  GestureDetector(
+                      onTap: (){
+                        query = suggestions.elementAt(index).slug;
+                        introController.search(context, query,index);
+                      },
+                      onDoubleTap: () {
+                        introController.search(context, query,index);
+                      },
+                      child: Column(
+                        children: [
+                          SizedBox(height: 10,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                            API.url + "/" + suggestions.elementAt(index).imgs.split(",").first,
+                                          ),
+                                          fit: BoxFit.contain
+                                      )
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                flex: 4,
+                                child: Text(suggestions.elementAt(index).slug,
+                                  maxLines: 2,
+                                  style: const TextStyle(
+                                      fontSize: CommonTextStyle.smallTextStyle,
+                                      color: Colors.white,
+                                      overflow: TextOverflow.ellipsis
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                  ),
+                ],
+              ),
+            );
+          },
+        )
+    );
   }
 
   @override
