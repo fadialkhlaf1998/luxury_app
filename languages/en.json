@@ -70,5 +70,7 @@
   "language": "Language",
   "location": "Location",
   "back": "Back",
-  "next": "Next"
+  "next": "Next",
+  "success_book": "Successfully booked",
+  "phone_number_wrong": "Phone number is wrong"
 }

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/helper/api.dart';
 import 'package:luxury_app/helper/app.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class ContactUsController extends GetxController {
 
@@ -17,18 +19,22 @@ class ContactUsController extends GetxController {
   RxBool loading = false.obs;
 
   send(BuildContext context,String name,String phone,String email,String message) {
-    if(name.isEmpty || email.isEmpty || phone.isEmpty) {
+    if(name.isEmpty || email.isEmpty || !RegExp(r'\S+@\S+\.\S+').hasMatch(email) || phone.isEmpty || phone.length < 9) {
       if(name.isEmpty) {
         nameValidate.value= true;
       } else {
         nameValidate.value= false;
       }
-      if(email.isEmpty) {
+      if(email.isEmpty|| !RegExp(r'\S+@\S+\.\S+').hasMatch(email)) {
         emailValidate.value= true;
       }else{
         emailValidate.value= false;
       }
-      if(phone.isEmpty) {
+      if(phone.isEmpty || phone.length < 9) {
+        showTopSnackBar(context,
+            CustomSnackBar.error(
+              message: App_Localization.of(context).translate("phone_number_wrong"),
+            ));
         phoneValidate.value= true;
       }else{
         phoneValidate.value= false;
@@ -41,10 +47,17 @@ class ContactUsController extends GetxController {
           API.contactUs(name, email, phone, message).then((value) {
             loading.value = false;
             if(value) {
-              App.successTopBar(context, App_Localization.of(context).translate("success"));
+              showTopSnackBar(context,
+                  CustomSnackBar.success(
+                    backgroundColor: App.orange,
+                    message: App_Localization.of(context).translate("success"),
+                  ));
               clearTextField();
             }else {
-              App.successTopBar(context, App_Localization.of(context).translate("something_went_wrong"));
+              showTopSnackBar(context,
+                  CustomSnackBar.error(
+                    message: App_Localization.of(context).translate("something_went_wrong"),
+                  ));
             }
           });
         }

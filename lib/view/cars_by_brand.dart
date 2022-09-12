@@ -309,7 +309,8 @@ class CarsByBrand extends StatelessWidget {
                                         decoration: BoxDecoration(
                                             color: App.grey,
                                             borderRadius: BorderRadius.only(
-                                                bottomLeft: Radius.circular(15)
+                                                bottomLeft: Radius.circular(Global.languageCode == "en" ? 15 : 0),
+                                                bottomRight: Radius.circular(Global.languageCode == "en" ? 0 : 15)
                                             )
                                         ),
                                         child: Padding(
@@ -372,7 +373,8 @@ class CarsByBrand extends StatelessWidget {
                                         decoration: BoxDecoration(
                                             color: App.grey,
                                             borderRadius: BorderRadius.only(
-                                                bottomRight: Radius.circular(15)
+                                                bottomRight: Radius.circular(Global.languageCode == "en" ? 15 : 0),
+                                                bottomLeft: Radius.circular(Global.languageCode == "en" ? 0 : 15)
                                             )
                                         ),
                                         child: Padding(

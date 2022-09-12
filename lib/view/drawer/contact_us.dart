@@ -14,7 +14,6 @@ import 'package:luxury_app/widgets/drawer.dart';
 class ContactUs extends StatelessWidget {
 
   ContactUs() {
-    contactUsController.clearTextField();
   }
 
   ContactUsController contactUsController = Get.put(ContactUsController());
@@ -149,7 +148,6 @@ class ContactUs extends StatelessWidget {
                 color: Colors.white.withOpacity(0.3),
                 fontSize: CommonTextStyle.mediumTextStyle
             ),
-            errorText: App_Localization.of(context).translate("this_field_is_required"),
           ),
           SizedBox(height: 15),
           App.normalTextField(
@@ -165,7 +163,6 @@ class ContactUs extends StatelessWidget {
                 color: Colors.white.withOpacity(0.3),
                 fontSize: CommonTextStyle.mediumTextStyle
             ),
-            errorText: App_Localization.of(context).translate("this_field_is_required"),
           ),
           SizedBox(height: 15),
           Column(
@@ -173,12 +170,11 @@ class ContactUs extends StatelessWidget {
             children: [
               Container(
                   width: App.getDeviceWidthPercent(80, context),
-                  // height: App.getDeviceHeightPercent(contactUsController.phoneValidate.value ? 8.5 : 9, context),
                   child: IntlPhoneField(
                     style: CommonTextStyle.textStyleForMediumWhiteNormal,
                     controller: contactUsController.phone,
                     cursorColor: Colors.white,
-                    // textAlignVertical: contactUsController.phoneValidate.value ? TextAlignVertical.bottom : TextAlignVertical.center,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: App.textField,
@@ -189,17 +185,16 @@ class ContactUs extends StatelessWidget {
                       ),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
-                          borderSide:  BorderSide(color: App.orange)
+                          borderSide:  BorderSide(color: contactUsController.phoneValidate.value ? Colors.red : App.orange)
                       ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: App.textField)
+                          borderSide: BorderSide(color: contactUsController.phoneValidate.value ? Colors.red : App.textField)
                       ),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: App.textField)
+                          borderSide: BorderSide(color: contactUsController.phoneValidate.value ? Colors.red : App.textField)
                       ),
-                      errorText: contactUsController.phoneValidate.value ? App_Localization.of(context).translate("this_field_is_required") : null,
                     ),
                     initialCountryCode: 'AE',
                     disableLengthCheck: true,

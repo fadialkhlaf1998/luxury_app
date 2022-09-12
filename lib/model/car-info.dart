@@ -99,15 +99,15 @@ class CarDetail {
   int dailyPrice;
   int oldHourlyPrice;
   int hourlyPrice;
-  dynamic descriptionEn;
-  dynamic descriptionAr;
+  DescriptionEn? descriptionEn;
+  DescriptionAr? descriptionAr;
   String imgs;
   String metaTitleEn;
   String metaTitleAr;
   String metaKeywordsEn;
   String metaKeywordsAr;
   String metaDescriptionEn;
-  dynamic metaDescriptionAr;
+  String metaDescriptionAr;
   String metaImage;
   // DateTime updatedAt;
   Brands? brands;
@@ -129,16 +129,16 @@ class CarDetail {
     dailyPrice: json["daily_price"] == null ? -1 : json["daily_price"],
     oldHourlyPrice: json["old_hourly_price"] == null ? -1 : json["old_hourly_price"],
     hourlyPrice: json["hourly_price"] == null ? -1 : json["hourly_price"],
-    descriptionEn: json["description_en"] == null ? "" : json["description_en"],
-    descriptionAr: json["description_ar"] == null ? "" : json["description_ar"],
-    imgs: json["imgs"] == null ? "null" : json["imgs"],
-    metaTitleEn: json["meta_title_en"] == null ? "null" : json["meta_title_en"],
-    metaTitleAr: json["meta_title_ar"] == null ? "null" : json["meta_title_ar"],
-    metaKeywordsEn: json["meta_keywords_en"] == null ? "null" : json["meta_keywords_en"],
-    metaKeywordsAr: json["meta_keywords_ar"] == null ? "null" : json["meta_keywords_ar"],
-    metaDescriptionEn: json["meta_description_en"] == null ? "null" : json["meta_description_en"],
-    metaDescriptionAr: json["meta_description_ar"] == null ? null : json["meta_description_ar"],
-    metaImage: json["meta_image"] == null ? "null" : json["meta_image"],
+    descriptionEn: json["description_en"] == null ? null : descriptionEnValues.map[json["description_en"]],
+    descriptionAr: json["description_ar"] == null ? null : descriptionArValues.map[json["description_ar"]],
+    imgs: json["imgs"] == null ? "" : json["imgs"],
+    metaTitleEn: json["meta_title_en"] == null ? "" : json["meta_title_en"],
+    metaTitleAr: json["meta_title_ar"] == null ? "" : json["meta_title_ar"],
+    metaKeywordsEn: json["meta_keywords_en"] == null ? "" : json["meta_keywords_en"],
+    metaKeywordsAr: json["meta_keywords_ar"] == null ? "" : json["meta_keywords_ar"],
+    metaDescriptionEn: json["meta_description_en"] == null ? "" : json["meta_description_en"],
+    metaDescriptionAr: json["meta_description_ar"] == null ? "" : json["meta_description_ar"],
+    metaImage: json["meta_image"] == null ? "" : json["meta_image"],
     // updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     brands: json["brands"] == null ? null : Brands.fromJson(json["brands"]),
     bodies: json["bodies"] == null ? null : Bodies.fromJson(json["bodies"]),
