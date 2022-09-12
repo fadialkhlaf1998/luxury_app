@@ -40,6 +40,11 @@ class Book extends StatelessWidget {
               width: App.getDeviceWidthPercent(100, context),
               height: App.getDeviceHeightPercent(100, context),
               color: App.darkGrey,
+            ),
+            Container(
+              width: App.getDeviceWidthPercent(100, context),
+              height: App.getDeviceHeightPercent(100, context),
+              color: App.darkGrey,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -52,7 +57,17 @@ class Book extends StatelessWidget {
                 ),
               ),
             ),
-            ///loading
+            bookController.loading.value ?
+              Container(
+                width: App.getDeviceWidthPercent(100, context),
+                height: App.getDeviceHeightPercent(100, context),
+                color: App.darkGrey,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: App.orange,
+                  ),
+                )
+              ) : Center()
           ],
         )
       ),
@@ -68,6 +83,7 @@ class Book extends StatelessWidget {
           GestureDetector(
             onTap: () {
               bookController.clear();
+              Get.back();
             },
             child: ContainerWithImage(
                 width: 30,
@@ -88,6 +104,7 @@ class Book extends StatelessWidget {
           GestureDetector(
             onTap: () {
               bookController.clear();
+              Get.back();
             },
             child: Container(
               child: Row(
@@ -119,7 +136,7 @@ class Book extends StatelessWidget {
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                      color: bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange,
+                      color: bookController.activeCurrentStep.value < 0 ? App.lightGrey : App.orange,
                       width: 2)
               ),
               child: Center(
@@ -128,13 +145,35 @@ class Book extends StatelessWidget {
                   height: 10,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color:  bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange,
+                      color:  bookController.activeCurrentStep.value < 0 ? App.lightGrey : App.orange,
                   ),
                 ),
               )
           ),
           Expanded(child: Divider(
               color: bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange, thickness: 1.2),),
+          Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      color: bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange,
+                      width: 2)
+              ),
+              child: Center(
+                child: Container(
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color:  bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange,
+                  ),
+                ),
+              )
+          ),
+          Expanded(child: Divider(
+              color: bookController.activeCurrentStep.value < 2 ? App.lightGrey : App.orange,thickness: 1.2),),
           Container(
               width: 25,
               height: 25,
@@ -151,28 +190,6 @@ class Book extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color:  bookController.activeCurrentStep.value < 2 ? App.lightGrey : App.orange,
-                  ),
-                ),
-              )
-          ),
-          Expanded(child: Divider(
-              color: bookController.activeCurrentStep.value < 2 ? App.lightGrey : App.orange,thickness: 1.2),),
-          Container(
-              width: 25,
-              height: 25,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: bookController.activeCurrentStep.value < 3 ? App.lightGrey : App.orange,
-                      width: 2)
-              ),
-              child: Center(
-                child: Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color:  bookController.activeCurrentStep.value < 3 ? App.lightGrey : App.orange,
                   ),
                 ),
               )
@@ -599,7 +616,6 @@ class Book extends StatelessWidget {
               color: Colors.white.withOpacity(0.3),
               fontSize: CommonTextStyle.mediumTextStyle
           ),
-          errorText: App_Localization.of(context).translate("this_field_is_required"),
         ),
         SizedBox(height: 20),
         Column(
@@ -611,6 +627,7 @@ class Book extends StatelessWidget {
                   style: CommonTextStyle.textStyleForMediumWhiteNormal,
                   controller: bookController.phone,
                   cursorColor: Colors.white,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: App.textField,
@@ -621,17 +638,16 @@ class Book extends StatelessWidget {
                     ),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide:  BorderSide(color: App.orange)
+                        borderSide:  BorderSide(color: bookController.phoneValidate.value ? Colors.red : App.orange)
                     ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: App.textField)
+                        borderSide: BorderSide(color: bookController.phoneValidate.value ? Colors.red : App.textField)
                     ),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: App.textField)
+                        borderSide: BorderSide(color: bookController.phoneValidate.value ? Colors.red : App.textField)
                     ),
-                    errorText: bookController.phoneValidate.value ? App_Localization.of(context).translate("this_field_is_required") : null,
                   ),
                   initialCountryCode: 'AE',
                   disableLengthCheck: true,
@@ -644,7 +660,7 @@ class Book extends StatelessWidget {
                   showDropdownIcon: true,
                   dropdownIconPosition: IconPosition.trailing,
                   onChanged: (phone) {
-                    print(phone.countryCode);
+                    // print(phone.countryCode);
                   },
                 )
             ),
@@ -662,7 +678,6 @@ class Book extends StatelessWidget {
               color: Colors.white.withOpacity(0.3),
               fontSize: CommonTextStyle.mediumTextStyle
           ),
-          errorText: App_Localization.of(context).translate("this_field_is_required"),
         ),
         const SizedBox(height: 20),
       ],
@@ -843,7 +858,7 @@ class Book extends StatelessWidget {
   /// static widget
   normalTextField({required BuildContext context, required TextStyle textStyle,required double width,
     double? height, TextAlignVertical? textAlignVertical,required TextEditingController controller,
-    required String hintText,required TextStyle hintStyle, required bool validate,required String errorText}) {
+    required String hintText,required TextStyle hintStyle, required bool validate}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -862,17 +877,16 @@ class Book extends StatelessWidget {
               hintStyle: hintStyle,
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide:  BorderSide(color: App.orange)
+                  borderSide:  BorderSide(color: validate ? Colors.red : App.orange)
               ),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(color: App.textField)
+                  borderSide: BorderSide(color: validate ? Colors.red : App.textField)
               ),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(color: App.textField)
+                  borderSide: BorderSide(color: validate ? Colors.red :  App.textField)
               ),
-              errorText: validate ? errorText : null,
             ),
           ),
         ),

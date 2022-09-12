@@ -4,18 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:luxury_app/helper/api.dart';
 
 class PaymentController extends GetxController {
   String result_id = "";
+  int rent_number = -1;
   Map<String, dynamic>? paymentIntentData;
   String secrit = "sk_test_51LWbmmAcwyDDMKEjxgxy53HBNi44DWy9nZ756qgO624uomQ6pm7D1odNvMzqQ57MuEBdczmMcuWyt4CtcVJ1Dur000dsVfoOgF";
   Future<void> makePayment(
-      {required String amount, required String currency}) async {
+      {required String amount, required String currency,required int newRentNumber}) async {
     try {
+      rent_number = newRentNumber;
       paymentIntentData = await createPaymentIntent(amount, currency);
       if (paymentIntentData != null) {
         print('Init Payment Sheet Successfully');
-        GetSnackBar(title: "successfully",message: "successfully",).show();
        var result = await Stripe.instance.initPaymentSheet(
             paymentSheetParameters: SetupPaymentSheetParameters(
               applePay: PaymentSheetApplePay(merchantCountryCode: "AE"),
@@ -29,10 +31,8 @@ class PaymentController extends GetxController {
 
         await displayPaymentSheet();
       }else{
-        GetSnackBar(title: "error",message: "error",).show();
       }
     } catch (e, s) {
-      GetSnackBar(title: "error",message: "error",).show();
       print('exception:$e$s');
     }
   }
@@ -68,7 +68,6 @@ class PaymentController extends GetxController {
         'payment_method_types[]': 'card'
       };
       print('Begin Api');
-      GetSnackBar(title: "Begin Api",message: "message",).show();
       var response = await http.post(
           Uri.parse('https://api.stripe.com/v1/payment_intents'),
           body: body,
@@ -76,18 +75,25 @@ class PaymentController extends GetxController {
             'Authorization': 'Bearer '+secrit,
             'Content-Type': 'application/x-www-form-urlencoded'
           });
-      GetSnackBar(title: "End Api",message:response.body.toString()).show();
       // log(response.body);
       var data = json.decode(response.body);
       print('*****************');
       print(data["id"]);
       result_id = data["id"];
+      addState(rent_number.toString(), data["id"]);
       return data;
     } catch (err) {
       print('err charging user: ${err.toString()}');
     }
   }
-
+  addState(String rental_number, String invoice_id)async{
+    bool succ = await API.bookState(rental_number, invoice_id);
+    if(succ){
+      return true;
+    }else{
+      return addState(rental_number,invoice_id);
+    }
+  }
   calculateAmount(String amount) {
     final a = (int.parse(amount)) * 100;
     return a.toString();

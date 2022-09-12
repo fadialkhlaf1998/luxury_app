@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/controller/introduction_controller.dart';
+import 'package:luxury_app/controller/payment_controller.dart';
 import 'package:luxury_app/helper/api.dart';
+import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/helper/global.dart';
 import 'package:luxury_app/model/all-cars.dart';
-import 'package:luxury_app/view/home.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 
 class BookController extends GetxController {
 
   IntroductionController introductionController = Get.find();
+  PaymentController paymentController = Get.put(PaymentController());
   RxInt activeCurrentStep = 0.obs;
   Car? car ;
+  RxBool loading = false.obs;
   /// date & time section
   RxInt selectRentalModel = 0.obs;
   RxString selectedDate = ''.obs;
@@ -45,13 +51,12 @@ class BookController extends GetxController {
   backwardStep() {
     if(activeCurrentStep.value == 0){
       clear();
+      Get.back();
     }else{
       activeCurrentStep.value -= 1;
     }
   }
-
   forwardStep(context){
-
     if(activeCurrentStep.value == 0){
       if(range.value == '' ||  pickTime.value == "non" || dropTime.value == "non"){
         if(range.value == ''){
@@ -73,43 +78,74 @@ class BookController extends GetxController {
         activeCurrentStep ++;
       }
     } else if(activeCurrentStep.value == 1){
-
-      if(name.text.isEmpty || phone.text.isEmpty || email.text.isEmpty) {
+      if(name.text.isEmpty || !RegExp(r'\S+@\S+\.\S+').hasMatch(email.text) || phone.text.isEmpty || email.text.isEmpty || phone.text.length < 9) {
+        if(email.text.isEmpty || !RegExp(r'\S+@\S+\.\S+').hasMatch(email.text)){
+          emailValidate.value = true;
+        }else {
+          emailValidate.value = false;
+        }
+        if(phone.text.isEmpty || phone.text.length < 9){
+          phoneValidate.value=true;
+          showTopSnackBar(context,
+              CustomSnackBar.error(
+                message: App_Localization.of(context).translate("phone_number_wrong"),
+              ));
+        }else{
+          phoneValidate.value=false;
+        }
         if(name.text.isEmpty){
           nameValidate.value = true;
         }else {
           nameValidate.value = false;
-        }
-        if(phone.text.isEmpty){
-          phoneValidate.value = true;
-        }else {
-          phoneValidate.value = false;
-        }
-        if(email.text.isEmpty){
-          emailValidate.value = true;
-        }else {
-          emailValidate.value = false;
         }
       }else {
         activeCurrentStep ++;
         nameValidate.value = false;
         emailValidate.value = false;
         phoneValidate.value = false;
-
       }
       getTotal();
     } else{
       getTotal();
-      // activeCurrentStep ++;
-      // clear();
-      book(selectRentalModel.value == 0 ? "daily" : "hourly",
+      DateTime begin = getDate(range.value.split("-")[0], pickTime.value);
+      DateTime end = getDate(range.value.split("-")[1], dropTime.value);
+      loading.value = true;
+      API.book(selectRentalModel.value == 0 ? "daily" : "hourly",
           selectPay.value == 0 ? "POD" : "cash",
           car!.id.toString(), babySeatValue.value ? "1" : "0",
-          driverValue.value ? "1" : "0", pickTime.value, dropTime.value,
-          name.text, phone.text, email.text);
+          driverValue.value ? "1" : "0", begin.toString(), end.toString(),
+          name.text, phone.text, email.text).then((value) {
+            if(value.rentalNumber!=-1){
+              loading.value = false;
+              showTopSnackBar(context,
+                  CustomSnackBar.success(
+                    message: App_Localization.of(context).translate("success_book"),
+                    backgroundColor: App.orange,
+                  ));
+              if(selectPay.value == 1){
+                print('later');
+                paymentController.makePayment(amount: total.toString(), currency: "aed",newRentNumber:value.rentalNumber).then((value) {
+                  clear().then((value) {
+                    Get.back();
+                    Get.back();
+                  });
+                });
+              }
+              print('now');
+              clear().then((value) {
+                Get.back();
+              });
+            }else{
+              loading.value = false;
+              CustomSnackBar.error(
+                message: App_Localization.of(context).translate("something_went_wrong"));
+              clear().then((value) {
+                Get.back();
+              });
+            }
+      });
     }
   }
-
   getTotal(){
     DateTime begin = getDate(range.value.split("-")[0], pickTime.value);
     DateTime end = getDate(range.value.split("-")[1], dropTime.value);
@@ -139,7 +175,6 @@ class BookController extends GetxController {
     vat.value = subTotal * 5 /100;
     total.value = subTotal.value + vat.value;
   }
-
   getDate(String date,String hr){
     int hour = int .parse(hr.split(":")[0]);
     int min = int .parse(hr.split(":")[1].split(" ")[0]);
@@ -154,21 +189,6 @@ class BookController extends GetxController {
       min
     );
   }
-  
-  Future<bool> book(String rental_type,String payment_method,String car_id,
-      String has_babyseat, String has_driver , String from_date, String to_date ,
-      String customer_name,String customer_phone,String customer_email)async{
-    bool res = await API.book(rental_type, payment_method, car_id, has_babyseat, has_driver, from_date, to_date, customer_name, customer_phone, customer_email);
-    if(res){
-      print('0000000000000000000');
-      print(res);
-      return true;
-    }else{
-      return true;
-      return book(rental_type, payment_method, car_id, has_babyseat, has_driver, from_date, to_date, customer_name, customer_phone, customer_email);
-    }
-  }
-
   void onSelectionDateChanges(DateRangePickerSelectionChangedArgs args) {
     if (args.value is PickerDateRange) {
       saveDate.value = false;
@@ -183,7 +203,7 @@ class BookController extends GetxController {
       rangeCount.value = args.value.length.toString();
     }
   }
-  clear() {
+  Future clear() async{
     selectRentalModel.value = 0;
     selectedDate.value = '';
     saveDate.value = false;
@@ -200,12 +220,12 @@ class BookController extends GetxController {
     phoneValidate.value = false;
     babySeatValue.value = false;
     driverValue.value = false;
+    selectPay = 0.obs;
     subTotal = 0.0.obs;
     vat = 0.0.obs;
     total = 0.0.obs;
     activeCurrentStep.value = 0;
-    Get.back();
-
   }
 
 }
+

@@ -39,7 +39,7 @@ class App{
   }
   static successTopBar(BuildContext context,String msg) {
     return showTopSnackBar(context,
-        CustomSnackBar.error(
+        CustomSnackBar.success(
           message: msg,
           backgroundColor: orange,
         ));
@@ -47,7 +47,7 @@ class App{
 
   static normalTextField({required BuildContext context, required TextStyle textStyle,required double width,
     double? height, TextAlignVertical? textAlignVertical,required TextEditingController controller,
-    required String hintText,required TextStyle hintStyle, required bool validate,required String errorText}) {
+    required String hintText,required TextStyle hintStyle, required bool validate}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -66,17 +66,16 @@ class App{
                 hintStyle: hintStyle,
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide:  BorderSide(color: App.orange)
+                    borderSide:  BorderSide(color:  validate ? Colors.red : App.orange)
                 ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: App.textField)
+                    borderSide: BorderSide(color:  validate ? Colors.red : App.textField)
                 ),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: App.textField)
+                    borderSide: BorderSide(color:  validate ? Colors.red : App.textField)
                 ),
-                errorText: validate ? errorText : null,
             ),
           ),
         ),

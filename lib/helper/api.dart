@@ -283,13 +283,17 @@ class API {
      });
      request.headers.addAll(headers);
      http.StreamedResponse response = await request.send();
-     var data = await response.stream.bytesToString();
-     // print(data);
-     var newData = jsonDecode(data);
-     print(newData);
-      if(newData["code"] == 1){
-       return true;
-      }else{
+     if(response.statusCode == 200) {
+       var data = await response.stream.bytesToString();
+       // print(data);
+       var newData = jsonDecode(data);
+       print(newData);
+       if(newData["code"] == 1){
+         return true;
+       }else{
+         return false;
+       }
+     }else {
        return false;
      }
    }catch(err){
@@ -297,10 +301,9 @@ class API {
    }
   }
 
-  static Future<bool> book (String rental_type,String payment_method,String car_id,
+  static Future<BookResult> book (String rental_type,String payment_method,String car_id,
       String has_babyseat, String has_driver , String from_date, String to_date ,
       String customer_name,String customer_phone,String customer_email)async{
-    // print('--------------------');
     var headers = {
       'accept-language': 'en'
     };
@@ -324,19 +327,18 @@ class API {
 
     if (response.statusCode == 200 || response.statusCode == 201 ||response.statusCode == 202) {
       var data = await response.stream.bytesToString();
-      print(data);
+      // print(data);
       var newData = jsonDecode(data);
-      print(newData);
+      // print(newData);
       if(newData["code"] == 1){
-        print('/////////////////');
-        return true;
+        return BookResult.fromJson(newData["data"]);
       }else{
-        return false;
+        return BookResult(rentalNumber: -1,totalPrice: -1);
       }
     }
     else {
     print(response.reasonPhrase);
-    return false;
+    return BookResult(rentalNumber: -1,totalPrice: -1);
     }
   }
 
@@ -355,10 +357,11 @@ class API {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      var data = (await response.stream.bytesToString());
-      print(data);
-      var dataRes = ContactUsResult.fromMap(jsonDecode(data));
-      if(dataRes.code == 1){
+      var data = await response.stream.bytesToString();
+      // print(data);
+      var newData = jsonDecode(data);
+      // print(newData);
+      if(newData["code"] == 1){
         return true;
       }else{
        return false;
@@ -370,4 +373,24 @@ class API {
     }
 
   }
+}
+
+class BookResult {
+  BookResult({
+    required this.rentalNumber,
+    required this.totalPrice,
+  });
+
+  int rentalNumber;
+  int totalPrice;
+
+  factory BookResult.fromJson(Map<String, dynamic> json) => BookResult(
+    rentalNumber: json["rental_number"] == null ? null : json["rental_number"],
+    totalPrice: json["total_price"] == null ? null : json["total_price"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "rental_number": rentalNumber == null ? null : rentalNumber,
+    "total_price": totalPrice == null ? null : totalPrice,
+  };
 }

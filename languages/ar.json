@@ -70,5 +70,7 @@
   "language": "اللغة",
   "location": "الموقع",
   "back": "رجوع",
-  "next": "التالي"
+  "next": "التالي",
+  "success_book": "تم الحجز بنجاح",
+  "phone_number_wrong": "رقم الهاتف خطأ"
 }

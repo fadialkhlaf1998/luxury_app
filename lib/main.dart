@@ -9,7 +9,7 @@ import 'package:luxury_app/helper/global.dart';
 import 'package:luxury_app/view/introduction.dart';
 
 
-/// 6/9/2022
+/// 12/9/2022
 void main() {
   runApp( MyApp());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle());
