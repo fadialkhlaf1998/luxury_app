@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:luxury_app/app_localization.dart';
-import 'package:luxury_app/controller/home_controller.dart';
 import 'package:luxury_app/controller/settings_controller.dart';
 import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/helper/global.dart';
@@ -12,7 +11,6 @@ class Settings extends StatelessWidget {
   Settings({Key? key}) : super(key: key);
   
   SettingsController settingsController = Get.put(SettingsController());
-  HomeController homeController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +19,13 @@ class Settings extends StatelessWidget {
         child: Container(
           width: App.getDeviceWidthPercent(100, context),
           height: App.getDeviceHeightPercent(100, context),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/images/bg-faq.png"),
               fit: BoxFit.cover
             )
           ),
           child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
             child: Column(
               children: [
                 const SizedBox(height: 85),
@@ -37,11 +34,9 @@ class Settings extends StatelessWidget {
                   children: [
                     Container(
                       width: App.getDeviceWidthPercent(90, context),
-                      child: Text("LUXURY SETTINGS CAR",
+                      child: Text(App_Localization.of(context).translate("settings").toUpperCase(),
                         style: TextStyle(
-                          letterSpacing: 1,
-                          height: 1.3,
-                          fontSize: CommonTextStyle.xXlargeTextStyle,
+                          fontSize: CommonTextStyle.xlargeTextStyle,
                           color: App.orange,
                           fontWeight: FontWeight.bold,
                         ),
@@ -50,8 +45,8 @@ class Settings extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                l(context),
+                const SizedBox(height: 15),
+                language(context),
                 SizedBox(height: settingsController.openLang.value == 0 ? 0 :  15),
                 contactUs(context),
                 SizedBox(height: settingsController.openContact.value == 0 ? 0 :  15),
@@ -65,7 +60,7 @@ class Settings extends StatelessWidget {
     ));
   }
 
-  l(BuildContext context) {
+  language(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
@@ -83,7 +78,6 @@ class Settings extends StatelessWidget {
               border: Border(
                  bottom: BorderSide( //                    <--- top side
                   color: Colors.white,
-                  width: 1,
                 ),
               ),
             ),
@@ -95,15 +89,13 @@ class Settings extends StatelessWidget {
                   Text(App_Localization.of(context).translate("language").toUpperCase(),
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: CommonTextStyle.mediumTextStyle,
-                      letterSpacing: 0.3,
-                      height: 1.3,
+                      fontSize: CommonTextStyle.smallTextStyle + 1,
                     ),),
                   Icon(
                     settingsController.openLang.value == 0 ?
                     Icons.keyboard_arrow_down : Global.languageCode == "ar" ? Icons.keyboard_arrow_left :
                     Icons.keyboard_arrow_right,
-                    size: 25,color: Colors.white,
+                    size: 23,color: Colors.white,
                   )
                 ],
               ),
@@ -136,11 +128,13 @@ class Settings extends StatelessWidget {
                         children: [
                           SvgPicture.asset("assets/icons/ar.svg",
                             fit: BoxFit.cover,
+                            width: 14,
+                            height: 14,
                           ),
                           const SizedBox(width: 10,),
                           Text(App_Localization.of(context).translate("english"),
                             style: TextStyle(
-                                fontSize: CommonTextStyle.mediumTextStyle,
+                                fontSize: CommonTextStyle.smallTextStyle,
                                 color: App.lightGrey
                             ),
                           )
@@ -159,11 +153,13 @@ class Settings extends StatelessWidget {
                         children: [
                           SvgPicture.asset("assets/icons/en.svg",
                             fit: BoxFit.cover,
+                            width: 14,
+                            height: 14,
                           ),
                           const SizedBox(width: 10,),
-                          Text(App_Localization.of(context).translate("arabic"),
+                          Text("اللغة العربية",
                             style: TextStyle(
-                                fontSize: CommonTextStyle.mediumTextStyle,
+                                fontSize: CommonTextStyle.smallTextStyle,
                                 color: App.lightGrey
                             ),
                           )
@@ -197,7 +193,6 @@ class Settings extends StatelessWidget {
               border: Border(
                 bottom: BorderSide( //                    <--- top side
                   color: Colors.white,
-                  width: 1,
                 ),
               ),
             ),
@@ -209,15 +204,13 @@ class Settings extends StatelessWidget {
                   Text(App_Localization.of(context).translate("contact_us").toUpperCase(),
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: CommonTextStyle.mediumTextStyle,
-                      letterSpacing: 0.3,
-                      height: 1.3,
+                      fontSize: CommonTextStyle.smallTextStyle + 1,
                     ),),
                   Icon(
                     settingsController.openContact.value == 0 ?
                     Icons.keyboard_arrow_down : Global.languageCode == "ar" ? Icons.keyboard_arrow_left :
                     Icons.keyboard_arrow_right,
-                    size: 25,color: Colors.white,
+                    size: 23,color: Colors.white,
                   )
                 ],
               ),
@@ -248,11 +241,11 @@ class Settings extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(Icons.call,color: App.orange,size: 23,),
+                          Icon(Icons.call,color: App.orange,size: 20,),
                           const SizedBox(width: 5),
                           Text("+971 4 392 7704",
                             style: TextStyle(
-                                fontSize: CommonTextStyle.mediumTextStyle,
+                                fontSize: CommonTextStyle.smallTextStyle + 1,
                                 color: App.lightGrey
                             ),
                           )
@@ -267,11 +260,11 @@ class Settings extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(Icons.whatsapp,color: App.orange,size: 23,),
+                          Icon(Icons.whatsapp,color: App.orange,size: 20,),
                           const SizedBox(width: 5),
                           Text("+971 55 345 1555",
                             style: TextStyle(
-                                fontSize: CommonTextStyle.mediumTextStyle,
+                                fontSize: CommonTextStyle.smallTextStyle + 1,
                                 color: App.lightGrey
                             ),
                           )
@@ -307,9 +300,7 @@ class Settings extends StatelessWidget {
                 Text(App_Localization.of(context).translate("location").toUpperCase(),
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: CommonTextStyle.mediumTextStyle,
-                    letterSpacing: 0.3,
-                    height: 1.3,
+                    fontSize: CommonTextStyle.smallTextStyle + 1,
                   ),),
               ],
             ),
@@ -324,7 +315,7 @@ class Settings extends StatelessWidget {
             ),
             child: GestureDetector(
               onTap: () {
-                homeController.openMap();
+                settingsController.openMap();
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
@@ -334,9 +325,7 @@ class Settings extends StatelessWidget {
                     Text("Ground Floor, Shop # 9 Mercure\n""Hotel Suites Apartment Sheikh\n""Zayed Road Dubai - UAE",
                       style: TextStyle(
                         color: App.lightGrey,
-                        fontSize: CommonTextStyle.mediumTextStyle,
-                        letterSpacing: 0.3,
-                        height: 1.3,
+                        fontSize: CommonTextStyle.smallTextStyle,
                       ),),
                   ],
                 ),

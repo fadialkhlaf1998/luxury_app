@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class BLOG {
-  BLOG({
+class Blogs {
+  Blogs({
     required this.code,
     required this.message,
     required this.data,
@@ -11,11 +11,11 @@ class BLOG {
   String message;
   Data? data;
 
-  factory BLOG.fromJson(String str) => BLOG.fromMap(json.decode(str));
+  factory Blogs.fromJson(String str) => Blogs.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory BLOG.fromMap(Map<String, dynamic> json) => BLOG(
+  factory Blogs.fromMap(Map<String, dynamic> json) => Blogs(
     code: json["code"] == null ? null : json["code"],
     message: json["message"] == null ? null : json["message"],
     data: json["data"] == null ? null : Data.fromMap(json["data"]),

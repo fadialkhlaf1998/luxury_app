@@ -32,7 +32,7 @@ class Filter extends StatelessWidget {
                 width: App.getDeviceWidthPercent(100, context),
                 height: App.getDeviceHeightPercent(100, context),
                 color: App.darkGrey,
-                child: Center(
+                child: const Center(
                   child: CircularProgressIndicator(
 
                     color: App.orange,
@@ -54,13 +54,13 @@ class Filter extends StatelessWidget {
                 const SizedBox(height: 15),
                 ///Rental Model
                 _rentalModel(context),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 ///Price,
                 _price(context),
-                const SizedBox(height: 25),
+                const SizedBox(height: 15),
                 ///Brands
                 _brands(context),
-                const SizedBox(height: 40),
+                const SizedBox(height: 35),
                 Container(
                   width: App.getDeviceWidthPercent(90, context),
                   child: _applyClearButtos(context),
@@ -91,8 +91,8 @@ class Filter extends StatelessWidget {
               }
             },
             child: ContainerWithImage(
-                width: 30,
-                height: 30,
+                width: 28,
+                height: 28,
                 image: Global.languageCode == "en" ?
                 "assets/icons/back-icon.svg" :
                 "assets/icons/back-icon_arabic.svg",
@@ -110,7 +110,7 @@ class Filter extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(App_Localization.of(context).translate("rental_model"),
-            style: CommonTextStyle.textStyleForLargeWhiteBold,
+            style: CommonTextStyle.textStyleForBigWhiteBold,
           ),
           const SizedBox(height: 15),
           _applyClearButtos(context),
@@ -144,7 +144,7 @@ class Filter extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(App_Localization.of(context).translate("per_day"),
-                    style: CommonTextStyle.textStyleForMediumWhiteNormal,
+                    style: CommonTextStyle.textStyleForSmallWhiteNormal,
                   ),
                 ],
               ),
@@ -176,7 +176,7 @@ class Filter extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(App_Localization.of(context).translate("per_hour"),
-                    style: CommonTextStyle.textStyleForMediumWhiteNormal,
+                    style: CommonTextStyle.textStyleForSmallWhiteNormal,
                   ),
                 ],
               ),
@@ -216,10 +216,10 @@ class Filter extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const[
                     Center(
-                        child: Text("0 AED", style: CommonTextStyle.textStyleForMediumWhiteNormal)
+                        child: Text("0 AED", style: CommonTextStyle.textStyleForSmallWhiteNormal)
                     ),
                     Center(
-                        child: Text("2200 AED", style: CommonTextStyle.textStyleForMediumWhiteNormal)
+                        child: Text("2200 AED", style: CommonTextStyle.textStyleForSmallWhiteNormal)
                     ),
                   ],
                 ),
@@ -237,7 +237,7 @@ class Filter extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(App_Localization.of(context).translate("brands").toUpperCase(),
-            style: CommonTextStyle.textStyleForLargeWhiteBold,
+            style: CommonTextStyle.textStyleForBigWhiteBold,
           ),
           const SizedBox(height: 15),
           Container(
@@ -284,7 +284,7 @@ class Filter extends StatelessWidget {
                           child: Text(
                               e.name,textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: CommonTextStyle.smallTextStyle,
+                                  fontSize: CommonTextStyle.xSmallTextStyle,
                                   color: e.selected.value ? App.grey :  Colors.white ,
                                   fontWeight: FontWeight.w500
                               )
@@ -308,7 +308,7 @@ class Filter extends StatelessWidget {
           padding: const EdgeInsets.only(top: 5, bottom: 5),
           child: Center(
             child: Container(
-              height: 45,
+              height: 40,
               width: App.getDeviceWidthPercent(40, context),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -321,10 +321,10 @@ class Filter extends StatelessWidget {
                 child: FittedBox(
                     child: Row(
                       children: [
-                        Icon(Icons.delete,color: App.orange),
+                        Icon(Icons.delete,color: App.orange,size: 23,),
                         Text(App_Localization.of(context).translate("clear"),
-                            style: TextStyle(
-                                fontSize: CommonTextStyle.bigTextStyle,
+                            style: const TextStyle(
+                                fontSize: CommonTextStyle.mediumTextStyle,
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal
                             )
@@ -346,7 +346,7 @@ class Filter extends StatelessWidget {
         ),
         CustomButton(
           width: App.getDeviceWidthPercent(40, context),
-          height: 45,
+          height: 40,
           text: App_Localization.of(context).translate("apply"),
           onPressed: () {
             ///apply
@@ -355,7 +355,7 @@ class Filter extends StatelessWidget {
           },
           color: App.orange,
           borderRadius: 10,
-          textStyle: CommonTextStyle.textStyleForBigWhiteNormal,
+          textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
         ),
       ],
     );

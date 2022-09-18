@@ -1,30 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/controller/contact_us_controller.dart';
-import 'package:luxury_app/controller/home_controller.dart';
 import 'package:luxury_app/controller/introduction_controller.dart';
 import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/widgets/custom_button.dart';
 import 'package:luxury_app/widgets/drawer.dart';
 
-
 class ContactUs extends StatelessWidget {
 
-  ContactUs() {
-  }
+  ContactUs();
 
   ContactUsController contactUsController = Get.put(ContactUsController());
-  HomeController homeController = Get.find();
   IntroductionController introductionController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: contactUsController.key,
-        drawer: CustomDrawer(homeController: homeController),
+        drawer: CustomDrawer(),
         body: Obx(() => Stack(
           children: [
             Container(
@@ -51,9 +46,7 @@ class ContactUs extends StatelessWidget {
       SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 70),
-          // header(context),
-          SizedBox(height: 15),
+          SizedBox(height: 85),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -61,9 +54,7 @@ class ContactUs extends StatelessWidget {
                 width: App.getDeviceWidthPercent(90, context),
                 child: Text(App_Localization.of(context).translate("contact_us").toUpperCase(),
                   style: TextStyle(
-                    letterSpacing: 1,
-                    height: 1.3,
-                    fontSize: CommonTextStyle.xXlargeTextStyle,
+                    fontSize: CommonTextStyle.xlargeTextStyle,
                     color: App.orange,
                     fontWeight: FontWeight.bold,
                   ),
@@ -72,48 +63,10 @@ class ContactUs extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 20),
           body(context),
           SizedBox(height: 20),
         ],
-      ),
-    );
-  }
-  header(BuildContext context) {
-    return Container(
-      width: App.getDeviceWidthPercent(100, context),
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/top-nav.png"),
-              fit: BoxFit.cover
-          )
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: () {
-                contactUsController.key.currentState!.openDrawer();
-              },
-              child: Icon(Icons.menu,size: CommonTextStyle.headerIcons,color: App.orange),
-            ),
-            GestureDetector(
-              onTap: () {
-                homeController.selectNavDrawer.value = 0;
-                homeController.key.currentState!.openEndDrawer();
-              },
-              child: Container(
-                child: SvgPicture.asset("assets/icons/logo.svg",
-                  width: 28,
-                  height: 28,
-                ),
-              ),
-            ),
-            Container()
-          ],
-        ),
       ),
     );
   }
@@ -121,8 +74,6 @@ class ContactUs extends StatelessWidget {
     return Column(
       children: [
         textFields(context),
-        SizedBox(height: 30,),
-
         SizedBox(height: 20),
       ],
     );
@@ -154,10 +105,8 @@ class ContactUs extends StatelessWidget {
             context: context,
             textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
             width: App.getDeviceWidthPercent(80, context),
-            // height: App.getDeviceHeightPercent(8.5, context),
             controller: contactUsController.email,
             validate: contactUsController.emailValidate.value,
-            // textAlignVertical: contactUsController.emailValidate.value ? TextAlignVertical.bottom : TextAlignVertical.center,
             hintText: "enter_email",
             hintStyle: TextStyle(
                 color: Colors.white.withOpacity(0.3),
@@ -207,7 +156,7 @@ class ContactUs extends StatelessWidget {
                     showDropdownIcon: true,
                     dropdownIconPosition: IconPosition.trailing,
                     onChanged: (phone) {
-                      print(phone.countryCode);
+                      // print(phone.countryCode);
                     },
                   )
               ),
@@ -219,7 +168,6 @@ class ContactUs extends StatelessWidget {
             children: [
               Container(
                 width: App.getDeviceWidthPercent(80, context),
-                // height: App.getDeviceHeightPercent(13, context),
                 child: TextField(
                   textAlignVertical: TextAlignVertical.top,
                   style: CommonTextStyle.textStyleForMediumWhiteNormal,
@@ -254,7 +202,7 @@ class ContactUs extends StatelessWidget {
           SizedBox(height: 30),
           CustomButton(
             width: App.getDeviceWidthPercent(80, context),
-            height: App.getDeviceHeightPercent(7, context),
+            height: 40,
             text: App_Localization.of(context).translate("send").toUpperCase(),
             onPressed: () {
               contactUsController.send(context, contactUsController.name.text,contactUsController.phone.text,
@@ -262,8 +210,8 @@ class ContactUs extends StatelessWidget {
                   contactUsController.message.text);
             },
             color: App.orange,
-            borderRadius: 20,
-            textStyle: CommonTextStyle.textStyleForBigWhiteNormal,
+            borderRadius: 10,
+            textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
           ),
           SizedBox(height: 30),
         ],

@@ -20,11 +20,11 @@ class NoInternet extends StatelessWidget {
         child: Container(
           width: App.getDeviceWidthPercent(100, context),
           height: App.getDeviceHeightPercent(100, context),
-          color: App.grey,
+          color: App.darkGrey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.wifi_off,color: App.orange,size: 100),
+              const Icon(Icons.wifi_off,color: App.orange,size: 100),
               Container(
                 width: App.getDeviceWidthPercent(90, context),
                 height: App.getDeviceHeightPercent(10, context),
@@ -33,27 +33,17 @@ class NoInternet extends StatelessWidget {
                   children: [
                     Center(
                         child: Text(App_Localization.of(context).translate("no_internet_connection"),
-                          style: TextStyle(
-                            fontSize: CommonTextStyle.bigTextStyle,
+                          style: const TextStyle(
+                            fontSize: CommonTextStyle.mediumTextStyle,
                             color: App.field,
                             fontWeight: FontWeight.bold
                           ),
                         )
                     ),
-
                   ],
                 ),
               ),
-              Center(
-                  child: Text(App_Localization.of(context).translate("please_try_again"),
-                    style: TextStyle(
-                        fontSize: CommonTextStyle.mediumTextStyle,
-                        color: App.field,
-                        fontWeight: FontWeight.bold
-                    ),
-                  )
-              ),
-              SizedBox(height: 30),
+              const SizedBox(height: 15),
               GestureDetector(
                 onTap: () {
                   API.checkInternet().then((value) {
@@ -70,12 +60,14 @@ class NoInternet extends StatelessWidget {
                         color: App.orange
                     ),
                     child: Center(
-                      child:  Text("Reload",
-                        style: TextStyle(
-                            fontSize: CommonTextStyle.smallTextStyle,
-                            color: App.field,
-                        ),
-                      ),)
+                        child: Text(App_Localization.of(context).translate("please_try_again"),
+                          style: const TextStyle(
+                              fontSize: CommonTextStyle.smallTextStyle,
+                              color: App.field,
+                              fontWeight: FontWeight.bold
+                          ),
+                        )
+                    ),
                 ),
               ),
             ],

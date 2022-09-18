@@ -26,25 +26,16 @@ class App{
   ///url
   static void lunchURL(BuildContext context,String url) async {
     if (!await launchUrl(Uri.parse(url))) {
-      errorTopBar(context, "something_wrong");
+      showTopSnackBar(context,
+          CustomSnackBar.error(
+            message: App_Localization.of(context).translate("something_went_wrong"),
+          ));
     } else {
       await launchUrl(Uri.parse(url));
     }
   }
 
-  ///top bar message
-  static errorTopBar(BuildContext context,String msg) {
-    return showTopSnackBar(context,
-    CustomSnackBar.error(message: msg));
-  }
-  static successTopBar(BuildContext context,String msg) {
-    return showTopSnackBar(context,
-        CustomSnackBar.success(
-          message: msg,
-          backgroundColor: orange,
-        ));
-  }
-
+  ///textField
   static normalTextField({required BuildContext context, required TextStyle textStyle,required double width,
     double? height, TextAlignVertical? textAlignVertical,required TextEditingController controller,
     required String hintText,required TextStyle hintStyle, required bool validate}) {
@@ -82,40 +73,35 @@ class App{
       ],
     );
   }
-
 }
 
 abstract class CommonTextStyle {
 
-  static const tinyTextStyle = 12.0;
+  static const tinyTextStyle = 11.0;
   static const xSmallTextStyle = 13.0;
   static const smallTextStyle = 14.0;
-  static const mediumTextStyle = 16.0;
-  static const bigTextStyle = 18.0;
-  static const largeTextStyle = 20.0;
-  static const xlargeTextStyle = 22.0;
-  static const xXlargeTextStyle = 26.0;
-  static const headerIcons = 30.0;
-
+  static const mediumTextStyle = 15.0;
+  static const bigTextStyle = 17.0;
+  static const largeTextStyle = 19.0;
+  static const xlargeTextStyle = 21.0;
+  static const xXlargeTextStyle = 25.0;
 
   /// white
-
   static const textStyleForTinyWhiteNormal = TextStyle(
       fontSize: tinyTextStyle,
       color: Colors.white,
       fontWeight: FontWeight.normal
   );
-
   static const textStyleForXSmallWhiteNormal = TextStyle(
       fontSize: xSmallTextStyle,
       color: Colors.white,
       fontWeight: FontWeight.normal
   );
 
-  static const textStyleForSmallWhiteHalfBold = TextStyle(
+  static const textStyleForSmallWhiteNormal = TextStyle(
       fontSize: smallTextStyle,
       color: Colors.white,
-      fontWeight: FontWeight.w500
+      fontWeight: FontWeight.normal
   );
 
   static const textStyleForMediumWhiteNormal = TextStyle(
@@ -124,50 +110,36 @@ abstract class CommonTextStyle {
       fontWeight: FontWeight.normal
   );
 
-  static const textStyleForMediumWhiteHalfBold = TextStyle(
-      fontSize: mediumTextStyle,
+  static const textStyleForSmallWhiteBold = TextStyle(
+      fontSize: smallTextStyle,
       color: Colors.white,
-      fontWeight: FontWeight.w500
+      fontWeight: FontWeight.bold
   );
-
   static const textStyleForBigWhiteNormal = TextStyle(
       fontSize: bigTextStyle,
       color: Colors.white,
       fontWeight: FontWeight.normal
   );
-
-  static const textStyleForLargeWhiteBold = TextStyle(
-      fontSize: largeTextStyle,
+  static const textStyleForBigWhiteBold = TextStyle(
+      fontSize: bigTextStyle,
       color: Colors.white,
       fontWeight: FontWeight.bold
   );
 
-
   /// orange
+  static const textStyleForSmallOrangeNormal = TextStyle(
+      fontSize: smallTextStyle,
+      color: App.orange,
+      fontWeight: FontWeight.normal
+  );
   static const textStyleForMediumOrangeNormal = TextStyle(
       fontSize: mediumTextStyle,
       color: App.orange,
       fontWeight: FontWeight.normal
   );
-
   static const textStyleForBigOrangeBold = TextStyle(
       fontSize: bigTextStyle,
       color: App.orange,
       fontWeight: FontWeight.bold
   );
-
-  static const textStyleForXLargeOrangeBold = TextStyle(
-      fontSize: xlargeTextStyle,
-      color: App.orange,
-      fontWeight: FontWeight.bold
-  );
-
-
-  /// field
-  static const textStyleForMediumField = TextStyle(
-      fontSize: mediumTextStyle,
-      color: App.field,
-      fontWeight: FontWeight.normal
-  );
-
 }

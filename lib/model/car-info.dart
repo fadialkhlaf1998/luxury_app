@@ -80,8 +80,8 @@ class CarDetail {
     required this.metaDescriptionAr,
     required this.metaImage,
     // required this.updatedAt,
-    required this.brands,
-    required this.bodies,
+    required this.brandsList,
+    required this.bodiesList,
   });
 
   int id;
@@ -110,8 +110,8 @@ class CarDetail {
   String metaDescriptionAr;
   String metaImage;
   // DateTime updatedAt;
-  Brands? brands;
-  Bodies? bodies;
+  Brands? brandsList;
+  Bodies? bodiesList;
 
   factory CarDetail.fromJson(Map<String, dynamic> json) => CarDetail(
     id: json["id"] == null ? -1 : json["id"],
@@ -140,8 +140,8 @@ class CarDetail {
     metaDescriptionAr: json["meta_description_ar"] == null ? "" : json["meta_description_ar"],
     metaImage: json["meta_image"] == null ? "" : json["meta_image"],
     // updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    brands: json["brands"] == null ? null : Brands.fromJson(json["brands"]),
-    bodies: json["bodies"] == null ? null : Bodies.fromJson(json["bodies"]),
+    brandsList: json["brands"] == null ? null : Brands.fromJson(json["brands"]),
+    bodiesList: json["bodies"] == null ? null : Bodies.fromJson(json["bodies"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -171,9 +171,126 @@ class CarDetail {
     "meta_description_ar": metaDescriptionAr,
     "meta_image": metaImage == null ? null : metaImage,
     // "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-    "brands": brands == null ? null : brands!.toJson(),
-    "bodies": bodies == null ? null : bodies!.toJson(),
+    "brands": brandsList == null ? null : brandsList!.toJson(),
+    "bodies": bodiesList == null ? null : bodiesList!.toJson(),
   };
 }
+
+class BodiesCars {
+  BodiesCars({
+    required this.id,
+    required this.nameEn,
+    required this.nameAr,
+    required this.img,
+    // required this.updatedAt,
+  });
+
+  int id;
+  String nameEn;
+  String nameAr;
+  String img;
+  // DateTime updatedAt;
+
+  factory BodiesCars.fromJson(Map<String, dynamic> json) => BodiesCars(
+    id: json["id"] == null ? -1 : json["id"],
+    nameEn: json["name_en"] == null ? "" : json["name_en"],
+    nameAr: json["name_ar"] == null ? "" : json["name_ar"],
+    img: json["img"] == null ? "" : json["img"],
+    // updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "name_en": nameEn == null ? null : nameEn,
+    "name_ar": nameAr == null ? null : nameAr,
+    "img": img == null ? null : img,
+    // "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+  };
+}
+
+class BrandsCars {
+  BrandsCars({
+    required this.id,
+    required this.name,
+    required this.titleEn,
+    required this.titleAr,
+    required this.img,
+    required this.cover,
+    required this.descriptionEn,
+    required this.descriptionAr,
+    required this.slug,
+    required this.orderNum,
+    required this.metaTitleEn,
+    required this.metaTitleAr,
+    required this.metaKeywordsEn,
+    required this.metaKeywordsAr,
+    required this.metaDescriptionEn,
+    required this.metaDescriptionAr,
+    required this.metaImage,
+    // required this.updatedAt,
+  });
+
+  int id;
+  String name;
+  String titleEn;
+  String titleAr;
+  String img;
+  String cover;
+  String descriptionEn;
+  String descriptionAr;
+  String slug;
+  int orderNum;
+  String metaTitleEn;
+  String metaTitleAr;
+  String metaKeywordsEn;
+  String metaKeywordsAr;
+  String metaDescriptionEn;
+  String metaDescriptionAr;
+  String metaImage;
+  // DateTime updatedAt;
+
+  factory BrandsCars.fromJson(Map<String, dynamic> json) => BrandsCars(
+    id: json["id"] == null ? -1 : json["id"],
+    name: json["name"] == null ? "" : json["name"],
+    titleEn: json["title_en"] == null ? "" : json["title_en"],
+    titleAr: json["title_ar"] == null ? "" : json["title_ar"],
+    img: json["img"] == null ? "" : json["img"],
+    cover: json["cover"] == null ? "" : json["cover"],
+    descriptionEn: json["description_en"] == null ? "" : json["description_en"],
+    descriptionAr: json["description_ar"] == null ? "" : json["description_ar"],
+    slug: json["slug"] == null ? "" : json["slug"],
+    orderNum: json["order_num"] == null ? -1 : json["order_num"],
+    metaTitleEn: json["meta_title_en"] == null ? "" : json["meta_title_en"],
+    metaTitleAr: json["meta_title_ar"] == null ? "" : json["meta_title_ar"],
+    metaKeywordsEn: json["meta_keywords_en"] == null ? "" : json["meta_keywords_en"],
+    metaKeywordsAr: json["meta_keywords_ar"] == null ? "" : json["meta_keywords_ar"],
+    metaDescriptionEn: json["meta_description_en"] == null ? "" : json["meta_description_en"],
+    metaDescriptionAr: json["meta_description_ar"] == null ? "" : json["meta_description_ar"],
+    metaImage: json["meta_image"] == null ? "" : json["meta_image"],
+    // updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "name": name == null ? null : name,
+    "title_en": titleEn == null ? null : titleEn,
+    "title_ar": titleAr == null ? null : titleAr,
+    "img": img == null ? null : img,
+    "cover": cover == null ? null : cover,
+    "description_en": descriptionEn == null ? null : descriptionEn,
+    "description_ar": descriptionAr == null ? null : descriptionAr,
+    "slug": slug == null ? null : slug,
+    "order_num": orderNum == null ? null : orderNum,
+    "meta_title_en": metaTitleEn == null ? null : metaTitleEn,
+    "meta_title_ar": metaTitleAr == null ? null : metaTitleAr,
+    "meta_keywords_en": metaKeywordsEn == null ? null : metaKeywordsEn,
+    "meta_keywords_ar": metaKeywordsAr == null ? null : metaKeywordsAr,
+    "meta_description_en": metaDescriptionEn == null ? null : metaDescriptionEn,
+    "meta_description_ar": metaDescriptionAr == null ? null : metaDescriptionAr,
+    "meta_image": metaImage == null ? null : metaImage,
+    // "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+  };
+}
+
 
 

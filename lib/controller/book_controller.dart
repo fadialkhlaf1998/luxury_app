@@ -189,12 +189,10 @@ class BookController extends GetxController {
       min
     );
   }
-  void onSelectionDateChanges(DateRangePickerSelectionChangedArgs args) {
-    if (args.value is PickerDateRange) {
+  void onSelectionDateChanges(var args) {
+    if (args.value is PickerDateRange ) {
       saveDate.value = false;
-      range.value = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'
-      // ignore: lines_longer_than_80_chars
-          ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
+      range.value = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
     } else if (args.value is DateTime) {
       selectedDate.value = args.value.toString();
     } else if (args.value is List<DateTime>) {
@@ -206,6 +204,7 @@ class BookController extends GetxController {
   Future clear() async{
     selectRentalModel.value = 0;
     selectedDate.value = '';
+    range.value = '';
     saveDate.value = false;
     dateValidate.value = true;
     pickTime = "non".obs;

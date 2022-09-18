@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class AllBrands {
-  AllBrands({
+class AllCarsBrands {
+  AllCarsBrands({
     required this.code,
     required this.message,
     required this.brand,
@@ -11,11 +11,11 @@ class AllBrands {
   String message;
   MyBrand brand;
 
-  factory AllBrands.fromJson(String str) => AllBrands.fromMap(json.decode(str));
+  factory AllCarsBrands.fromJson(String str) => AllCarsBrands.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory AllBrands.fromMap(Map<String, dynamic> json) => AllBrands(
+  factory AllCarsBrands.fromMap(Map<String, dynamic> json) => AllCarsBrands(
     code: json["code"] == null ? -1 : json["code"],
     message: json["message"] == null ? "" : json["message"],
     brand: MyBrand.fromMap(json["data"]),
@@ -33,7 +33,7 @@ class MyBrand {
     required this.brands,
   });
 
-  List<BrandInfo>? brands;
+  List<BrandCarInfo>? brands;
 
 
   factory MyBrand.fromJson(String str) => MyBrand.fromMap(json.decode(str));
@@ -41,7 +41,7 @@ class MyBrand {
   String toJson() => json.encode(toMap());
 
   factory MyBrand.fromMap(Map<String, dynamic> json) => MyBrand(
-    brands: json["brands"] == null ? null : List<BrandInfo>.from(json["brands"].map((x) => BrandInfo.fromMap(x))),
+    brands: json["brands"] == null ? null : List<BrandCarInfo>.from(json["brands"].map((x) => BrandCarInfo.fromMap(x))),
   );
 
   Map<String, dynamic> toMap() => {
@@ -49,8 +49,8 @@ class MyBrand {
   };
 }
 
-class BrandInfo {
-  BrandInfo({
+class BrandCarInfo {
+  BrandCarInfo({
     required this.id,
     required this.typeId,
     required this.brandId,
@@ -106,11 +106,11 @@ class BrandInfo {
   String metaImage;
   // DateTime updatedAt;
 
-  factory BrandInfo.fromJson(String str) => BrandInfo.fromMap(json.decode(str));
+  factory BrandCarInfo.fromJson(String str) => BrandCarInfo.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory BrandInfo.fromMap(Map<String, dynamic> json) => BrandInfo(
+  factory BrandCarInfo.fromMap(Map<String, dynamic> json) => BrandCarInfo(
     id: json["id"] == null ? -1 : json["id"],
     typeId: json["type_id"] == null ? -1 : json["type_id"],
     brandId: json["brand_id"] == null ? -1 : json["brand_id"],

@@ -46,9 +46,7 @@ class SearchTextField extends SearchDelegate<String> {
         color: App.darkGrey,
         elevation: 0,
       ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: Colors.red
-      ),
+
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: App.orange
       ),

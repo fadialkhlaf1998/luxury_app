@@ -74,4 +74,5 @@ class ContactUsController extends GetxController {
     emailValidate = false.obs;
     phoneValidate = false.obs;
   }
+
 }

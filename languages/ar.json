@@ -72,5 +72,6 @@
   "back": "رجوع",
   "next": "التالي",
   "success_book": "تم الحجز بنجاح",
-  "phone_number_wrong": "رقم الهاتف خطأ"
+  "phone_number_wrong": "رقم الهاتف خطأ",
+  "no_cars_in_brand": "هذه الماركة التجارية ليس لديها سيارات"
 }

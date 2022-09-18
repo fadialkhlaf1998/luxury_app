@@ -7,7 +7,7 @@ import 'package:luxury_app/model/blog-info.dart';
 import 'package:luxury_app/model/blog.dart';
 import 'package:luxury_app/model/brands.dart';
 import 'package:luxury_app/model/car-info.dart';
-import 'package:luxury_app/model/contact_us.dart';
+import 'package:luxury_app/model/contact_us_result.dart';
 import 'package:luxury_app/model/faq.dart';
 import 'package:luxury_app/model/home-data.dart';
 import 'package:luxury_app/model/terms.dart';
@@ -139,7 +139,7 @@ class API {
 
   }
 
-  static Future<AllBrands?> getCarsByBrand(int carId) async {
+  static Future<AllCarsBrands?> getCarsByBrand(int carId) async {
     var headers = {
       'accept-language': 'en'
     };
@@ -152,10 +152,10 @@ class API {
     if (response.statusCode == 200) {
       var data = await response.stream.bytesToString();
       var jsonData = json.decode(data);
-      AllBrands allBrands = AllBrands.fromMap(jsonData);
+      AllCarsBrands allCarsBrands = AllCarsBrands.fromMap(jsonData);
       // print(allBrands.message);
       // print(allBrands.brand.brands!.length);
-      return allBrands;
+      return allCarsBrands;
     }
     else {
       print(response.reasonPhrase);
@@ -226,7 +226,7 @@ class API {
     }
   }
 
-  static Future<BLOG?> getBlogs() async {
+  static Future<Blogs?> getBlogs() async {
     var headers = {
       'accept-language': 'en'
     };
@@ -240,7 +240,7 @@ class API {
       var data = await response.stream.bytesToString();
       var jsonData = json.decode(data);
       // print(data);
-      return BLOG.fromMap(jsonData);
+      return Blogs.fromMap(jsonData);
     }
     else {
       print(response.reasonPhrase);

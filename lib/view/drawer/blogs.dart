@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:luxury_app/controller/blog_controller.dart';
-import 'package:luxury_app/controller/home_controller.dart';
 import 'package:luxury_app/controller/introduction_controller.dart';
 import 'package:luxury_app/helper/api.dart';
 import 'package:luxury_app/helper/app.dart';
@@ -10,49 +8,35 @@ import 'package:luxury_app/helper/global.dart';
 import 'package:luxury_app/view/blogDetails.dart';
 import 'package:luxury_app/widgets/drawer.dart';
 
-
 class Blog extends StatelessWidget {
   Blog({Key? key}) : super(key: key);
 
-
   BlogController blogController = Get.put(BlogController());
-  HomeController homeController = Get.find();
   IntroductionController introductionController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(
+    return Scaffold(
         key: blogController.key,
-        drawer: CustomDrawer(homeController: homeController),
-        body: blogController.loading.value ?
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          color: App.grey,
-          child: Center(
-            child: CircularProgressIndicator(color: App.orange),
-          ),
-        ) :
-        Stack(
+        drawer: CustomDrawer(),
+        body: Stack(
           children: [
             Container(
               width: App.getDeviceWidthPercent(100, context),
               height: App.getDeviceHeightPercent(100, context),
               color: App.darkGrey,
             ),
-            faq(context),
+            blog(context),
           ],
         )
-    ));
+    );
   }
 
-  faq(BuildContext context) {
+  blog(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // header(context),
-          SizedBox(height: 70),
-          SizedBox(height: 15),
+          SizedBox(height: 85),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -60,9 +44,7 @@ class Blog extends StatelessWidget {
                 width: App.getDeviceWidthPercent(90, context),
                 child: Text("LUXURY BLOGS CAR",
                   style: TextStyle(
-                    letterSpacing: 1,
-                    height: 1.3,
-                    fontSize: CommonTextStyle.xXlargeTextStyle,
+                    fontSize: CommonTextStyle.xlargeTextStyle,
                     color: App.orange,
                     fontWeight: FontWeight.bold,
                   ),
@@ -78,44 +60,6 @@ class Blog extends StatelessWidget {
       ),
     );
   }
-  header(BuildContext context) {
-    return Container(
-      width: App.getDeviceWidthPercent(100, context),
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/top-nav.png"),
-              fit: BoxFit.cover
-          )
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: () {
-                blogController.key.currentState!.openDrawer();
-              },
-              child: Icon(Icons.menu,size: CommonTextStyle.headerIcons,color: App.orange),
-            ),
-            GestureDetector(
-              onTap: () {
-                homeController.selectNavDrawer.value = 0;
-                homeController.key.currentState!.openEndDrawer();
-              },
-              child: Container(
-                child: SvgPicture.asset("assets/icons/logo.svg",
-                  width: 28,
-                  height: 28,
-                ),
-              ),
-            ),
-            Container()
-          ],
-        ),
-      ),
-    );
-  }
   body(BuildContext context) {
     return Container(
       child: ListView.builder(
@@ -125,22 +69,12 @@ class Blog extends StatelessWidget {
         itemBuilder: (context,index) {
          return GestureDetector(
            onTap: () {
-             API.checkInternet().then((internet) {
-               if(internet) {
-                 blogController.loading.value = true;
-                 API.getBlogById(introductionController.blogs!.data!.blog[index].id.toString()).then((value) {
-                   blogController.loading.value = false;
-                   if(value != null){
-                     Get.to(() => BlogDetails(index));
-                   }
-                 });
-               }
-             });
+             Get.to(() => BlogDetails(introductionController.blogs!,index));
            },
            child: Column(
              children: [
                Container(
-                 width: App.getDeviceWidthPercent(90, context),
+                 width: App.getDeviceWidthPercent(100, context),
                  height: App.getDeviceHeightPercent(30, context),
                  decoration: BoxDecoration(
                      image: DecorationImage(
@@ -159,7 +93,7 @@ class Blog extends StatelessWidget {
                      introductionController.blogs!.data!.blog[index].titleAr,
                        style: TextStyle(
                            color: Colors.white,
-                           fontSize: CommonTextStyle.mediumTextStyle
+                           fontSize: CommonTextStyle.smallTextStyle
                        ),
                      ),
                    ),
@@ -170,8 +104,6 @@ class Blog extends StatelessWidget {
                  child: Divider(
                    color: App.field.withOpacity(0.5),
                    thickness: 1,
-                   indent: 15,
-                   endIndent: 15,
                  ),
                ),
              ],

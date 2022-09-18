@@ -14,7 +14,6 @@ import 'package:luxury_app/helper/global.dart';
 import 'package:luxury_app/model/all-cars.dart';
 import 'package:luxury_app/widgets/container_with_image.dart';
 import 'package:luxury_app/widgets/custom_button.dart';
-import 'package:luxury_app/widgets/text_app.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 
@@ -51,7 +50,7 @@ class Book extends StatelessWidget {
                     _header(context),
                     SizedBox(height: 15),
                     _stepper(context),
-                    SizedBox(height: 20),
+                    SizedBox(height: 15),
                     _body(context),
                   ],
                 ),
@@ -86,8 +85,8 @@ class Book extends StatelessWidget {
               Get.back();
             },
             child: ContainerWithImage(
-                width: 30,
-                height: 30,
+                width: 28,
+                height: 28,
                 image: Global.languageCode == "en" ?
                 "assets/icons/back-icon.svg" :
                 "assets/icons/back-icon_arabic.svg",
@@ -95,10 +94,10 @@ class Book extends StatelessWidget {
             ),
           ),
           Text(App_Localization.of(context).translate("your_info"),
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: CommonTextStyle.bigTextStyle
+                fontSize: CommonTextStyle.mediumTextStyle
             ),
           ),
           GestureDetector(
@@ -112,7 +111,7 @@ class Book extends StatelessWidget {
                   Text("Clear",
                     style: TextStyle(
                         color: App.orange,
-                        fontSize: CommonTextStyle.mediumTextStyle
+                        fontSize: CommonTextStyle.smallTextStyle + 1
                     ),
                   ),
                 ],
@@ -131,8 +130,8 @@ class Book extends StatelessWidget {
         children: [
           const SizedBox(width: 20),
           Container(
-              width: 25,
-              height: 25,
+              width: 23,
+              height: 23,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -141,8 +140,8 @@ class Book extends StatelessWidget {
               ),
               child: Center(
                 child: Container(
-                  width: 10,
-                  height: 10,
+                  width: 8,
+                  height: 8,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color:  bookController.activeCurrentStep.value < 0 ? App.lightGrey : App.orange,
@@ -153,8 +152,8 @@ class Book extends StatelessWidget {
           Expanded(child: Divider(
               color: bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange, thickness: 1.2),),
           Container(
-              width: 25,
-              height: 25,
+              width: 23,
+              height: 23,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -163,8 +162,8 @@ class Book extends StatelessWidget {
               ),
               child: Center(
                 child: Container(
-                  width: 10,
-                  height: 10,
+                  width: 8,
+                  height: 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color:  bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange,
@@ -175,8 +174,8 @@ class Book extends StatelessWidget {
           Expanded(child: Divider(
               color: bookController.activeCurrentStep.value < 2 ? App.lightGrey : App.orange,thickness: 1.2),),
           Container(
-              width: 25,
-              height: 25,
+              width: 23,
+              height: 23,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -185,8 +184,8 @@ class Book extends StatelessWidget {
               ),
               child: Center(
                 child: Container(
-                  width: 10,
-                  height: 10,
+                  width: 8,
+                  height: 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color:  bookController.activeCurrentStep.value < 2 ? App.lightGrey : App.orange,
@@ -237,25 +236,25 @@ class Book extends StatelessWidget {
               children: [
                 CustomButton(
                   width: App.getDeviceWidthPercent(35, context),
-                  height: 45,
+                  height: 40,
                   text: App_Localization.of(context).translate("back").toUpperCase(),
                   onPressed: () {
                     bookController.backwardStep();
                   },
                   color: App.orange,
                   borderRadius: 10,
-                  textStyle: CommonTextStyle.textStyleForBigWhiteNormal,
+                  textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
                 ),
                 CustomButton(
                   width: App.getDeviceWidthPercent(35, context),
-                  height: 45,
+                  height: 40,
                   text: App_Localization.of(context).translate("next").toUpperCase(),
                   onPressed: () {
                     bookController.forwardStep(context);
                   },
                   color: App.orange,
                   borderRadius: 10,
-                  textStyle: CommonTextStyle.textStyleForBigWhiteNormal,
+                  textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
                 ),
               ],
             ),
@@ -272,9 +271,9 @@ class Book extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset("assets/icons/year.svg",fit: BoxFit.cover,width: 40,height: 40,color: Colors.white,),
-            TextApp(text: App_Localization.of(context).translate("pick_date").toUpperCase(),
-                textStyle: CommonTextStyle.textStyleForMediumWhiteNormal
-            )
+            Text(App_Localization.of(context).translate("pick_date").toUpperCase(),
+              style: CommonTextStyle.textStyleForMediumWhiteNormal
+            ),
           ],
         ),
         const SizedBox(height: 20),
@@ -286,7 +285,7 @@ class Book extends StatelessWidget {
           },
           child: Container(
             width: App.getDeviceWidthPercent(90, context),
-            height: 50,
+            height: 45,
             decoration: BoxDecoration(
               color: App.grey,
               borderRadius: BorderRadius.circular(15),
@@ -298,9 +297,9 @@ class Book extends StatelessWidget {
               child: Text(
                 bookController.saveDate.value ? bookController.range.value :
                 App_Localization.of(context).translate("pickup_and_dropOff_date"),
-                style: TextStyle(
+                style: const TextStyle(
                   color: App.lightGrey,
-                  fontSize: CommonTextStyle.mediumTextStyle
+                  fontSize: CommonTextStyle.smallTextStyle + 1
                 ),
               ),
             ),
@@ -342,7 +341,7 @@ class Book extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(App_Localization.of(context).translate("daily"),
-              style: CommonTextStyle.textStyleForMediumWhiteNormal,
+              style: CommonTextStyle.textStyleForSmallWhiteNormal,
             ),
           ],
         ),
@@ -374,7 +373,7 @@ class Book extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(App_Localization.of(context).translate("hour"),
-              style: CommonTextStyle.textStyleForMediumWhiteNormal,
+              style: CommonTextStyle.textStyleForSmallWhiteNormal,
             ),
           ],
         ),
@@ -389,10 +388,11 @@ class Book extends StatelessWidget {
       transitionDuration: Duration(milliseconds: 500),
       pageBuilder: (BuildContext context, __, ___){
         return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: App.getDeviceHeightPercent(100, context)/3.1),
+            // SizedBox(height: App.getDeviceHeightPercent(100, context)/5),
             Dialog(
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               backgroundColor: App.grey,
               child: Container(
@@ -411,53 +411,50 @@ class Book extends StatelessWidget {
                       monthViewSettings: DateRangePickerMonthViewSettings(
                         viewHeaderStyle: DateRangePickerViewHeaderStyle(
                           textStyle: const TextStyle(
-                            color: App.lightGrey
+                            color: App.lightGrey,
+                            fontSize: CommonTextStyle.smallTextStyle
                           ),
                           backgroundColor: App.lightGrey.withOpacity(0.3),
                         ),
                       ),
-                      initialSelectedRange: PickerDateRange(
-                          DateTime.now().subtract(const Duration()),
-                          DateTime.now().add(const Duration())
-                      ),
-                      selectionTextStyle: TextStyle(
+                      selectionTextStyle: const TextStyle(
                         color: Colors.white,
-                        fontSize: CommonTextStyle.mediumTextStyle
+                        fontSize: CommonTextStyle.smallTextStyle
                       ),
                       monthCellStyle: const DateRangePickerMonthCellStyle(
                         textStyle: TextStyle(
                          color: Colors.white,
-                         fontSize: CommonTextStyle.mediumTextStyle,
+                         fontSize: CommonTextStyle.smallTextStyle,
                         ),
                         disabledDatesTextStyle: TextStyle(
                             color: App.lightGrey,
-                            fontSize: CommonTextStyle.mediumTextStyle,
+                            fontSize: CommonTextStyle.smallTextStyle,
                             decoration: TextDecoration.lineThrough
                         ),
                       ),
                       yearCellStyle: const DateRangePickerYearCellStyle(
                         disabledDatesTextStyle: TextStyle(
                             color: App.lightGrey,
-                            fontSize: CommonTextStyle.mediumTextStyle,
+                            fontSize: CommonTextStyle.smallTextStyle,
                             decoration: TextDecoration.lineThrough
                         ),
                         todayTextStyle: TextStyle(
-                          fontSize: CommonTextStyle.mediumTextStyle
+                          fontSize: CommonTextStyle.smallTextStyle
                         ),
                         textStyle: TextStyle(
                             color: Colors.white,
-                            fontSize: CommonTextStyle.mediumTextStyle
+                            fontSize: CommonTextStyle.smallTextStyle
                         ),
                       ),
                       rangeSelectionColor: App.lightGrey.withOpacity(0.3),
                       rangeTextStyle: const TextStyle(
                         color: Colors.white,
-                        fontSize: CommonTextStyle.mediumTextStyle
+                        fontSize: CommonTextStyle.smallTextStyle
                       ),
                       headerStyle: const DateRangePickerHeaderStyle(
                         textStyle: TextStyle(
                           color: App.orange,
-                          fontSize: CommonTextStyle.mediumTextStyle,
+                          fontSize: CommonTextStyle.smallTextStyle,
                         ),
                       ),
                     ),
@@ -467,12 +464,11 @@ class Book extends StatelessWidget {
                       text: App_Localization.of(context).translate("confirmation").toUpperCase(),
                       onPressed: () {
                         bookController.saveDate.value = true;
-                        print(bookController.range.value);
                         Get.back();
                       },
                       color: App.orange,
                       borderRadius: 15,
-                      textStyle: CommonTextStyle.textStyleForBigWhiteNormal,
+                      textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
                     ),
                     SizedBox(height: 10,)
                   ],
@@ -519,14 +515,15 @@ class Book extends StatelessWidget {
                 child: DropdownButton2(
                   dropdownMaxHeight: 200,
                   isExpanded: true,
-                  dropdownDecoration: BoxDecoration(
+                  iconSize: 23,
+                  dropdownDecoration: const BoxDecoration(
                     color: App.grey,
                   ),
-                  buttonPadding: EdgeInsets.symmetric(horizontal: 10),
+                  buttonPadding: const EdgeInsets.symmetric(horizontal: 10),
                   hint: Text(App_Localization.of(context).translate("pickup_time"),
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: App.lightGrey,
-                        fontSize: CommonTextStyle.mediumTextStyle,
+                        fontSize: CommonTextStyle.smallTextStyle + 1,
                         fontWeight: FontWeight.normal
                     ),
                   ),
@@ -536,7 +533,7 @@ class Book extends StatelessWidget {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: App.lightGrey,
                             fontSize: CommonTextStyle.smallTextStyle,
                             fontWeight: FontWeight.bold
@@ -565,14 +562,15 @@ class Book extends StatelessWidget {
               child: DropdownButton2(
                 dropdownMaxHeight: 200,
                 isExpanded: true,
+                iconSize: 23,
                 dropdownDecoration: BoxDecoration(
                   color: App.grey,
                 ),
-                buttonPadding: EdgeInsets.symmetric(horizontal: 10),
+                buttonPadding: const EdgeInsets.symmetric(horizontal: 10),
                 hint: Text(App_Localization.of(context).translate("dropOff_time"),
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: App.lightGrey,
-                      fontSize: CommonTextStyle.mediumTextStyle,
+                      fontSize: CommonTextStyle.smallTextStyle + 1,
                       fontWeight: FontWeight.normal
                   ),
                 ),
@@ -582,7 +580,7 @@ class Book extends StatelessWidget {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: App.lightGrey,
                           fontSize: CommonTextStyle.smallTextStyle,
                           fontWeight: FontWeight.bold
@@ -689,23 +687,24 @@ class Book extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          TextApp(
-              text: App_Localization.of(context).translate("baby_seat"),
-              textStyle: CommonTextStyle.textStyleForMediumWhiteNormal
+          Text(App_Localization.of(context).translate("baby_seat"),
+            style: CommonTextStyle.textStyleForSmallWhiteNormal
           ),
-          TextApp(
-              text: "25 AED - " + App_Localization.of(context).translate("per_day"),
-              textStyle: CommonTextStyle.textStyleForMediumOrangeNormal
+          Text("25 AED - " + App_Localization.of(context).translate("per_day"),
+              style: CommonTextStyle.textStyleForSmallOrangeNormal
           ),
-          CupertinoSwitch(
-            activeColor: App.orange,
-            thumbColor: Colors.white,
-            value: bookController.babySeatValue.value ,
-            onChanged: (bool value) {
-              bookController.babySeatValue.value = value;
-              bookController.getTotal();
-            },
-            trackColor: App.grey,
+          Transform.scale(
+            scale: 0.8,
+            child: CupertinoSwitch(
+              activeColor: App.orange,
+              thumbColor: Colors.white,
+              value: bookController.babySeatValue.value ,
+              onChanged: (bool value) {
+                bookController.babySeatValue.value = value;
+                bookController.getTotal();
+              },
+              trackColor: App.grey,
+            ),
           ),
         ],
       ),
@@ -717,22 +716,23 @@ class Book extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          TextApp(
-              text: App_Localization.of(context).translate("additional_driver").toUpperCase(),
-              textStyle: CommonTextStyle.textStyleForMediumWhiteNormal
+          Text(App_Localization.of(context).translate("additional_driver").toUpperCase(),
+              style: CommonTextStyle.textStyleForSmallWhiteNormal
           ),
-          TextApp(
-              text: App_Localization.of(context).translate("free").toUpperCase(),
-              textStyle: CommonTextStyle.textStyleForMediumOrangeNormal
+          Text(App_Localization.of(context).translate("free").toUpperCase(),
+              style: CommonTextStyle.textStyleForSmallOrangeNormal
           ),
-          CupertinoSwitch(
-            activeColor: App.orange,
-            thumbColor: Colors.white,
-            value: bookController.driverValue.value ,
-            onChanged: (bool value) {
-              bookController.driverValue.value = value;
-            },
-            trackColor: App.grey,
+          Transform.scale(
+            scale: 0.8,
+            child: CupertinoSwitch(
+              activeColor: App.orange,
+              thumbColor: Colors.white,
+              value: bookController.driverValue.value ,
+              onChanged: (bool value) {
+                bookController.driverValue.value = value;
+              },
+              trackColor: App.grey,
+            ),
           ),
         ],
       ),
@@ -747,23 +747,23 @@ class Book extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(App_Localization.of(context).translate("pay_later"),
-                style: CommonTextStyle.textStyleForMediumWhiteNormal,
+                style: CommonTextStyle.textStyleForSmallWhiteNormal,
               ),
               GestureDetector(
                 onTap: () {
                   bookController.selectPay.value = 1;
                 },
                 child: Container(
-                    width: 20,
-                    height: 20,
+                    width: 18,
+                    height: 18,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white,width: 2)
                     ),
                     child: Center(
                       child: Container(
-                        width: 8,
-                        height: 8,
+                        width: 6,
+                        height: 6,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: bookController.selectPay.value == 1 ? Colors.white : Colors.transparent
@@ -779,23 +779,23 @@ class Book extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(App_Localization.of(context).translate("pay_now"),
-                style: CommonTextStyle.textStyleForMediumWhiteNormal,
+                style: CommonTextStyle.textStyleForSmallWhiteNormal,
               ),
               GestureDetector(
                 onTap: () {
                   bookController.selectPay.value = 0;
                 },
                 child: Container(
-                    width: 20,
-                    height: 20,
+                    width: 18,
+                    height: 18,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white,width: 2)
                     ),
                     child: Center(
                       child: Container(
-                        width: 8,
-                        height: 8,
+                        width: 6,
+                        height: 6,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: bookController.selectPay.value == 0 ? Colors.white : Colors.transparent
@@ -819,10 +819,10 @@ class Book extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(App_Localization.of(context).translate("sub_total:"),
-                style: CommonTextStyle.textStyleForMediumWhiteNormal,
+                style: CommonTextStyle.textStyleForSmallWhiteNormal,
               ),
               Text(bookController.subTotal.value.toStringAsFixed(2),
-                style: CommonTextStyle.textStyleForMediumOrangeNormal,
+                style: CommonTextStyle.textStyleForSmallOrangeNormal,
               ),
             ],
           ),
@@ -831,10 +831,10 @@ class Book extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(App_Localization.of(context).translate("vat:"),
-                style: CommonTextStyle.textStyleForMediumWhiteNormal,
+                style: CommonTextStyle.textStyleForSmallWhiteNormal,
               ),
               Text(bookController.vat.value.toStringAsFixed(2),
-                style: CommonTextStyle.textStyleForMediumOrangeNormal,
+                style: CommonTextStyle.textStyleForSmallOrangeNormal,
               ),
             ],
           ),

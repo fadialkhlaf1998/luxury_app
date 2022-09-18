@@ -20,4 +20,5 @@ class ProductDetailsController extends GetxController {
     itemScrollController.scrollTo(index: p,duration: const Duration(milliseconds: 400));
   }
 
+
 }

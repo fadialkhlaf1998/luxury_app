@@ -20,7 +20,7 @@ class BrandPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: CustomDrawer(homeController: homeController),
+        drawer: CustomDrawer(),
         body: Stack(
           children: [
             Container(
@@ -47,9 +47,7 @@ class BrandPage extends StatelessWidget {
                 width: App.getDeviceWidthPercent(90, context),
                 child: Text("LUXURY BRANDS CAR",
                   style: TextStyle(
-                    letterSpacing: 1,
-                    height: 1.3,
-                    fontSize: CommonTextStyle.xXlargeTextStyle,
+                    fontSize: CommonTextStyle.xlargeTextStyle,
                     color: App.orange,
                     fontWeight: FontWeight.bold,
                   ),
@@ -63,12 +61,10 @@ class BrandPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: App.getDeviceWidthPercent(90, context),
-                child: Text("Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry. Lorem Ipsum Has Been The Industry's.",
+                width: App.getDeviceWidthPercent(85, context),
+                child: const Text("Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry. Lorem Ipsum Has Been The Industry's.",
                   style: TextStyle(
-                    letterSpacing: 0.3,
-                    height: 1.3,
-                    fontSize: CommonTextStyle.mediumTextStyle,
+                    fontSize: CommonTextStyle.xSmallTextStyle,
                     color: App.lightGrey,
                   ),
                   textAlign: TextAlign.center,
@@ -78,58 +74,9 @@ class BrandPage extends StatelessWidget {
           ),
           SizedBox(height: 30),
           body(context),
-          // brandsImages(context),
           SizedBox(height: 20),
         ],
       ),
-    );
-  }
-  brandsImages(BuildContext context) {
-    return Container(
-        width: App.getDeviceWidthPercent(100, context),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: CarouselSlider(
-          carouselController: brandsController.buttonCarouselController,
-          options: CarouselOptions(
-            height: App.getDeviceHeightPercent(40, context),
-            viewportFraction: 0.7,
-            autoPlayAnimationDuration: Duration(milliseconds: 700),
-            autoPlay: false,
-            enlargeCenterPage: true,
-          ),
-          items: introductionController.homeData!.data!.brands.map((item) =>
-              GestureDetector(
-                onTap: () {
-                  introductionController.carsByBrand(context,
-                      item.id,introductionController.homeData!.data!.brands.indexOf(item));
-                },
-                child: Column(
-                  children: [
-                    Container(
-                      width: App.getDeviceWidthPercent(100, context),
-                      height: App.getDeviceHeightPercent(28, context),
-                      child: Card(
-                        child: SvgPicture.network(
-                          API.url + "/" + item.img,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 5,),
-                    Text(item.name,
-                      style: TextStyle(
-                          color: App.lightGrey,
-                          fontSize: CommonTextStyle.xXlargeTextStyle,
-                          fontWeight: FontWeight.bold
-                      ),
-                    )
-                  ],
-                ),
-              )
-          ).toList(),
-        )
     );
   }
   body(BuildContext context) {

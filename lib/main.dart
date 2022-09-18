@@ -8,15 +8,13 @@ import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/helper/global.dart';
 import 'package:luxury_app/view/introduction.dart';
 
-
-/// 12/9/2022
 void main() {
-  runApp( MyApp());
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle());
+  runApp(const MyApp());
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle());
 }
-
+/// 18/9 from maya
 class MyApp extends StatefulWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -25,7 +23,6 @@ class MyApp extends StatefulWidget {
     _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
     state!.setLocale(locale);
   }
-
 }
 
 class _MyAppState extends State<MyApp> {
@@ -60,12 +57,13 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: generateMaterialColor(const Color(0XFFd5a054)),
-          scrollbarTheme: ScrollbarThemeData().copyWith(
+          scrollbarTheme: const ScrollbarThemeData().copyWith(
             thumbColor: MaterialStateProperty.all(App.orange),
             trackColor: MaterialStateProperty.all(App.field),
             minThumbLength: 10,
             thickness: MaterialStateProperty.all(2),
           ),
+          fontFamily: 'Loew',
           sliderTheme: const SliderThemeData(
             activeTrackColor: App.orange,
             inactiveTrackColor: App.grey,
@@ -112,22 +110,18 @@ class _MyAppState extends State<MyApp> {
       900: shadeColor(color, 0.4),
     });
   }
-
   Color tintColor(Color color, double factor) => Color.fromRGBO(
       tintValue(color.red, factor),
       tintValue(color.green, factor),
       tintValue(color.blue, factor),
       1);
-
   int tintValue(int value, double factor) =>
       max(0, min((value + ((255 - value) * factor)).round(), 255));
-
   Color shadeColor(Color color, double factor) => Color.fromRGBO(
       shadeValue(color.red, factor),
       shadeValue(color.green, factor),
       shadeValue(color.blue, factor),
       1);
-
   int shadeValue(int value, double factor) =>
       max(0, min(value - (value * factor).round(), 255));
 }

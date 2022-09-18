@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeController extends GetxController {
 
@@ -28,12 +27,8 @@ class HomeController extends GetxController {
     maxPrice.value = 2200.00;
     price.value = const RangeValues(0, 2200);
     priceLabel.value = const RangeLabels("AED 0", "AED 2200");
-
   }
 
-  void openMap() async {
-    String googleUrl = 'https://goo.gl/maps/jXEstan2qA8kfdxF9';
-    await launchUrl(Uri.parse(googleUrl));
-  }
+
 
 }

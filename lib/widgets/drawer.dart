@@ -10,14 +10,10 @@ import 'package:luxury_app/widgets/container_with_image.dart';
 
 class CustomDrawer extends StatelessWidget {
 
-  final HomeController homeController;
-
-  CustomDrawer({
-    required this.homeController,
-
-  });
+  CustomDrawer();
 
   IntroductionController introductionController = Get.find();
+  HomeController homeController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -41,19 +37,22 @@ class CustomDrawer extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: ContainerWithImage(
-                            width: 30,
-                            height: 30,
-                            image: Global.languageCode == "en" ?
-                            "assets/icons/back-icon.svg" :
-                            "assets/icons/back-icon_arabic.svg",
-                            option: 0
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: ContainerWithImage(
+                              width: 28,
+                              height: 28,
+                              image: Global.languageCode == "en" ?
+                              "assets/icons/back-icon.svg" :
+                              "assets/icons/back-icon_arabic.svg",
+                              option: 0
                           ),
                         ),
+                      ),
                       GestureDetector(
                         onTap: () {
                           Get.back();

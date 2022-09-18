@@ -9,10 +9,10 @@ import 'package:luxury_app/helper/api.dart';
 import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/helper/global.dart';
 import 'package:luxury_app/model/brands.dart';
+import 'package:luxury_app/view/book.dart';
 import 'package:luxury_app/view/product_details.dart';
 import 'package:luxury_app/widgets/container_with_image.dart';
 import 'package:luxury_app/widgets/image_and_text.dart';
-import 'package:luxury_app/widgets/text_app.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -20,10 +20,10 @@ import 'package:flutter_html/flutter_html.dart';
 
 class CarsByBrand extends StatelessWidget {
 
-  AllBrands allBrands;
+  AllCarsBrands allCarsBrands;
   int index;
 
-  CarsByBrand(this.allBrands,this.index) {
+  CarsByBrand(this.allCarsBrands,this.index) {
   }
 
   HomeController homeController = Get.find();
@@ -50,7 +50,7 @@ class CarsByBrand extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 85),
+                    const SizedBox(height: 85),
                     Container(
                       width: App.getDeviceWidthPercent(90, context),
                       child: Text(
@@ -59,16 +59,14 @@ class CarsByBrand extends StatelessWidget {
                         introductionController.homeData!.data!.brands[index].titleAr ,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                          letterSpacing: 1,
-                          height: 1.3,
-                          fontSize: CommonTextStyle.xXlargeTextStyle,
+                          fontSize: CommonTextStyle.xlargeTextStyle,
                           color: App.orange,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                     products(context,index),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -84,7 +82,7 @@ class CarsByBrand extends StatelessWidget {
     return Container(
       width: App.getDeviceWidthPercent(100, context),
       height: 70,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage("assets/images/top-nav.png"),
               fit: BoxFit.cover
@@ -100,8 +98,8 @@ class CarsByBrand extends StatelessWidget {
                 Get.back();
               },
               child: ContainerWithImage(
-                  width: 30,
-                  height: 30,
+                  width: 28,
+                  height: 28,
                   image: Global.languageCode == "en" ?
                   "assets/icons/back-icon.svg" :
                   "assets/icons/back-icon_arabic.svg",
@@ -115,12 +113,23 @@ class CarsByBrand extends StatelessWidget {
               },
               child: Container(
                 child: SvgPicture.asset("assets/icons/logo.svg",
-                  width: 26,
-                  height: 26,
+                  width: 25,
+                  height: 25,
                 ),
               ),
             ),
-            Container()
+            GestureDetector(
+              onTap: () {
+                ///share
+              },
+              child: Container(
+                child: SvgPicture.asset("assets/icons/share.svg",
+                  width: 26,
+                  height: 26,
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -132,20 +141,20 @@ class CarsByBrand extends StatelessWidget {
         Container(
             width: App.getDeviceWidthPercent(92, context),
             child: GridView.builder(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                itemCount: allBrands.brand.brands!.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                itemCount: allCarsBrands.brand.brands!.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio: 6/5,
                     crossAxisSpacing: 10,
                     crossAxisCount: 1
                 ),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      Get.to(()=>ProductDetails(allBrands.brand.brands![index].id));
+                      Get.to(()=>ProductDetails(allCarsBrands.brand.brands![index].id));
                       homeController.selectNavDrawer.value = 0;
                     },
                     child: Padding(
@@ -180,26 +189,33 @@ class CarsByBrand extends StatelessWidget {
                             SizedBox(height: 10,),
                             Expanded(
                               flex: 1,
-                              child: TextApp(
-                                  text: allBrands.brand.brands![index].slug.toUpperCase(),
-                                  textStyle: CommonTextStyle.textStyleForBigOrangeBold
-                              ),
+                              child: Container(
+                                child: Center(
+                                  child: Text(allCarsBrands.brand.brands![index].slug.toUpperCase(),
+                                    style: CommonTextStyle.textStyleForBigOrangeBold,
+                                  ),
+                                ),
+                              )
                             ),
                             Expanded(
                               flex: 3,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  allBrands.brand.brands![index].hourlyPrice == -1 ?
+                                  allCarsBrands.brand.brands![index].hourlyPrice == -1 ?
                                   Center() :
                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Row(
                                         children: [
-                                          TextApp(
-                                              text: " AED " +  allBrands.brand.brands![index].hourlyPrice.toString(),
-                                              textStyle: CommonTextStyle.textStyleForMediumWhiteNormal
+                                          Container(
+                                            child: Center(
+                                              child: Text(" AED " +  allCarsBrands.brand.brands![index].hourlyPrice.toString(),
+                                                style: CommonTextStyle.textStyleForMediumWhiteNormal,
+                                              ),
+                                            ),
                                           ),
                                           Text(" " + App_Localization.of(context).translate("hour"),
                                             style: TextStyle(
@@ -210,14 +226,13 @@ class CarsByBrand extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: allBrands.brand.brands![index].oldHourlyPrice == 0 ? 0 : 5),
-                                      allBrands.brand.brands![index].oldHourlyPrice == 0 ?
+                                      SizedBox(height: allCarsBrands.brand.brands![index].oldHourlyPrice == 0 ? 0 : 5),
+                                      allCarsBrands.brand.brands![index].oldHourlyPrice == 0 ?
                                       Center() :
                                       Row(
                                         children: [
-                                          TextApp(
-                                            text: " AED " + allBrands.brand.brands![index].oldHourlyPrice.toString(),
-                                            textStyle: TextStyle(
+                                          Text(" AED " + allCarsBrands.brand.brands![index].oldHourlyPrice.toString(),
+                                            style: const TextStyle(
                                               decoration: TextDecoration.lineThrough,
                                               decorationColor: Colors.red,
                                               color: App.lightGrey,
@@ -225,9 +240,8 @@ class CarsByBrand extends StatelessWidget {
                                             ),
                                           ),
                                           SizedBox(width: 5,),
-                                          TextApp(
-                                            text: ((100 - (allBrands.brand.brands![index].hourlyPrice * 100)/allBrands.brand.brands![index].oldHourlyPrice).round().toString()) + " % " +" OFF",
-                                            textStyle: TextStyle(
+                                          Text(((100 - (allCarsBrands.brand.brands![index].hourlyPrice * 100)/allCarsBrands.brand.brands![index].oldHourlyPrice).round().toString()) + "%" +" OFF",
+                                            style:  const TextStyle(
                                                 color: Colors.green,
                                                 fontSize: CommonTextStyle.smallTextStyle,
                                                 fontStyle: FontStyle.italic
@@ -237,27 +251,27 @@ class CarsByBrand extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  allBrands.brand.brands![index].hourlyPrice == -1 ||  allBrands.brand.brands![index].dailyPrice == -1 ?
+                                  allCarsBrands.brand.brands![index].hourlyPrice == -1 ||  allCarsBrands.brand.brands![index].dailyPrice == -1 ?
                                   Center() :
                                   VerticalDivider(
                                     color: App.orange,
                                     thickness: 1,
-                                    endIndent: allBrands.brand.brands![index].oldHourlyPrice != 0 ? 8 : 12,
-                                    indent: allBrands.brand.brands![index].oldHourlyPrice != 0 ? 8 : 12,
+                                    endIndent: allCarsBrands.brand.brands![index].oldHourlyPrice != 0 ? 8 : 12,
+                                    indent: allCarsBrands.brand.brands![index].oldHourlyPrice != 0 ? 8 : 12,
                                   ),
-                                  allBrands.brand.brands![index].dailyPrice == -1 ?
+                                  allCarsBrands.brand.brands![index].dailyPrice == -1 ?
                                   Center() :
                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Row(
                                         children: [
-                                          TextApp(
-                                              text: " AED " + allBrands.brand.brands![index].dailyPrice.toString(),
-                                              textStyle: CommonTextStyle.textStyleForMediumWhiteNormal
+                                          Text(" AED " + allCarsBrands.brand.brands![index].dailyPrice.toString(),
+                                            style: CommonTextStyle.textStyleForMediumWhiteNormal
                                           ),
                                           Text(" " + App_Localization.of(context).translate("day"),
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: App.lightGrey,
                                                 fontSize: CommonTextStyle.mediumTextStyle,
                                                 fontStyle: FontStyle.italic
@@ -265,14 +279,13 @@ class CarsByBrand extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: allBrands.brand.brands![index].oldDailyPrice == 0 ? 0 : 5),
-                                      allBrands.brand.brands![index].oldDailyPrice == 0 ?
+                                      SizedBox(height: allCarsBrands.brand.brands![index].oldDailyPrice == 0 ? 0 : 5),
+                                      allCarsBrands.brand.brands![index].oldDailyPrice == 0 ?
                                       Center() :
                                       Row(
                                         children: [
-                                          TextApp(
-                                            text: " AED " + allBrands.brand.brands![index].oldDailyPrice.toString(),
-                                            textStyle: TextStyle(
+                                          Text(" AED " + allCarsBrands.brand.brands![index].oldDailyPrice.toString(),
+                                            style: const TextStyle(
                                               decoration: TextDecoration.lineThrough,
                                               decorationColor: Colors.red,
                                               color: App.lightGrey,
@@ -280,9 +293,8 @@ class CarsByBrand extends StatelessWidget {
                                             ),
                                           ),
                                           SizedBox(width: 5,),
-                                          TextApp(
-                                            text: ((100 - (allBrands.brand.brands![index].dailyPrice * 100)/allBrands.brand.brands![index].oldDailyPrice).round().toString()) + " % " +" OFF",
-                                            textStyle: TextStyle(
+                                          Text(((100 - (allCarsBrands.brand.brands![index].dailyPrice * 100)/allCarsBrands.brand.brands![index].oldDailyPrice).round().toString()) + "%" +" OFF",
+                                            style: const TextStyle(
                                                 color: Colors.green,
                                                 fontSize: CommonTextStyle.smallTextStyle,
                                                 fontStyle: FontStyle.italic
@@ -346,7 +358,7 @@ class CarsByBrand extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.to(()=>ProductDetails(allBrands.brand.brands![index].id));
+                                      Get.to(()=>ProductDetails(allCarsBrands.brand.brands![index].id));
                                       homeController.selectNavDrawer.value = 0;
                                     },
                                     child: Container(
@@ -366,7 +378,19 @@ class CarsByBrand extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      ///book page
+                                      Navigator.of(context).push(PageRouteBuilder(
+                                        pageBuilder: (context, animation, secondaryAnimation) => Book(introductionController.allCars!.data!.cars[index]),
+                                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                          const begin = Offset(1.0,0.0);
+                                          const end = Offset.zero;
+                                          const curve = Curves.easeInOut;
+                                          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                          return SlideTransition(
+                                            position: animation.drive(tween),
+                                            child: child,
+                                          );
+                                        },
+                                      ));
                                     },
                                     child: Container(
                                         width: App.getDeviceWidthPercent(92, context) / 4,
@@ -425,16 +449,14 @@ class CarsByBrand extends StatelessWidget {
                           introductionController.homeData!.data!.brands[index].descriptionAr ,
                           style: {
                             "body": Style(
-                              fontSize: FontSize(CommonTextStyle.mediumTextStyle),
+                              fontSize: FontSize(CommonTextStyle.smallTextStyle),
                               fontWeight: FontWeight.normal,
-                              letterSpacing: 0.3,
                               color: App.lightGrey,
                             ),
                             "h2" : Style(
                               color: App.orange,
-                              letterSpacing: 1,
                               fontWeight: FontWeight.bold,
-                              fontSize: FontSize(CommonTextStyle.xXlargeTextStyle)
+                              fontSize: FontSize(CommonTextStyle.xlargeTextStyle)
                             )
                           },
                         ),
@@ -468,14 +490,14 @@ class CarsByBrand extends StatelessWidget {
                 onPageChanged: (sliderindex, reason) {
                   introductionController.allCars!.data!.cars[index].index.value = sliderindex;
                 }),
-            itemCount: allBrands.brand.brands![index].imgs.split(",").length,
+            itemCount: allCarsBrands.brand.brands![index].imgs.split(",").length,
             itemBuilder: (BuildContext context, int photoIndex, int realIndex) {
               return Container(
                 width: App.getDeviceWidthPercent(100, context),
                 decoration:BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     image: DecorationImage(
-                        image: NetworkImage(API.url + "/" + allBrands.brand.brands![index].imgs.split(",")[photoIndex]),
+                        image: NetworkImage(API.url + "/" + allCarsBrands.brand.brands![index].imgs.split(",")[photoIndex]),
                         fit: BoxFit.cover
                     )
                 ),
@@ -494,8 +516,8 @@ class CarsByBrand extends StatelessWidget {
                   activeIndex: introductionController.allCars!.data!.cars[index].index.value,
                   count: introductionController.allCars!.data!.cars[index].imgs.split(",").length,
                   effect: SlideEffect(
-                    dotWidth: 8,
-                    dotHeight: 8,
+                    dotWidth: 6,
+                    dotHeight: 6,
                     activeDotColor: App.orange,
                     dotColor: App.lightGrey,
                   ),

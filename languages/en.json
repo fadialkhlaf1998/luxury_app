@@ -72,5 +72,6 @@
   "back": "Back",
   "next": "Next",
   "success_book": "Successfully booked",
-  "phone_number_wrong": "Phone number is wrong"
+  "phone_number_wrong": "Phone number is wrong",
+  "no_cars_in_brand": "This brand has no cars"
 }

@@ -5,4 +5,5 @@ class RentTermsController extends GetxController {
 
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
 
+
 }

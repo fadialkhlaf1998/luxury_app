@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:luxury_app/controller/faq_controller.dart';
 import 'package:luxury_app/controller/home_controller.dart';
@@ -23,7 +22,7 @@ class FAQ extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         key: faqController.key,
-        drawer: CustomDrawer(homeController: homeController),
+        drawer: CustomDrawer(),
         body: Stack(
           children: [
             ContainerWithImage(
@@ -42,9 +41,7 @@ class FAQ extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 70),
-          // header(context),
-          SizedBox(height: 15),
+          SizedBox(height: 85),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -52,9 +49,7 @@ class FAQ extends StatelessWidget {
                 width: App.getDeviceWidthPercent(90, context),
                 child: Text("LUXURY FAQ CAR",
                   style: TextStyle(
-                    letterSpacing: 1,
-                    height: 1.3,
-                    fontSize: CommonTextStyle.xXlargeTextStyle,
+                    fontSize: CommonTextStyle.xlargeTextStyle,
                     color: App.orange,
                     fontWeight: FontWeight.bold,
                   ),
@@ -71,9 +66,7 @@ class FAQ extends StatelessWidget {
                 width: App.getDeviceWidthPercent(90, context),
                 child: Text("Luxury Rental Car Company Specializes In Cars Of The Premium Segment. We Know How To Please A Demanding Client And How To Provide Rental Services Of The Highest Quality. Being Our Client, You Will Feel A Superb Level Of Luxury And Comfort.",
                   style: TextStyle(
-                    letterSpacing: 0.3,
-                    height: 1.3,
-                    fontSize: CommonTextStyle.mediumTextStyle,
+                    fontSize: CommonTextStyle.xSmallTextStyle,
                     color: App.lightGrey,
                     fontWeight: FontWeight.normal,
                   ),
@@ -94,44 +87,6 @@ class FAQ extends StatelessWidget {
           body(context),
           SizedBox(height: 20),
         ],
-      ),
-    );
-  }
-  header(BuildContext context) {
-    return Container(
-      width: App.getDeviceWidthPercent(100, context),
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/top-nav.png"),
-              fit: BoxFit.cover
-          )
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: () {
-                faqController.key.currentState!.openDrawer();
-              },
-              child: Icon(Icons.menu,size: CommonTextStyle.headerIcons,color: App.orange),
-            ),
-            GestureDetector(
-              onTap: () {
-                homeController.selectNavDrawer.value = 0;
-                homeController.key.currentState!.openEndDrawer();
-              },
-              child: Container(
-                child: SvgPicture.asset("assets/icons/logo.svg",
-                  width: 28,
-                  height: 28,
-                ),
-              ),
-            ),
-            Container()
-          ],
-        ),
       ),
     );
   }
@@ -184,12 +139,10 @@ class FAQ extends StatelessWidget {
                             introductionController.faq!.data!.faq[index].questionAr,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: CommonTextStyle.mediumTextStyle,
-                                letterSpacing: 0.3,
-                                height: 1.3,
+                                fontSize: CommonTextStyle.smallTextStyle,
                               ),),
                           ),
-                          Icon(Icons.keyboard_arrow_down, color: Colors.white)
+                          Icon(Icons.keyboard_arrow_down, color: Colors.white,size: 23,)
                         ],
                       ),
                     ),
@@ -214,7 +167,7 @@ class FAQ extends StatelessWidget {
                           )
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -225,9 +178,7 @@ class FAQ extends StatelessWidget {
                               introductionController.faq!.data!.faq[index].answerAr,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: CommonTextStyle.mediumTextStyle,
-                                  letterSpacing: 0.3,
-                                  height: 1.3,
+                                  fontSize: CommonTextStyle.xSmallTextStyle,
                                 ),),
                             ),
                           ],

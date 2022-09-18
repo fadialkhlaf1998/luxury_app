@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/controller/home_controller.dart';
 import 'package:luxury_app/helper/api.dart';
-import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/model/about.dart';
 import 'package:luxury_app/model/all-cars.dart';
 import 'package:luxury_app/model/blog.dart';
@@ -15,6 +15,8 @@ import 'package:luxury_app/view/home.dart';
 import 'package:luxury_app/view/no_Internet.dart';
 import 'package:luxury_app/view/product_details.dart';
 import 'package:luxury_app/view/searchDelgate.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 
 class IntroductionController extends GetxController{
@@ -26,13 +28,13 @@ class IntroductionController extends GetxController{
   AllCars? allCarsConst;
   RxBool loading = false.obs;
   Rx<int> lengthproductList = 6.obs;
-  AllBrands ? allBrands;
+  AllCarsBrands ? allCarsBrands;
   RxBool carsLoading = false.obs;
   RxInt selectBrand = 0.obs;
   AboutUs? aboutUs;
   RentTerms? terms;
   Faq? faq;
-  BLOG? blogs;
+  Blogs? blogs;
 
   @override
   void onInit(){
@@ -93,9 +95,6 @@ class IntroductionController extends GetxController{
     }else{
       lengthproductList.value = allCars!.data!.cars.length;
     }
-    // print(lengthproductList.value);
-    // print("lengthproductList.value");
-    // print(allCarsConst!.data!.cars.length);
   }
   getCarsById(BuildContext context,index) async{
     API.checkInternet().then((internet){
@@ -108,7 +107,7 @@ class IntroductionController extends GetxController{
             allCars = value;
             initProductCount();
             loading.value = false;
-            // print(allCars!.data!.cars.length);
+            print(allCars!.data!.cars.length);
           }
         });
       }else {
@@ -137,10 +136,13 @@ class IntroductionController extends GetxController{
     API.getCarsByBrand(brandID).then((value) {
       carsLoading.value = false;
       if(value != null){
-        allBrands = value;
-        Get.to(() => CarsByBrand(allBrands!,index));
+        allCarsBrands = value;
+        Get.to(() => CarsByBrand(allCarsBrands!,index));
       }else{
-        App.errorTopBar(context, "This brand has no cars");
+        showTopSnackBar(context,
+            CustomSnackBar.error(
+              message: App_Localization.of(context).translate("no_cars_in_brand"),)
+        );
       }
     });
   }

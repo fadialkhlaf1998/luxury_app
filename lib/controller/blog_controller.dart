@@ -6,4 +6,5 @@ class BlogController extends GetxController {
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
   RxBool loading = false.obs;
 
+
 }

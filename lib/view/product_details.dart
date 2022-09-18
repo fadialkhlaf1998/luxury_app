@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/controller/home_controller.dart';
-import 'package:luxury_app/controller/introduction_controller.dart';
 import 'package:luxury_app/controller/product_details_controller.dart';
 import 'package:luxury_app/helper/api.dart';
 import 'package:luxury_app/helper/app.dart';
@@ -15,7 +14,6 @@ import 'package:luxury_app/view/book.dart';
 import 'package:luxury_app/widgets/container_with_image.dart';
 import 'package:luxury_app/widgets/custom_button.dart';
 import 'package:luxury_app/widgets/drawer.dart';
-import 'package:luxury_app/widgets/text_app.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ProductDetails extends StatelessWidget {
@@ -38,20 +36,19 @@ class ProductDetails extends StatelessWidget {
 
   ProductDetailsController productDetailsController = Get.put(ProductDetailsController());
   HomeController homeController = Get.find();
-  IntroductionController introductionController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
         backgroundColor: App.darkGrey,
         key: productDetailsController.key,
-        drawer: CustomDrawer(homeController: homeController),
-        body: productDetailsController.loading.value ?
+        drawer: CustomDrawer(),
+        body: productDetailsController.loading.value || car == null?
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           color: App.grey,
-          child: Center(
+          child: const Center(
             child: CircularProgressIndicator(color: App.orange),
           ),
         ) :
@@ -82,7 +79,6 @@ class ProductDetails extends StatelessWidget {
       ),
     );
   }
-
   header(BuildContext context) {
     return Container(
       width: App.getDeviceWidthPercent(100, context),
@@ -105,8 +101,8 @@ class ProductDetails extends StatelessWidget {
                 homeController.search.clear();
               },
               child: ContainerWithImage(
-                  width: 30,
-                  height: 30,
+                  width: 28,
+                  height: 28,
                   image: Global.languageCode == "en" ?
                   "assets/icons/back-icon.svg" :
                   "assets/icons/back-icon_arabic.svg",
@@ -146,12 +142,12 @@ class ProductDetails extends StatelessWidget {
     return Column(
       children: [
         titleAndPrice(context),
-        SizedBox(height: 10,),
+        SizedBox(height: 15),
         images(context),
         SizedBox(height: 15),
         CustomButton(
             width: App.getDeviceWidthPercent(90, context),
-            height: 45,
+            height: 40,
             text: App_Localization.of(context).translate("book_now").toUpperCase(),
             onPressed: () {
               var bookedCar = Car(id: car!.id, typeId: car!.typeId, brandId: car!.brandId, bodyId: car!.bodyId, slug: car!.slug,
@@ -162,7 +158,7 @@ class ProductDetails extends StatelessWidget {
                   metaTitleAr: car!.metaTitleAr, metaKeywordsEn: car!.metaKeywordsEn,
                   metaKeywordsAr: car!.metaKeywordsAr, metaDescriptionEn: car!.metaDescriptionEn,
                   metaDescriptionAr: car!.metaDescriptionAr, metaImage: car!.metaImage,
-                  brands: car!.brands!, types: null, bodies: car!.bodies);
+                  brands: car!.brandsList!, types: null, bodies: car!.bodiesList);
               Navigator.of(context).push(PageRouteBuilder(
                 pageBuilder: (context, animation, secondaryAnimation) => Book(bookedCar),
                 transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -178,8 +174,8 @@ class ProductDetails extends StatelessWidget {
               ));
             },
             color: App.orange,
-          borderRadius: 15,
-          textStyle: CommonTextStyle.textStyleForBigWhiteNormal,
+          borderRadius: 10,
+          textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
         ),
         SizedBox(height: 15),
         carDetails(context),
@@ -189,33 +185,30 @@ class ProductDetails extends StatelessWidget {
   titleAndPrice(BuildContext context) {
     return Column(
       children: [
-        TextApp(
-            text: car!.slug,
-            textStyle: const TextStyle(
-              height: 1.3,
-              letterSpacing: 1,
+        Text(car!.slug,
+            style: const TextStyle(
               fontSize: CommonTextStyle.xlargeTextStyle,
               color: App.orange,
               fontWeight: FontWeight.bold,
             ),
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 15),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             car!.hourlyPrice == -1 ?
-            Center() :
+            const Center() :
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
                   children: [
-                    TextApp(
-                        text: " AED " +  car!.hourlyPrice.toString(),
-                        textStyle: CommonTextStyle.textStyleForMediumWhiteNormal
+                    Text(" AED " +  car!.hourlyPrice.toString(),
+                        style: CommonTextStyle.textStyleForMediumWhiteNormal
                     ),
                     Text(" "+App_Localization.of(context).translate("hour"),
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: App.lightGrey,
                           fontSize: CommonTextStyle.mediumTextStyle,
                           fontStyle: FontStyle.italic
@@ -228,9 +221,8 @@ class ProductDetails extends StatelessWidget {
                 Center() :
                 Row(
                   children: [
-                    TextApp(
-                      text: " AED " + car!.oldHourlyPrice.toString(),
-                      textStyle: TextStyle(
+                    Text(" AED " + car!.oldHourlyPrice.toString(),
+                      style: TextStyle(
                         decoration: TextDecoration.lineThrough,
                         decorationColor: Colors.red,
                         color: App.lightGrey,
@@ -238,9 +230,8 @@ class ProductDetails extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 5,),
-                    TextApp(
-                      text: ((100 - (car!.hourlyPrice * 100)/car!.oldHourlyPrice).round().toString()) + " % " +" OFF",
-                      textStyle: TextStyle(
+                    Text(((100 - (car!.hourlyPrice * 100)/car!.oldHourlyPrice).round().toString()) + " % " +" OFF",
+                      style: TextStyle(
                           color: Colors.green,
                           fontSize: CommonTextStyle.smallTextStyle,
                           fontStyle: FontStyle.italic
@@ -251,23 +242,26 @@ class ProductDetails extends StatelessWidget {
               ],
             ),
             car!.hourlyPrice == -1 || car!.dailyPrice == -1 ?
-            Center() :
-            VerticalDivider(
-              color: App.orange,
-              thickness: 1,
-              endIndent: car!.oldHourlyPrice != 0 ? 8 : 12,
-              indent: car!.oldHourlyPrice != 0 ? 8 : 12,
+            const Center() :
+            Container(
+              height: 60,
+              child: VerticalDivider(
+                color: App.orange,
+                thickness: 1,
+                endIndent: car!.oldHourlyPrice != 0 ? 8 : 12,
+                indent: car!.oldHourlyPrice != 0 ? 8 : 12,
+              ),
             ),
             car!.dailyPrice == -1 ?
             Center() :
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
                   children: [
-                    TextApp(
-                        text: " AED " + car!.dailyPrice.toString(),
-                        textStyle: CommonTextStyle.textStyleForMediumWhiteNormal
+                    Text(" AED " + car!.dailyPrice.toString(),
+                        style: CommonTextStyle.textStyleForMediumWhiteNormal
                     ),
                     Text(" "+App_Localization.of(context).translate("day"),
                       style: TextStyle(
@@ -283,9 +277,8 @@ class ProductDetails extends StatelessWidget {
                 Center() :
                 Row(
                   children: [
-                    TextApp(
-                      text: " AED " + car!.oldDailyPrice.toString(),
-                      textStyle: TextStyle(
+                    Text(" AED " + car!.oldDailyPrice.toString(),
+                      style: TextStyle(
                         decoration: TextDecoration.lineThrough,
                         decorationColor: Colors.red,
                         color: App.lightGrey,
@@ -293,9 +286,8 @@ class ProductDetails extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 5,),
-                    TextApp(
-                      text: ((100 - (car!.dailyPrice * 100)/car!.oldDailyPrice).round().toString()) + " % " +" OFF",
-                      textStyle: TextStyle(
+                    Text(((100 - (car!.dailyPrice * 100)/car!.oldDailyPrice).round().toString()) + " % " +" OFF",
+                      style: TextStyle(
                           color: Colors.green,
                           fontSize: CommonTextStyle.smallTextStyle,
                           fontStyle: FontStyle.italic
@@ -330,7 +322,7 @@ class ProductDetails extends StatelessWidget {
                     enlargeCenterPage: true,
                     enlargeStrategy:
                     CenterPageEnlargeStrategy.height,
-                    autoPlayInterval: Duration(seconds: 2),
+                    autoPlayInterval: const Duration(seconds: 2),
                     onPageChanged: (index, reason) {
                       productDetailsController.setIndex(index);
                     }),
@@ -435,12 +427,9 @@ class ProductDetails extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextApp(
-                            text: App_Localization.of(context).translate("brand").toUpperCase(),
-                            textStyle: const TextStyle(
-                              height: 1.3,
-                              letterSpacing: 1,
-                              fontSize: CommonTextStyle.mediumTextStyle,
+                          Text(App_Localization.of(context).translate("brand").toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: CommonTextStyle.smallTextStyle + 1,
                               color: App.lightGrey,
                               fontWeight: FontWeight.normal,
                             ),
@@ -448,10 +437,8 @@ class ProductDetails extends StatelessWidget {
                           SizedBox(height: 5),
                           Container(
                             width: App.getDeviceWidthPercent(35, context),
-                            child: Text(car!.brands!.name,
+                            child: Text(car!.brandsList!.name,
                               style: TextStyle(
-                                height: 1.3,
-                                letterSpacing: 1,
                                 fontSize: CommonTextStyle.smallTextStyle,
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal,
@@ -474,23 +461,18 @@ class ProductDetails extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextApp(
-                            text: App_Localization.of(context).translate("model").toUpperCase(),
-                            textStyle: const TextStyle(
-                              height: 1.3,
-                              letterSpacing: 1,
-                              fontSize: CommonTextStyle.mediumTextStyle,
+                          Text(App_Localization.of(context).translate("model").toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: CommonTextStyle.smallTextStyle + 1,
                               color: App.lightGrey,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           Container(
                             width: App.getDeviceWidthPercent(35, context),
                             child: Text(car!.model,
-                              style: TextStyle(
-                                height: 1.3,
-                                letterSpacing: 1,
+                              style: const TextStyle(
                                 fontSize: CommonTextStyle.smallTextStyle,
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal,
@@ -506,7 +488,7 @@ class ProductDetails extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         Container(
           width: App.getDeviceWidthPercent(95, context),
           child: Row(
@@ -523,24 +505,19 @@ class ProductDetails extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextApp(
-                            text: App_Localization.of(context).translate("year").toUpperCase(),
-                            textStyle: const TextStyle(
-                              height: 1.3,
-                              letterSpacing: 1,
-                              fontSize: CommonTextStyle.mediumTextStyle,
+                          Text(App_Localization.of(context).translate("year").toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: CommonTextStyle.smallTextStyle + 1,
                               color: App.lightGrey,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           Container(
                             width: App.getDeviceWidthPercent(35, context),
                             child: Text(car!.year.toString(),
-                              style: TextStyle(
-                                height: 1.3,
-                                letterSpacing: 1,
-                                fontSize: CommonTextStyle.smallTextStyle,
+                              style: const TextStyle(
+                                fontSize: CommonTextStyle.smallTextStyle + 1,
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal,
                               ),
@@ -562,9 +539,8 @@ class ProductDetails extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextApp(
-                            text: App_Localization.of(context).translate("seats").toUpperCase(),
-                            textStyle: const TextStyle(
+                          Text(App_Localization.of(context).translate("seats").toUpperCase(),
+                            style: const TextStyle(
                               height: 1.3,
                               letterSpacing: 1,
                               fontSize: CommonTextStyle.mediumTextStyle,
@@ -572,12 +548,12 @@ class ProductDetails extends StatelessWidget {
                               fontWeight: FontWeight.normal,
                             ),
                           ),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           ///listview later
                           Container(
                             width: App.getDeviceWidthPercent(35, context),
                             child: Text(car!.seats.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 height: 1.3,
                                 letterSpacing: 1,
                                 fontSize: CommonTextStyle.smallTextStyle,

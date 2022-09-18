@@ -6,4 +6,5 @@ class AboutUsController extends GetxController {
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
   var selected = 0.obs;
 
+
 }
