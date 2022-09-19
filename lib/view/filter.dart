@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:luxury_app/app_localization.dart';
@@ -18,12 +19,13 @@ class Filter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
+      backgroundColor: App.darkGrey,
       body: SafeArea(
         child: Container(
           width: App.getDeviceWidthPercent(100, context),
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("assets/images/filter-bg.webp"),
+                  image: AssetImage("assets/images/introo.png"),
                   fit: BoxFit.cover
               )
           ),
@@ -31,10 +33,9 @@ class Filter extends StatelessWidget {
               Container(
                 width: App.getDeviceWidthPercent(100, context),
                 height: App.getDeviceHeightPercent(100, context),
-                color: App.darkGrey,
+                // color: App.darkGrey,
                 child: const Center(
-                  child: CircularProgressIndicator(
-
+                  child: CupertinoActivityIndicator(
                     color: App.orange,
                   ),
                 ),

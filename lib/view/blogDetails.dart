@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -47,9 +48,9 @@ class BlogDetails extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              color: App.grey,
+              color: App.darkGrey,
               child: Center(
-                child: CircularProgressIndicator(color: App.orange),
+                child: CupertinoActivityIndicator(color: App.orange),
               ),
             ) :
             SafeArea(

@@ -1,5 +1,6 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -71,7 +72,7 @@ class Home extends StatelessWidget {
                 height: App.getDeviceHeightPercent(100, context),
                 color: App.darkGrey,
                 child: const Center(
-                  child: CircularProgressIndicator(color: App.orange,),
+                  child: CupertinoActivityIndicator(color: App.orange,),
                 ),
               ) : const Center(),
             ],
@@ -219,7 +220,7 @@ class Home extends StatelessWidget {
                 height: App.getDeviceHeightPercent(50, context),
                 color: App.darkGrey,
                 child: const Center(
-                  child: CircularProgressIndicator(color: App.orange,),
+                  child: CupertinoActivityIndicator(color: App.orange,),
                 ),
               ) :
               homeData.data!.carType[homeController.selectSuperCategory.value].id !=

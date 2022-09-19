@@ -62,7 +62,7 @@ class Book extends StatelessWidget {
                 height: App.getDeviceHeightPercent(100, context),
                 color: App.darkGrey,
                 child: Center(
-                  child: CircularProgressIndicator(
+                  child: CupertinoActivityIndicator(
                     color: App.orange,
                   ),
                 )

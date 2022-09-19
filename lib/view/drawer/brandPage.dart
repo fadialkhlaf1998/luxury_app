@@ -23,10 +23,19 @@ class BrandPage extends StatelessWidget {
         drawer: CustomDrawer(),
         body: Stack(
           children: [
+            // Container(
+            //   width: App.getDeviceWidthPercent(100, context),
+            //   height: App.getDeviceHeightPercent(100, context),
+            //   color: App.darkGrey,
+            // ),
             Container(
               width: App.getDeviceWidthPercent(100, context),
-              height: App.getDeviceHeightPercent(100, context),
-              color: App.darkGrey,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/introo.png"),
+                      fit: BoxFit.cover
+                  )
+              )
             ),
             SizedBox(height: 85,),
             brands(context),
