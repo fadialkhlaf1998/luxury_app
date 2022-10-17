@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:luxury_app/controller/faq_controller.dart';
-import 'package:luxury_app/controller/home_controller.dart';
 import 'package:luxury_app/controller/introduction_controller.dart';
 import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/helper/global.dart';
@@ -15,7 +14,6 @@ class FAQ extends StatelessWidget {
   }
 
   FAQController faqController = Get.put(FAQController());
-  HomeController homeController = Get.find();
   IntroductionController introductionController = Get.find();
 
   @override
@@ -41,64 +39,65 @@ class FAQ extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 85),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: App.getDeviceWidthPercent(90, context),
-                child: Text("LUXURY FAQ CAR",
-                  style: TextStyle(
-                    fontSize: CommonTextStyle.xlargeTextStyle,
-                    color: App.orange,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: App.getDeviceWidthPercent(90, context),
-                child: Text("Luxury Rental Car Company Specializes In Cars Of The Premium Segment. We Know How To Please A Demanding Client And How To Provide Rental Services Of The Highest Quality. Being Our Client, You Will Feel A Superb Level Of Luxury And Comfort.",
-                  style: TextStyle(
-                    fontSize: CommonTextStyle.xSmallTextStyle,
-                    color: App.lightGrey,
-                    fontWeight: FontWeight.normal,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 30),
-          Center(
+          SizedBox(height: Get.height * 0.12),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     SizedBox(
+          //       width: App.getDeviceWidthPercent(90, context),
+          //       child: const Text("LUXURY FAQ CAR",
+          //         style: TextStyle(
+          //           fontSize: App.large,
+          //           color: App.orange,
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //         textAlign: TextAlign.center,
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(height: 10),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     SizedBox(
+          //       width: App.getDeviceWidthPercent(90, context),
+          //       child: const Text("Luxury Rental Car Company Specializes In Cars Of The Premium Segment. We Know How To Please A Demanding Client And How To Provide Rental Services Of The Highest Quality. Being Our Client, You Will Feel A Superb Level Of Luxury And Comfort.",
+          //         style: TextStyle(
+          //           fontSize: App.small,
+          //           color: App.lightWhite,
+          //           fontWeight: FontWeight.normal,
+          //         ),
+          //         textAlign: TextAlign.center,
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(height: 25),
+          const Center(
             child: Text("FEQs: GET MORE Information About Car Rental Services",
               style: TextStyle(
-                  fontSize: CommonTextStyle.tinyTextStyle,
-                  color: Colors.white
+                  fontSize: App.tiny,
+                  color: Colors.white,
+                fontWeight: FontWeight.bold
               ),
             ),
           ),
           body(context),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );
   }
   body(BuildContext context) {
-    return Container(
+    return SizedBox(
       child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: introductionController.faq!.data!.faq.length,
         itemBuilder: (context,index) {
           return Obx(() => Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Column(
               children: [
                 GestureDetector(
@@ -115,10 +114,10 @@ class FAQ extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: faqController.open.value == index ? App.orange : App.grey,
                         borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(10),
-                          topLeft: Radius.circular(10),
-                          bottomLeft: faqController.open.value == index ? Radius.circular(0) : Radius.circular(10),
-                          bottomRight: faqController.open.value == index ? Radius.circular(0) : Radius.circular(10),
+                          topRight: const Radius.circular(10),
+                          topLeft: const Radius.circular(10),
+                          bottomLeft: faqController.open.value == index ? const Radius.circular(0) : const Radius.circular(10),
+                          bottomRight: faqController.open.value == index ? const Radius.circular(0) : const Radius.circular(10),
                         )
                     ),
                     child: Padding(
@@ -127,43 +126,50 @@ class FAQ extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ContainerWithImage(
-                              width: 25,
-                              height: 25,
-                              image: "assets/images/faq.png",
-                              option: 1
+                              width: faqController.open.value == index ? 35 : 25,
+                              height: faqController.open.value == index ? 35 : 25,
+                              image: "assets/icons/ask.svg",
+                              option: 0,
+                            color: faqController.open.value == index ? App.grey : App.orange,
                           ),
-                          Container(
+                          SizedBox(
                             width: App.getDeviceWidthPercent(63, context),
                             child: Text(Global.languageCode == "en" ?
                             introductionController.faq!.data!.faq[index].questionEn :
                             introductionController.faq!.data!.faq[index].questionAr,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: CommonTextStyle.smallTextStyle,
+                                fontSize: App.small,
+                                fontWeight: FontWeight.w600
                               ),),
                           ),
-                          Icon(Icons.keyboard_arrow_down, color: Colors.white,size: 23,)
+                          Icon(faqController.open.value == index ?
+                             Icons.keyboard_arrow_up :
+                             Icons.keyboard_arrow_down,
+                            color: faqController.open.value == index ?
+                            Colors.black : Colors.white,
+                            size: App.iconSize)
                         ],
                       ),
                     ),
                   ),
                 ),
                 AnimatedSize(
-                  duration: Duration(milliseconds: 400),
+                  duration: const Duration(milliseconds: 400),
                   curve: Curves.easeIn,
-                  child: Container(
+                  child: SizedBox(
                     width: App.getDeviceWidthPercent(90, context),
                     child: !(faqController.open.value == index)
-                        ? Center()
+                        ? const Center()
                         :  Container(
                       width: App.getDeviceWidthPercent(90, context),
                       decoration: BoxDecoration(
                           color: App.grey,
                           borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                            topLeft: faqController.open.value == index ? Radius.circular(0) : Radius.circular(10),
-                            topRight: faqController.open.value == index ? Radius.circular(0) : Radius.circular(10),
+                            bottomLeft: const Radius.circular(10),
+                            bottomRight: const Radius.circular(10),
+                            topLeft: faqController.open.value == index ? const Radius.circular(0) : const Radius.circular(10),
+                            topRight: faqController.open.value == index ? const Radius.circular(0) : const Radius.circular(10),
                           )
                       ),
                       child: Padding(
@@ -171,14 +177,14 @@ class FAQ extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
+                            SizedBox(
                               width: App.getDeviceWidthPercent(80, context),
                               child: Text(Global.languageCode == "en" ?
                               introductionController.faq!.data!.faq[index].answerEn :
                               introductionController.faq!.data!.faq[index].answerAr,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: CommonTextStyle.xSmallTextStyle,
+                                  fontSize: App.xSmall,
                                 ),),
                             ),
                           ],

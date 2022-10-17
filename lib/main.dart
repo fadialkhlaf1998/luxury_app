@@ -66,8 +66,9 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'Loew',
           sliderTheme: const SliderThemeData(
             activeTrackColor: App.orange,
-            inactiveTrackColor: App.grey,
+            inactiveTrackColor: App.lightWhite,
             thumbColor: Colors.white,
+            trackHeight: 1,
             activeTickMarkColor: Colors.transparent,
             inactiveTickMarkColor: Colors.transparent,
             valueIndicatorTextStyle: TextStyle(

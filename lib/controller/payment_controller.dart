@@ -1,8 +1,12 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/helper/api.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class PaymentController extends GetxController {
   String result_id = "";
@@ -10,10 +14,10 @@ class PaymentController extends GetxController {
   Map<String, dynamic>? paymentIntentData;
   String secrit = "sk_test_51LWbmmAcwyDDMKEjxgxy53HBNi44DWy9nZ756qgO624uomQ6pm7D1odNvMzqQ57MuEBdczmMcuWyt4CtcVJ1Dur000dsVfoOgF";
   Future<void> makePayment(
-      {required String amount, required String currency,required int newRentNumber}) async {
+      {required BuildContext context,required String amount, required String currency,required int newRentNumber}) async {
     try {
       rent_number = newRentNumber;
-      paymentIntentData = await createPaymentIntent(amount, currency);
+      paymentIntentData = await createPaymentIntent(context,amount, currency);
       if (paymentIntentData != null) {
         print('Init Payment Sheet Successfully');
        var result = await Stripe.instance.initPaymentSheet(
@@ -29,6 +33,7 @@ class PaymentController extends GetxController {
 
         await displayPaymentSheet();
       }else{
+
       }
     } catch (e, s) {
       print('exception:$e$s');
@@ -56,9 +61,7 @@ class PaymentController extends GetxController {
       print("exception:$e");
     }
   }
-
-  //  Future<Map<String, dynamic>>
-  createPaymentIntent(String amount, String currency) async {
+  createPaymentIntent(BuildContext context,String amount, String currency) async {
     try {
       Map<String, dynamic> body = {
         'amount': calculateAmount(amount),
@@ -81,6 +84,10 @@ class PaymentController extends GetxController {
       addState(rent_number.toString(), data["id"]);
       return data;
     } catch (err) {
+      showTopSnackBar(context,
+          CustomSnackBar.error(
+              message: App_Localization.of(context).translate("something_went_wrong")));
+      print('----------------------');
       print('err charging user: ${err.toString()}');
     }
   }

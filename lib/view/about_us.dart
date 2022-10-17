@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:luxury_app/app_localization.dart';
@@ -7,7 +6,6 @@ import 'package:luxury_app/controller/about_us_controller.dart';
 import 'package:luxury_app/controller/introduction_controller.dart';
 import 'package:luxury_app/helper/api.dart';
 import 'package:luxury_app/helper/app.dart';
-import 'package:luxury_app/helper/global.dart';
 import 'package:luxury_app/widgets/drawer.dart';
 
 
@@ -27,7 +25,7 @@ class AboutUs extends StatelessWidget {
             Container(
               width: App.getDeviceWidthPercent(100, context),
               height: App.getDeviceHeightPercent(100, context),
-              color: App.darkGrey,
+              color: App.primary,
             ),
             about(context),
           ],
@@ -39,55 +37,57 @@ class AboutUs extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 70),
+          Container(
+            width: Get.width,
+            height: Get.height * 0.1,
+            color: App.grey,
+          ),
           body(context),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );
   }
   body(BuildContext context) {
-    return Container(
+    return SizedBox(
       child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: introductionController.aboutUs!.data!.about.length,
         shrinkWrap: true,
         itemBuilder: (context,index) {
           return Column(
             children: [
-              Container(
-                width: App.getDeviceWidthPercent(90, context),
-                child: Html(
-                  data: Global.languageCode == "en" ?
-                  introductionController.aboutUs!.data!.about[index].titleEn :
-                  introductionController.aboutUs!.data!.about[index].titleAr,
-                  style: {
-                    "body": Style(
-                        fontSize: FontSize(CommonTextStyle.xSmallTextStyle),
-                        fontWeight: FontWeight.normal,
-                        letterSpacing: 0.3,
-                        color: App.lightGrey,
-                        textAlign: TextAlign.center
-                    ),
-                    "h1" : Style(
-                        color: App.orange,
-                        textAlign: TextAlign.center,
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.bold,
-                        fontSize: FontSize(CommonTextStyle.xlargeTextStyle)
-                    )
-                  },
-                ),
-              ),
-              SizedBox(height: 20),
-              Container(
+              // SizedBox(
+              //   width: App.getDeviceWidthPercent(90, context),
+              //   child: Html(
+              //     data: Global.languageCode == "en" ?
+              //     introductionController.aboutUs!.data!.about[index].titleEn :
+              //     introductionController.aboutUs!.data!.about[index].titleAr,
+              //     style: {
+              //       "body": Style(
+              //         fontSize: const FontSize(App.small),
+              //         fontWeight: FontWeight.normal,
+              //         color: App.lightWhite,
+              //         textAlign: TextAlign.center
+              //       ),
+              //       "h1" : Style(
+              //           color: App.orange,
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: const FontSize(App.large),
+              //           textAlign: TextAlign.center
+              //       )
+              //     },
+              //   ),
+              // ),
+              // const SizedBox(height: 15),
+              SizedBox(
                 width: App.getDeviceWidthPercent(100, context),
                 height: App.getDeviceHeightPercent(25, context),
-                child: Image.network(API.url + "/" + introductionController.aboutUs!.data!.about[index].cover
+                child: Image.network("${API.url}/${introductionController.aboutUs!.data!.about[index].cover}"
                   , fit: BoxFit.cover),
               ),
-              SizedBox(height: 20),
-              Container(
+              const SizedBox(height: 15),
+              SizedBox(
                 width: App.getDeviceWidthPercent(90, context),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -97,8 +97,7 @@ class AboutUs extends StatelessWidget {
                         aboutUsController.selected.value = 0 ;
                       },
                       child: Container(
-                        width: App.getDeviceWidthPercent(40, context),
-                        padding: EdgeInsets.only(bottom: 5),
+                        padding: const EdgeInsets.only(bottom: 5,left: 5,right: 5),
                         decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(
@@ -108,10 +107,10 @@ class AboutUs extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(App_Localization.of(context).translate("why_choose_us_title"),
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: App.orange,
-                              fontSize: CommonTextStyle.smallTextStyle,
-                              fontWeight: FontWeight.w500,
+                              fontSize: App.small,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
@@ -122,8 +121,7 @@ class AboutUs extends StatelessWidget {
                         aboutUsController.selected.value = 1;
                       },
                       child: Container(
-                        width: App.getDeviceWidthPercent(40, context),
-                        padding: EdgeInsets.only(bottom: 5),
+                        padding: const EdgeInsets.only(bottom: 5,left: 5,right: 5),
                         decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(
@@ -133,10 +131,10 @@ class AboutUs extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(App_Localization.of(context).translate("what_do_we_offer_title"),
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: App.orange,
-                              fontSize: CommonTextStyle.smallTextStyle,
-                              fontWeight: FontWeight.w500,
+                              fontSize: App.small,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
@@ -145,8 +143,8 @@ class AboutUs extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
-              Container(
+              const SizedBox(height: 15),
+              SizedBox(
                 width: App.getDeviceWidthPercent(85, context),
                 child: aboutUsController.selected.value == 0 ?
                 Column(
@@ -155,29 +153,37 @@ class AboutUs extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SvgPicture.asset("assets/icons/checkbox.svg",color: App.lightGrey,width: 25,height: 25,),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: SvgPicture.asset("assets/icons/checkbox.svg",width: 20,height: 20,),
+                        ),
                         Container(
                           width:  App.getDeviceWidthPercent(75, context),
-                          child: Text(App_Localization.of(context).translate("why_choose_us_content"),
-                              style: TextStyle(
-                                color: App.lightGrey,
-                                fontSize: CommonTextStyle.xSmallTextStyle,
-                              )),
+                          child: Text(
+                              App_Localization.of(context).translate("why_choose_us_content"),
+                              style: const TextStyle(
+                                color: App.lightWhite,
+                                fontSize: App.xSmall,
+                              )
+                          ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 15,),
+                    const SizedBox(height: 15,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SvgPicture.asset("assets/icons/checkbox.svg",color: App.lightGrey,width: 25,height: 25,),
-                        Container(
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: SvgPicture.asset("assets/icons/checkbox.svg",width: 20,height: 20,),
+                        ),
+                        SizedBox(
                           width:  App.getDeviceWidthPercent(75, context),
                           child: Text(App_Localization.of(context).translate("why_choose_us_content"),
-                              style: TextStyle(
-                                color: App.lightGrey,
-                                fontSize: CommonTextStyle.xSmallTextStyle,
+                              style: const TextStyle(
+                                color: App.lightWhite,
+                                fontSize: App.xSmall,
                               )),
                         ),
                       ],
@@ -190,29 +196,35 @@ class AboutUs extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SvgPicture.asset("assets/icons/checkbox.svg",color: App.lightGrey,width: 25,height: 25,),
-                        Container(
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: SvgPicture.asset("assets/icons/checkbox.svg",width: 20,height: 20,),
+                        ),
+                        SizedBox(
                           width: App.getDeviceWidthPercent(75, context),
                           child: Text(App_Localization.of(context).translate("what_do_we_offer_content"),
-                          style: TextStyle(
-                            color: App.lightGrey,
-                            fontSize: CommonTextStyle.xSmallTextStyle,
+                          style: const TextStyle(
+                            color: App.lightWhite,
+                            fontSize: App.xSmall,
                           )),
                         ),
                       ],
                     ),
-                    SizedBox(height: 15,),
+                    const SizedBox(height: 15,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SvgPicture.asset("assets/icons/checkbox.svg",color: App.lightGrey,width: 25,height: 25,),
-                        Container(
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: SvgPicture.asset("assets/icons/checkbox.svg",width: 20,height: 20,),
+                        ),
+                        SizedBox(
                           width: App.getDeviceWidthPercent(75, context),
                           child: Text(App_Localization.of(context).translate("what_do_we_offer_content"),
-                              style: TextStyle(
-                                color: App.lightGrey,
-                                fontSize: CommonTextStyle.xSmallTextStyle,
+                              style: const TextStyle(
+                                color: App.lightWhite,
+                                fontSize: App.xSmall,
                               )
                           ),
                         ),

@@ -7,7 +7,6 @@ import 'package:luxury_app/model/blog-info.dart';
 import 'package:luxury_app/model/blog.dart';
 import 'package:luxury_app/model/brands.dart';
 import 'package:luxury_app/model/car-info.dart';
-import 'package:luxury_app/model/contact_us_result.dart';
 import 'package:luxury_app/model/faq.dart';
 import 'package:luxury_app/model/home-data.dart';
 import 'package:luxury_app/model/terms.dart';

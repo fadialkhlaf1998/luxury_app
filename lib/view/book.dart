@@ -1,9 +1,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:enhance_stepper/enhance_stepper.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/controller/book_controller.dart';
@@ -12,10 +13,7 @@ import 'package:luxury_app/controller/introduction_controller.dart';
 import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/helper/global.dart';
 import 'package:luxury_app/model/all-cars.dart';
-import 'package:luxury_app/widgets/container_with_image.dart';
-import 'package:luxury_app/widgets/custom_button.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
 
 class Book extends StatelessWidget {
 
@@ -30,7 +28,14 @@ class Book extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
-      backgroundColor: App.darkGrey,
+      backgroundColor: App.primary,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: AppBar(
+          elevation: 0,
+          backgroundColor: App.lightDarkGrey,
+        ),
+      ),
       body: SafeArea(
         child: Stack(
           alignment: Alignment.center,
@@ -38,35 +43,35 @@ class Book extends StatelessWidget {
             Container(
               width: App.getDeviceWidthPercent(100, context),
               height: App.getDeviceHeightPercent(100, context),
-              color: App.darkGrey,
+              color: App.primary,
             ),
             Container(
               width: App.getDeviceWidthPercent(100, context),
               height: App.getDeviceHeightPercent(100, context),
-              color: App.darkGrey,
+              color: App.primary,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     _header(context),
-                    SizedBox(height: 15),
                     _stepper(context),
-                    SizedBox(height: 15),
-                    _body(context),
+                    const SizedBox(height: 20),
+                    backNextButton(context),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
             ),
             bookController.loading.value ?
-              Container(
+            Container(
                 width: App.getDeviceWidthPercent(100, context),
                 height: App.getDeviceHeightPercent(100, context),
-                color: App.darkGrey,
-                child: Center(
+                color: App.primary,
+                child: const Center(
                   child: CupertinoActivityIndicator(
                     color: App.orange,
                   ),
                 )
-              ) : Center()
+              ) : const Center(),
           ],
         )
       ),
@@ -84,20 +89,13 @@ class Book extends StatelessWidget {
               bookController.clear();
               Get.back();
             },
-            child: ContainerWithImage(
-                width: 28,
-                height: 28,
-                image: Global.languageCode == "en" ?
-                "assets/icons/back-icon.svg" :
-                "assets/icons/back-icon_arabic.svg",
-                option: 0
-            ),
+            child: const Icon(Icons.arrow_back,color: Colors.white,size: App.iconSize)
           ),
           Text(App_Localization.of(context).translate("your_info"),
             style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: CommonTextStyle.mediumTextStyle
+                fontSize: App.medium
             ),
           ),
           GestureDetector(
@@ -105,178 +103,40 @@ class Book extends StatelessWidget {
               bookController.clear();
               Get.back();
             },
-            child: Container(
-              child: Row(
-                children: const [
-                  Text("Clear",
-                    style: TextStyle(
-                        color: App.orange,
-                        fontSize: CommonTextStyle.smallTextStyle + 1
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: SvgPicture.asset("assets/icons/delete.svg",color: Colors.white,)
           )
         ],
       ),
     );
   }
-  _stepper(context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          const SizedBox(width: 20),
-          Container(
-              width: 23,
-              height: 23,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: bookController.activeCurrentStep.value < 0 ? App.lightGrey : App.orange,
-                      width: 2)
-              ),
-              child: Center(
-                child: Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color:  bookController.activeCurrentStep.value < 0 ? App.lightGrey : App.orange,
-                  ),
-                ),
-              )
-          ),
-          Expanded(child: Divider(
-              color: bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange, thickness: 1.2),),
-          Container(
-              width: 23,
-              height: 23,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange,
-                      width: 2)
-              ),
-              child: Center(
-                child: Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color:  bookController.activeCurrentStep.value < 1 ? App.lightGrey : App.orange,
-                  ),
-                ),
-              )
-          ),
-          Expanded(child: Divider(
-              color: bookController.activeCurrentStep.value < 2 ? App.lightGrey : App.orange,thickness: 1.2),),
-          Container(
-              width: 23,
-              height: 23,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: bookController.activeCurrentStep.value < 2 ? App.lightGrey : App.orange,
-                      width: 2)
-              ),
-              child: Center(
-                child: Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color:  bookController.activeCurrentStep.value < 2 ? App.lightGrey : App.orange,
-                  ),
-                ),
-              )
-          ),
-          SizedBox(width: 20),
-        ],
-      ),
+  _stepper(BuildContext context) {
+    return EnhanceStepper(
+        stepIconSize: 30,
+        type: StepperType.vertical,
+        horizontalTitlePosition: HorizontalTitlePosition.bottom,
+        horizontalLinePosition: HorizontalLinePosition.top,
+        currentStep: bookController.activeCurrentStep.value,
+        physics: const ClampingScrollPhysics(),
+        steps: bookController.tuples.map((e) => EnhanceStep(
+          icon: Icon(e.item1, color:
+          bookController.activeCurrentStep.value == bookController.tuples.indexOf(e) ?
+          App.orange : Colors.white, size: 30),
+          state: StepState.values[bookController.tuples.indexOf(e)],
+          isActive: bookController.activeCurrentStep.value == bookController.tuples.indexOf(e),
+          title: const Text(""),
+          content: bookController.activeCurrentStep.value == 0 ?
+              _step1(context) : bookController.activeCurrentStep.value == 1 ?
+              _step2(context) : _step3(context)
+        )).toList(),
+        controlsBuilder: (context,controlDetails) {
+          return const Center();
+        },
     );
   }
-  _body(BuildContext context) {
-    return Container(
-        height: MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.22 - 24,
-      width: App.getDeviceWidthPercent(100, context),
-      child: Column(
-        children: [
-          Expanded(
-            flex: 6,
-            child: bookController.activeCurrentStep.value < 1 ? _date(context) :
-            bookController.activeCurrentStep.value < 2 ? textFields(context) :
-            Column(
-              children: [
-                babySeat(context),
-                const SizedBox(height: 20),
-                additionalDriver(context),
-                const SizedBox(height: 20),
-                payNowLater(context),
-                const SizedBox(height: 20),
-                Container(
-                  width: App.getDeviceWidthPercent(75, context),
-                  child: Divider(
-                    color: App.orange,
-                    thickness: 2,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                subTotalVatTotal(context),
-              ],
-            ),
-          ),
-          MediaQuery.of(context).viewInsets.bottom == 0 ?
-          Expanded(
-            flex: 1,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CustomButton(
-                  width: App.getDeviceWidthPercent(35, context),
-                  height: 40,
-                  text: App_Localization.of(context).translate("back").toUpperCase(),
-                  onPressed: () {
-                    bookController.backwardStep();
-                  },
-                  color: App.orange,
-                  borderRadius: 10,
-                  textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
-                ),
-                CustomButton(
-                  width: App.getDeviceWidthPercent(35, context),
-                  height: 40,
-                  text: App_Localization.of(context).translate("next").toUpperCase(),
-                  onPressed: () {
-                    bookController.forwardStep(context);
-                  },
-                  color: App.orange,
-                  borderRadius: 10,
-                  textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
-                ),
-              ],
-            ),
-          ) : Text(''),
-        ],
-      )
-    );
-  }
-  _date(BuildContext context) {
+  _step1(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset("assets/icons/year.svg",fit: BoxFit.cover,width: 40,height: 40,color: Colors.white,),
-            Text(App_Localization.of(context).translate("pick_date").toUpperCase(),
-              style: CommonTextStyle.textStyleForMediumWhiteNormal
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
         perDayHour(context),
         const SizedBox(height: 20),
         GestureDetector(
@@ -287,122 +147,282 @@ class Book extends StatelessWidget {
             width: App.getDeviceWidthPercent(90, context),
             height: 45,
             decoration: BoxDecoration(
-              color: App.grey,
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(
-                color: !bookController.pickUpValidate.value && !bookController.saveDate.value ? Colors.red : App.grey,
-              )
+                color: App.grey,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: !bookController.dateValidate.value && !bookController.saveDate.value ? Colors.red : App.grey,
+                )
             ),
             child: Center(
               child: Text(
                 bookController.saveDate.value ? bookController.range.value :
                 App_Localization.of(context).translate("pickup_and_dropOff_date"),
                 style: const TextStyle(
-                  color: App.lightGrey,
-                  fontSize: CommonTextStyle.smallTextStyle + 1
+                    color: App.lightWhite,
+                    fontSize: App.small
                 ),
               ),
             ),
           ),
         ),
         const SizedBox(height: 20),
-        pickUpDropOffTime(context)
+        pickUpDropOffTime(context),
       ],
     );
   }
-  perDayHour(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+  _step2(BuildContext context) {
+    return Column(
       children: [
-        Row(
+        const SizedBox(height: 20,),
+        normalTextField(
+          height: 45,
+          context: context,
+          textStyle: const TextStyle(
+              fontSize: App.medium,
+              color: Colors.white,
+              fontWeight: FontWeight.normal
+          ),
+          textAlignVertical: TextAlignVertical.top,
+          width: App.getDeviceWidthPercent(90, context),
+          controller: bookController.name,
+          validate: bookController.nameValidate.value,
+          text: "name",
+
+        ),
+        const SizedBox(height: 20),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {
-                bookController.selectRentalModel.value = 0;
-              },
-              child: Container(
-                  width: 18,
-                  height: 18,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white,width: 2)
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: bookController.selectRentalModel.value == 0 ? Colors.white : Colors.transparent
-                      ),
-                    ),
-                  )
+            Text("${App_Localization.of(context).translate("phone")}*",
+              style: const TextStyle(
+                  fontSize: App.small,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600
               ),
             ),
-            const SizedBox(width: 8),
-            Text(App_Localization.of(context).translate("daily"),
-              style: CommonTextStyle.textStyleForSmallWhiteNormal,
+            const SizedBox(height: 10),
+            SizedBox(
+                width: App.getDeviceWidthPercent(80, context),
+                height: 45,
+                child: IntlPhoneField(
+                  textAlign: Global.languageCode == "en" ?
+                  TextAlign.left : TextAlign.right,
+                  textAlignVertical: TextAlignVertical.top,
+                  style: const TextStyle(
+                      fontSize: App.medium,
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal
+                  ),
+                  controller: bookController.phone,
+                  cursorColor: Colors.white,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: App.textField,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide:  BorderSide(color: bookController.phoneValidate.value ? Colors.red : Colors.transparent)
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: bookController.phoneValidate.value ? Colors.red : Colors.transparent)
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: bookController.phoneValidate.value ? Colors.red : Colors.transparent)
+                    ),
+                  ),
+                  initialCountryCode: 'AE',
+                  disableLengthCheck: true,
+                  dropdownIcon: Icon(Icons.arrow_drop_down_outlined,color: Colors.white.withOpacity(0.3),),
+                  dropdownTextStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: App.medium
+                  ),
+                  flagsButtonMargin: const EdgeInsets.symmetric(horizontal: 15),
+                  showDropdownIcon: true,
+                  dropdownIconPosition: IconPosition.trailing,
+                  onChanged: (phone) {
+                    int max = countries.firstWhere((element) => element.code == phone.countryISOCode).maxLength;
+                    if(bookController.phone.text.length > max){
+                      bookController.phone.text = bookController.phone.text.substring(0,max);
+                    }
+                  },
+                )
             ),
           ],
         ),
-        const SizedBox(width: 15),
-        Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                bookController.selectRentalModel.value = 1;
-              },
-              child: Container(
-                  width: 18,
-                  height: 18,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white,width: 2)
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: bookController.selectRentalModel.value != 0 ? Colors.white : Colors.transparent
-                      ),
-                    ),
-                  )
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text(App_Localization.of(context).translate("hour"),
-              style: CommonTextStyle.textStyleForSmallWhiteNormal,
-            ),
-          ],
+        const SizedBox(height: 20),
+        normalTextField(
+          height: 45,
+          context: context,
+          textStyle: const TextStyle(
+              fontSize: App.medium,
+              color: Colors.white,
+              fontWeight: FontWeight.normal
+          ),
+          width: App.getDeviceWidthPercent(90, context),
+          controller: bookController.email,
+          validate: bookController.emailValidate.value,
+          text: "email",
+          textAlignVertical: TextAlignVertical.top
         ),
+        const SizedBox(height: 20),
       ],
+    );
+  }
+  _step3(BuildContext context) {
+    return Column(
+      children: [
+        babySeat(context),
+        const SizedBox(height: 15),
+        additionalDriver(context),
+        const SizedBox(height: 15),
+        payNowLater(context),
+        const SizedBox(height: 30),
+        subTotalVat(context),
+        const SizedBox(height: 20),
+        total(context)
+      ],
+    );
+  }
+
+  /// step 1
+  perDayHour(BuildContext context) {
+    return SizedBox(
+      width: App.getDeviceWidthPercent(55, context),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset("assets/icons/year.svg",fit: BoxFit.cover,width: 45,height: 45,color: Colors.white,),
+              Text(App_Localization.of(context).translate("pick_date").toUpperCase(),
+                  style: const TextStyle(
+                      fontSize: App.medium,
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal
+                  )
+              ),
+              SvgPicture.asset("assets/icons/year.svg",fit: BoxFit.cover,width: 20,height: 20,color: Colors.transparent,),
+            ],
+          ),
+          const SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      bookController.selectRentalModel.value = 0;
+                    },
+                    child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white,width: 2)
+                        ),
+                        child: Center(
+                          child: Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: bookController.selectRentalModel.value == 0 ? App.orange : Colors.transparent
+                            ),
+                          ),
+                        )
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(App_Localization.of(context).translate("daily"),
+                      style: const TextStyle(
+                          fontSize: App.small,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal
+                      )
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      bookController.selectRentalModel.value = 1;
+                    },
+                    child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white,width: 2)
+                        ),
+                        child: Center(
+                          child: Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: bookController.selectRentalModel.value != 0 ? App.orange : Colors.transparent
+                            ),
+                          ),
+                        )
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(App_Localization.of(context).translate("hour"),
+                      style: const TextStyle(
+                          fontSize: App.small,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal
+                      )
+                  ),
+                ],
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
   dateDialog(BuildContext context) {
     return showGeneralDialog(
+      barrierColor: Colors.black.withOpacity(0.8),
       context: context,
       barrierLabel: "",
       barrierDismissible: true,
-      transitionDuration: Duration(milliseconds: 500),
+      transitionDuration: const Duration(milliseconds: 500),
       pageBuilder: (BuildContext context, __, ___){
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // SizedBox(height: App.getDeviceHeightPercent(100, context)/5),
             Dialog(
               shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
+                  borderRadius: BorderRadius.all(Radius.circular(15))),
               backgroundColor: App.grey,
               child: Container(
                 width: App.getDeviceWidthPercent(90, context),
-                // height: App.getDeviceHeightPercent(40, context),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20)
+                  borderRadius: BorderRadius.circular(15)
                 ),
                 child: Column(
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: GestureDetector(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: const Icon(Icons.close,color: Colors.white,size: App.iconSize,)
+                          ),
+                        )
+                      ],
+                    ),
                     SfDateRangePicker(
                       onSelectionChanged: bookController.onSelectionDateChanges,
                       selectionMode: DateRangePickerSelectionMode.range,
@@ -411,66 +431,98 @@ class Book extends StatelessWidget {
                       monthViewSettings: DateRangePickerMonthViewSettings(
                         viewHeaderStyle: DateRangePickerViewHeaderStyle(
                           textStyle: const TextStyle(
-                            color: App.lightGrey,
-                            fontSize: CommonTextStyle.smallTextStyle
+                            color: App.lightWhite,
+                            fontSize: App.small
                           ),
-                          backgroundColor: App.lightGrey.withOpacity(0.3),
+                          backgroundColor: App.field.withOpacity(0.1),
                         ),
                       ),
                       selectionTextStyle: const TextStyle(
                         color: Colors.white,
-                        fontSize: CommonTextStyle.smallTextStyle
+                        fontSize: App.small
                       ),
                       monthCellStyle: const DateRangePickerMonthCellStyle(
                         textStyle: TextStyle(
                          color: Colors.white,
-                         fontSize: CommonTextStyle.smallTextStyle,
+                         fontSize: App.small,
                         ),
                         disabledDatesTextStyle: TextStyle(
-                            color: App.lightGrey,
-                            fontSize: CommonTextStyle.smallTextStyle,
-                            decoration: TextDecoration.lineThrough
+                            color: App.white,
+                            fontSize: App.small,
+                            decoration: TextDecoration.lineThrough,
+                            decorationColor: Colors.white
                         ),
                       ),
                       yearCellStyle: const DateRangePickerYearCellStyle(
                         disabledDatesTextStyle: TextStyle(
-                            color: App.lightGrey,
-                            fontSize: CommonTextStyle.smallTextStyle,
-                            decoration: TextDecoration.lineThrough
+                            color: App.lightWhite,
+                            fontSize: App.small,
+                            decoration: TextDecoration.lineThrough,
+                            decorationColor: Colors.white
                         ),
                         todayTextStyle: TextStyle(
-                          fontSize: CommonTextStyle.smallTextStyle
+                          fontSize: App.small,
+                          color: Colors.white,
                         ),
                         textStyle: TextStyle(
                             color: Colors.white,
-                            fontSize: CommonTextStyle.smallTextStyle
+                            fontSize: App.small,
                         ),
                       ),
-                      rangeSelectionColor: App.lightGrey.withOpacity(0.3),
+                      rangeSelectionColor: App.field.withOpacity(0.3),
                       rangeTextStyle: const TextStyle(
                         color: Colors.white,
-                        fontSize: CommonTextStyle.smallTextStyle
+                        fontSize: App.small,
                       ),
                       headerStyle: const DateRangePickerHeaderStyle(
                         textStyle: TextStyle(
-                          color: App.orange,
-                          fontSize: CommonTextStyle.smallTextStyle,
+                          color: Colors.white,
+                          fontSize: App.medium,
                         ),
                       ),
                     ),
-                    CustomButton(
-                      width: App.getDeviceWidthPercent(40, context),
-                      height: 40,
-                      text: App_Localization.of(context).translate("confirmation").toUpperCase(),
-                      onPressed: () {
-                        bookController.saveDate.value = true;
-                        Get.back();
-                      },
-                      color: App.orange,
-                      borderRadius: 15,
-                      textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                      child: Center(
+                        child: SizedBox(
+                          width: App.getDeviceWidthPercent(60, context),
+                          height: 45,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: App.orange,
+                              onPrimary: App.orange,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: FittedBox(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(App_Localization.of(context).translate("confirmation").toUpperCase(),
+                                      style: const TextStyle(
+                                          fontSize: App.medium,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600
+                                      )
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const Padding(
+                                    padding: EdgeInsets.only(top: 5),
+                                    child: Icon(Icons.arrow_forward,color: Colors.white,size: App.iconSize,),
+                                  )
+                                ],
+                              )
+                            ),
+                            onPressed: () {
+                              bookController.saveDate.value = true;
+                              Get.back();
+                            },
+                          ),
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 10,)
+                    const SizedBox(height: 20,)
                   ],
                 ),
               ),
@@ -496,47 +548,49 @@ class Book extends StatelessWidget {
     );
   }
   pickUpDropOffTime(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: App.getDeviceWidthPercent(90, context),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: App.getDeviceWidthPercent(40, context),
+            width: App.getDeviceWidthPercent(38, context),
             height: 40,
             decoration: BoxDecoration(
                 color: App.grey,
                 border: Border.all(
                   color: !bookController.pickUpValidate.value && bookController.pickTime.value=="non"? Colors.red : App.grey,
                 ),
-                borderRadius: BorderRadius.circular(15)
+                borderRadius: BorderRadius.circular(8)
             ),
             child: DropdownButtonHideUnderline(
                 child: DropdownButton2(
+                  dropdownDecoration: const BoxDecoration(
+                    color: App.grey
+                  ),
+                  iconEnabledColor: Colors.transparent,
                   dropdownMaxHeight: 200,
                   isExpanded: true,
-                  iconSize: 23,
-                  dropdownDecoration: const BoxDecoration(
-                    color: App.grey,
-                  ),
-                  buttonPadding: const EdgeInsets.symmetric(horizontal: 10),
-                  hint: Text(App_Localization.of(context).translate("pickup_time"),
-                    style: const TextStyle(
-                        color: App.lightGrey,
-                        fontSize: CommonTextStyle.smallTextStyle + 1,
-                        fontWeight: FontWeight.normal
+                  hint: Center(
+                    child: Text(App_Localization.of(context).translate("pickup_time"),
+                      style: const TextStyle(
+                          color: App.lightWhite,
+                          fontSize: App.small,
+                          fontWeight: FontWeight.normal
+                      ),
                     ),
                   ),
-                  iconEnabledColor: App.lightGrey,
                   value: bookController.pickTime.value=="non"? null : bookController.pickTime.value,
-                  items: Global.pickUpTime.map((String value) {
+                  items: Global.hoursList.map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text(value,
-                        style: const TextStyle(
-                            color: App.lightGrey,
-                            fontSize: CommonTextStyle.smallTextStyle,
-                            fontWeight: FontWeight.bold
+                      child: Center(
+                        child: Text(value,
+                          style: const TextStyle(
+                              color: App.lightWhite,
+                              fontSize: App.small,
+                              fontWeight: FontWeight.bold
+                          ),
                         ),
                       ),
                     );
@@ -549,41 +603,44 @@ class Book extends StatelessWidget {
             ),
           ),
           Container(
-            width: App.getDeviceWidthPercent(40, context),
+            width: App.getDeviceWidthPercent(38, context),
             height: 40,
             decoration: BoxDecoration(
                 color: App.grey,
                 border: Border.all(
                   color: !bookController.dropOffValidate.value && bookController.dropTime.value=="non"? Colors.red : App.grey,
                 ),
-                borderRadius: BorderRadius.circular(15)
+                borderRadius: BorderRadius.circular(8)
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton2(
+                dropdownDecoration: const BoxDecoration(
+                    color: App.grey
+                ),
+                iconEnabledColor: Colors.transparent,
                 dropdownMaxHeight: 200,
                 isExpanded: true,
-                iconSize: 23,
-                dropdownDecoration: BoxDecoration(
-                  color: App.grey,
-                ),
                 buttonPadding: const EdgeInsets.symmetric(horizontal: 10),
-                hint: Text(App_Localization.of(context).translate("dropOff_time"),
-                  style: const TextStyle(
-                      color: App.lightGrey,
-                      fontSize: CommonTextStyle.smallTextStyle + 1,
-                      fontWeight: FontWeight.normal
+                hint: Center(
+                  child: Text(App_Localization.of(context).translate("dropOff_time"),
+                    style: const TextStyle(
+                        color: App.lightWhite,
+                        fontSize: App.small,
+                        fontWeight: FontWeight.normal
+                    ),
                   ),
                 ),
-                iconEnabledColor: App.lightGrey,
                 value: bookController.dropTime.value=="non"? null : bookController.dropTime.value,
-                items: Global.pickUpTime.map((String value) {
+                items: Global.hoursList.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value,
-                      style: const TextStyle(
-                          color: App.lightGrey,
-                          fontSize: CommonTextStyle.smallTextStyle,
-                          fontWeight: FontWeight.bold
+                    child: Center(
+                      child: Text(value,
+                        style: const TextStyle(
+                            color: App.lightWhite,
+                            fontSize: App.small,
+                            fontWeight: FontWeight.bold
+                        ),
                       ),
                     ),
                   );
@@ -599,99 +656,34 @@ class Book extends StatelessWidget {
       ),
     );
   }
-  textFields(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 20,),
-        normalTextField(
-          context: context,
-          textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
-          width: App.getDeviceWidthPercent(90, context),
-          controller: bookController.name,
-          validate: bookController.nameValidate.value,
-          hintText: "name",
-          hintStyle: TextStyle(
-              color: Colors.white.withOpacity(0.3),
-              fontSize: CommonTextStyle.mediumTextStyle
-          ),
-        ),
-        SizedBox(height: 20),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-                width: App.getDeviceWidthPercent(90, context),
-                child: IntlPhoneField(
-                  style: CommonTextStyle.textStyleForMediumWhiteNormal,
-                  controller: bookController.phone,
-                  cursorColor: Colors.white,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: App.textField,
-                    hintText: App_Localization.of(context).translate("enter_phone"),
-                    hintStyle:  TextStyle(
-                        color: Colors.white.withOpacity(0.3),
-                        fontSize: CommonTextStyle.mediumTextStyle
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide:  BorderSide(color: bookController.phoneValidate.value ? Colors.red : App.orange)
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: bookController.phoneValidate.value ? Colors.red : App.textField)
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: bookController.phoneValidate.value ? Colors.red : App.textField)
-                    ),
-                  ),
-                  initialCountryCode: 'AE',
-                  disableLengthCheck: true,
-                  dropdownIcon: Icon(Icons.arrow_drop_down_outlined,color: Colors.white.withOpacity(0.3),),
-                  dropdownTextStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: CommonTextStyle.mediumTextStyle
-                  ),
-                  flagsButtonMargin: const EdgeInsets.symmetric(horizontal: 15),
-                  showDropdownIcon: true,
-                  dropdownIconPosition: IconPosition.trailing,
-                  onChanged: (phone) {
-                    // print(phone.countryCode);
-                  },
-                )
-            ),
-          ],
-        ),
-        SizedBox(height: 20),
-        normalTextField(
-          context: context,
-          textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
-          width: App.getDeviceWidthPercent(90, context),
-          controller: bookController.email,
-          validate: bookController.emailValidate.value,
-          hintText: "email",
-          hintStyle: TextStyle(
-              color: Colors.white.withOpacity(0.3),
-              fontSize: CommonTextStyle.mediumTextStyle
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
-  }
+
+  /// step 3
   babySeat(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: App.getDeviceWidthPercent(90, context),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(App_Localization.of(context).translate("baby_seat"),
-            style: CommonTextStyle.textStyleForSmallWhiteNormal
-          ),
-          Text("25 AED - " + App_Localization.of(context).translate("per_day"),
-              style: CommonTextStyle.textStyleForSmallOrangeNormal
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(App_Localization.of(context).translate("baby_seat").toUpperCase(),
+                  style: const TextStyle(
+                      fontSize: App.small,
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal
+                  )
+              ),
+              const SizedBox(height: 5,),
+              Text("25 AED - ${App_Localization.of(context).translate("per_day")}",
+                  style: const TextStyle(
+                      fontSize: App.small,
+                      color: App.orange,
+                      fontWeight: FontWeight.normal
+                  )
+              ),
+            ],
           ),
           Transform.scale(
             scale: 0.8,
@@ -701,7 +693,7 @@ class Book extends StatelessWidget {
               value: bookController.babySeatValue.value ,
               onChanged: (bool value) {
                 bookController.babySeatValue.value = value;
-                bookController.getTotal();
+                bookController.getTotal(context);
               },
               trackColor: App.grey,
             ),
@@ -711,16 +703,31 @@ class Book extends StatelessWidget {
     );
   }
   additionalDriver(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: App.getDeviceWidthPercent(90, context),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(App_Localization.of(context).translate("additional_driver").toUpperCase(),
-              style: CommonTextStyle.textStyleForSmallWhiteNormal
-          ),
-          Text(App_Localization.of(context).translate("free").toUpperCase(),
-              style: CommonTextStyle.textStyleForSmallOrangeNormal
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(App_Localization.of(context).translate("additional_driver").toUpperCase(),
+                  style: const TextStyle(
+                      fontSize: App.small,
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal
+                  )
+              ),
+              const SizedBox(height: 5,),
+              Text(App_Localization.of(context).translate("free"),
+                  style: const TextStyle(
+                      fontSize: App.small,
+                      color: App.orange,
+                      fontWeight: FontWeight.normal
+                  )
+              ),
+            ],
           ),
           Transform.scale(
             scale: 0.8,
@@ -746,30 +753,37 @@ class Book extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(App_Localization.of(context).translate("pay_later"),
-                style: CommonTextStyle.textStyleForSmallWhiteNormal,
+              Text(App_Localization.of(context).translate("pay_later").toUpperCase(),
+                style: const TextStyle(
+                    fontSize: App.small,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal
+                )
               ),
               GestureDetector(
                 onTap: () {
                   bookController.selectPay.value = 1;
                 },
-                child: Container(
-                    width: 18,
-                    height: 18,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white,width: 2)
-                    ),
-                    child: Center(
-                      child: Container(
-                        width: 6,
-                        height: 6,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: bookController.selectPay.value == 1 ? Colors.white : Colors.transparent
-                        ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Container(
+                      width: 22,
+                      height: 22,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white,width: 2)
                       ),
-                    )
+                      child: Center(
+                        child: Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: bookController.selectPay.value == 1 ? App.orange : Colors.transparent
+                          ),
+                        ),
+                      )
+                  ),
                 ),
               ),
             ],
@@ -778,30 +792,37 @@ class Book extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(App_Localization.of(context).translate("pay_now"),
-                style: CommonTextStyle.textStyleForSmallWhiteNormal,
+              Text(App_Localization.of(context).translate("pay_now").toUpperCase(),
+                style: const TextStyle(
+                    fontSize: App.small,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal
+                )
               ),
               GestureDetector(
                 onTap: () {
                   bookController.selectPay.value = 0;
                 },
-                child: Container(
-                    width: 18,
-                    height: 18,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white,width: 2)
-                    ),
-                    child: Center(
-                      child: Container(
-                        width: 6,
-                        height: 6,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: bookController.selectPay.value == 0 ? Colors.white : Colors.transparent
-                        ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Container(
+                      width: 22,
+                      height: 22,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white,width: 2)
                       ),
-                    )
+                      child: Center(
+                        child: Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: bookController.selectPay.value == 0 ? App.orange : Colors.transparent
+                          ),
+                        ),
+                      )
+                  ),
                 ),
               ),
             ],
@@ -810,19 +831,58 @@ class Book extends StatelessWidget {
       ),
     );
   }
-  subTotalVatTotal(BuildContext context) {
-    return Container(
+  subTotalVat(BuildContext context) {
+    return SizedBox(
       width: App.getDeviceWidthPercent(90, context),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(App_Localization.of(context).translate("sub_total:"),
-                style: CommonTextStyle.textStyleForSmallWhiteNormal,
+              Text("${App_Localization.of(context).translate("sub_total:")}  ",
+                style: const TextStyle(
+                    fontSize: App.xSmall,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal
+                )
               ),
-              Text(bookController.subTotal.value.toStringAsFixed(2),
-                style: CommonTextStyle.textStyleForSmallOrangeNormal,
+              Flexible(
+                flex: 1,
+                fit: FlexFit.loose,
+                child: LayoutBuilder(
+                  builder: (BuildContext context,
+                      BoxConstraints constraints) {
+                    final boxWidth = constraints.constrainWidth();
+                    final dashWidth = 4.0;
+                    final dashHeight = 1.5;
+                    final dashCount =
+                    (boxWidth / (2 * dashWidth)).floor();
+                    return Flex(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      direction: Axis.horizontal,
+                      children: List.generate(dashCount, (_) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: SizedBox(
+                            width: dashWidth,
+                            height: dashHeight,
+                            child: const DecoratedBox(
+                              decoration:
+                              BoxDecoration(color: Colors.white),
+                            ),
+                          ),
+                        );
+                      }),
+                    );
+                  },
+                ),
+              ),
+              Text("  AED ${bookController.subTotal.value.toStringAsFixed(2)}",
+                  style: const TextStyle(
+                      fontSize: App.small,
+                      color: App.orange,
+                      fontWeight: FontWeight.normal
+                  )
               ),
             ],
           ),
@@ -830,23 +890,50 @@ class Book extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(App_Localization.of(context).translate("vat:"),
-                style: CommonTextStyle.textStyleForSmallWhiteNormal,
+              Text("${App_Localization.of(context).translate("vat:")}  ",
+                  style: const TextStyle(
+                      fontSize: App.xSmall,
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal
+                  )
               ),
-              Text(bookController.vat.value.toStringAsFixed(2),
-                style: CommonTextStyle.textStyleForSmallOrangeNormal,
+              Flexible(
+                flex: 1,
+                fit: FlexFit.loose,
+                child: LayoutBuilder(
+                  builder: (BuildContext context,
+                      BoxConstraints constraints) {
+                    final boxWidth = constraints.constrainWidth();
+                    final dashWidth = 4.0;
+                    final dashHeight = 1.5;
+                    final dashCount =
+                    (boxWidth / (2 * dashWidth)).floor();
+                    return Flex(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      direction: Axis.horizontal,
+                      children: List.generate(dashCount, (_) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: SizedBox(
+                            width: dashWidth,
+                            height: dashHeight,
+                            child: const DecoratedBox(
+                              decoration:
+                              BoxDecoration(color: Colors.white),
+                            ),
+                          ),
+                        );
+                      }),
+                    );
+                  },
+                ),
               ),
-            ],
-          ),
-          const SizedBox(height: 15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(App_Localization.of(context).translate("total:"),
-                style: CommonTextStyle.textStyleForMediumWhiteNormal,
-              ),
-              Text(bookController.total.value.toStringAsFixed(2),
-                style: CommonTextStyle.textStyleForMediumOrangeNormal,
+              Text("  AED ${bookController.vat.value.toStringAsFixed(2)}",
+                  style: const TextStyle(
+                      fontSize: App.small,
+                      color: App.orange,
+                      fontWeight: FontWeight.normal
+                  )
               ),
             ],
           ),
@@ -854,15 +941,137 @@ class Book extends StatelessWidget {
       ),
     );
   }
+  total(BuildContext context){
+    return Container(
+      width: App.getDeviceWidthPercent(90, context),
+      height: 50,
+      decoration: BoxDecoration(
+        color: App.textField,
+        borderRadius: BorderRadius.circular(8)
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(App_Localization.of(context).translate("total:").toUpperCase(),
+                style: const TextStyle(
+                    fontSize: App.small,
+                    color: App.lightWhite,
+                    fontWeight: FontWeight.bold
+                )
+            ),
+            Text("AED ${bookController.total.value.toStringAsFixed(2)}",
+                style: const TextStyle(
+                    fontSize: App.medium,
+                    color: App.orange,
+                    fontWeight: FontWeight.bold
+                )
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  backNextButton(BuildContext context) {
+    return SizedBox(
+      width: App.getDeviceWidthPercent(100, context),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 5, bottom: 5),
+            child: Center(
+              child: Container(
+                width: App.getDeviceWidthPercent(35, context),
+                height: 40,
+                color: App.grey,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.transparent,
+                    onPrimary: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        side: const BorderSide(
+                            color: App.orange
+                        )
+                    ),
+                  ),
+                  child: FittedBox(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(App_Localization.of(context).translate("back").toUpperCase(),
+                              style: const TextStyle(
+                                  fontSize: App.medium,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600
+                              )
+                          ),
+                        ],
+                      )
+                  ),
+                  onPressed: () {
+                    bookController.backwardStep();
+                  },
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 5, bottom: 5),
+            child: Center(
+              child: SizedBox(
+                width: App.getDeviceWidthPercent(35, context),
+                height: 40,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: App.orange,
+                    onPrimary: App.orange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: FittedBox(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(App_Localization.of(context).translate("next").toUpperCase(),
+                              style: const TextStyle(
+                                  fontSize: App.medium,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600
+                              )
+                          ),
+                        ],
+                      )
+                  ),
+                  onPressed: () {
+                    bookController.forwardStep(context);
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  /// static widget
-  normalTextField({required BuildContext context, required TextStyle textStyle,required double width,
-    double? height, TextAlignVertical? textAlignVertical,required TextEditingController controller,
-    required String hintText,required TextStyle hintStyle, required bool validate}) {
+  static normalTextField({required String text,required BuildContext context, required TextStyle textStyle,required double width,
+    double? height, TextAlignVertical? textAlignVertical,required TextEditingController controller, required bool validate}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        Text("${App_Localization.of(context).translate(text)}*",
+          style: const TextStyle(
+              fontSize: App.small,
+              color: Colors.white,
+              fontWeight: FontWeight.w600
+          ),
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
           width: width,
           height: height,
           child: TextField(
@@ -873,19 +1082,17 @@ class Book extends StatelessWidget {
             decoration: InputDecoration(
               filled: true,
               fillColor: App.textField,
-              hintText: App_Localization.of(context).translate(hintText),
-              hintStyle: hintStyle,
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide:  BorderSide(color: validate ? Colors.red : App.orange)
+                  borderSide:  BorderSide(color:  validate ? Colors.red : Colors.transparent)
               ),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(color: validate ? Colors.red : App.textField)
+                  borderSide: BorderSide(color:  validate ? Colors.red : Colors.transparent)
               ),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(color: validate ? Colors.red :  App.textField)
+                  borderSide: BorderSide(color:  validate ? Colors.red : Colors.transparent)
               ),
             ),
           ),

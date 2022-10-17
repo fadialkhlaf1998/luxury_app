@@ -8,6 +8,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class ContactUsController extends GetxController {
 
+
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
   TextEditingController name = TextEditingController();
   TextEditingController phone = TextEditingController();
@@ -31,10 +32,6 @@ class ContactUsController extends GetxController {
         emailValidate.value= false;
       }
       if(phone.isEmpty || phone.length < 9) {
-        showTopSnackBar(context,
-            CustomSnackBar.error(
-              message: App_Localization.of(context).translate("phone_number_wrong"),
-            ));
         phoneValidate.value= true;
       }else{
         phoneValidate.value= false;
@@ -65,6 +62,7 @@ class ContactUsController extends GetxController {
     }
   }
 
+
   clearTextField() {
     name.clear();
     email.clear();
@@ -74,5 +72,6 @@ class ContactUsController extends GetxController {
     emailValidate = false.obs;
     phoneValidate = false.obs;
   }
+
 
 }

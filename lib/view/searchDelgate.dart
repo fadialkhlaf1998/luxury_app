@@ -5,23 +5,21 @@ import 'package:luxury_app/controller/introduction_controller.dart';
 import 'package:luxury_app/helper/api.dart';
 import 'package:luxury_app/helper/app.dart';
 
-
-
 class SearchTextField extends SearchDelegate<String> {
 
-  IntroductionController introController;
+  IntroductionController introController = Get.find();
 
-  SearchTextField({required this.introController});
+  SearchTextField();
 
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
       query.isEmpty ?
       const Visibility(
-        child: Text(''),
-        visible: false
+        visible: false,
+        child: Text('')
       ) : IconButton(
-        icon: const Icon(Icons.close, color: App.orange,size: 23),
+        icon: const Icon(Icons.close, color: Colors.white,size: App.iconSize),
         onPressed: () {
           query="";
         },
@@ -32,7 +30,7 @@ class SearchTextField extends SearchDelegate<String> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.arrow_back,size: 23,color: App.field),
+      icon: const Icon(Icons.arrow_back,size: App.iconSize,color: Colors.white),
       onPressed: () {
         Get.back();
       },
@@ -43,18 +41,16 @@ class SearchTextField extends SearchDelegate<String> {
   ThemeData appBarTheme(BuildContext context) {
     return super.appBarTheme(context).copyWith(
       appBarTheme: const AppBarTheme(
-        color: App.darkGrey,
-        elevation: 0,
+        color: App.primary,
       ),
-
       textSelectionTheme: const TextSelectionThemeData(
-        cursorColor: App.orange
+        cursorColor: App.white
       ),
-      hintColor: App.field,
+      hintColor: App.lightWhite,
       textTheme: const TextTheme(
         headline6: TextStyle(
-          fontSize: CommonTextStyle.mediumTextStyle,
-          color: App.field,
+          fontSize: App.medium,
+          color: App.lightWhite,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -71,78 +67,68 @@ class SearchTextField extends SearchDelegate<String> {
     Container(
         height: App.getDeviceHeightPercent(100, context),
         width: App.getDeviceWidthPercent(100, context),
-        color: App.grey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(App_Localization.of(context).translate("no_results_matched"),
-              style: const TextStyle(
-                fontSize: CommonTextStyle.mediumTextStyle,
-                color: App.orange,
-                fontWeight: FontWeight.normal,
+        color: App.primary,
+        child: Center(
+          child: Container(
+            width: App.getDeviceWidthPercent(40, context),
+            height: 35,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5)
+            ),
+            child: Center(
+              child: Text(App_Localization.of(context).translate("no_results_found!"),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: App.small,
+                      fontWeight: FontWeight.w600
+                  )
               ),
-            )
-          ],
-        )
+            ),
+          ),
+        ),
     ) :
     Container(
         height: App.getDeviceHeightPercent(100, context),
         width: App.getDeviceWidthPercent(100, context),
-        color: App.grey,
+        color: App.primary,
         child: ListView.builder(
           itemCount: suggestions.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                children: [
-                  GestureDetector(
-                      onTap: (){
-                        query = suggestions.elementAt(index).slug;
-                        introController.search(context, query,index);
-                      },
-                      onDoubleTap: () {
-                        introController.search(context, query,index);
-                      },
-                      child: Column(
-                        children: [
-                          SizedBox(height: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                            API.url + "/" + suggestions.elementAt(index).imgs.split(",").first,
-                                          ),
-                                          fit: BoxFit.contain
-                                      )
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                flex: 4,
-                                child: Text(suggestions.elementAt(index).slug,
-                                  maxLines: 2,
-                                  style: const TextStyle(
-                                      fontSize: CommonTextStyle.smallTextStyle,
-                                      color: Colors.white,
-                                      overflow: TextOverflow.ellipsis
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
+              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                child: ListTile(
+                  tileColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                ],
-              ),
+                  style: ListTileStyle.drawer,
+                  leading: Container(
+                    width: 100,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                            image: NetworkImage(
+                              "${API.url}/${suggestions.elementAt(index).imgs.split(",").first}",
+                            ),
+                            fit: BoxFit.contain
+                        )
+                    ),
+                  ),
+                  title: Text(suggestions.elementAt(index).slug,
+                    maxLines: 2,
+                    style: const TextStyle(
+                      fontSize: App.medium,
+                      color: App.lightWhite,
+                      overflow: TextOverflow.ellipsis,
+
+                    ),
+                  ),
+                  onTap: (){
+                    introController.search(context, query,index);
+                  },
+                ),
             );
           },
         )
@@ -155,82 +141,72 @@ class SearchTextField extends SearchDelegate<String> {
       return elm.slug.toLowerCase().contains(query.toLowerCase());
     });
     return suggestions.isEmpty ?
-        Container(
+    Container(
           height: App.getDeviceHeightPercent(100, context),
           width: App.getDeviceWidthPercent(100, context),
-          color: App.grey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(App_Localization.of(context).translate("no_results_matched"),
-                style: const TextStyle(
-                  fontSize: CommonTextStyle.mediumTextStyle,
-                  color: App.orange,
-                  fontWeight: FontWeight.normal,
+          color: App.primary,
+          child: Center(
+            child: Container(
+              width: App.getDeviceWidthPercent(40, context),
+              height: 35,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5)
+              ),
+              child: Center(
+                child: Text(App_Localization.of(context).translate("no_results_found!"),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: App.small,
+                        fontWeight: FontWeight.w600
+                    )
                 ),
-              )
-            ],
-          )
+              ),
+            ),
+          ),
         ) :
-      Container(
+    Container(
           height: App.getDeviceHeightPercent(100, context),
           width: App.getDeviceWidthPercent(100, context),
-          color: App.grey,
+          color: App.primary,
           child: ListView.builder(
           itemCount: suggestions.length,
           itemBuilder: (BuildContext context, int index) {
-           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-                GestureDetector(
+            return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                child: ListTile(
+                  tileColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  style: ListTileStyle.drawer,
+                  leading: Container(
+                    width: 100,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                            image: NetworkImage(
+                              "${API.url}/${suggestions.elementAt(index).imgs.split(",").first}",
+                            ),
+                            fit: BoxFit.contain
+                        )
+                    ),
+                  ),
+                  title: Text(suggestions.elementAt(index).slug,
+                    maxLines: 2,
+                    style: const TextStyle(
+                      fontSize: App.medium,
+                      color: App.lightWhite,
+                      overflow: TextOverflow.ellipsis,
+
+                    ),
+                  ),
                   onTap: (){
-                    query = suggestions.elementAt(index).slug;
                     introController.search(context, query,index);
                   },
-                  onDoubleTap: () {
-                    introController.search(context, query,index);
-                  },
-                  child: Column(
-                    children: [
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Container(
-                              height: 70,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                        API.url + "/" + suggestions.elementAt(index).imgs.split(",").first,
-                                      ),
-                                      fit: BoxFit.contain
-                                  )
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            flex: 4,
-                            child: Text(suggestions.elementAt(index).slug,
-                              maxLines: 2,
-                              style: const TextStyle(
-                                  fontSize: CommonTextStyle.smallTextStyle,
-                                  color: Colors.white,
-                                  overflow: TextOverflow.ellipsis
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
                 ),
-              ],
-            ),
-          );
+            );
         },
       )
     );

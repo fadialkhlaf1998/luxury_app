@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/controller/home_controller.dart';
 import 'package:luxury_app/controller/introduction_controller.dart';
 import 'package:luxury_app/helper/app.dart';
-import 'package:luxury_app/helper/global.dart';
-import 'package:luxury_app/widgets/container_with_image.dart';
 import 'package:luxury_app/widgets/custom_button.dart';
 
 class Filter extends StatelessWidget {
@@ -19,103 +18,140 @@ class Filter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
-      backgroundColor: App.darkGrey,
+      backgroundColor: App.grey,
       body: SafeArea(
         child: Container(
-          width: App.getDeviceWidthPercent(100, context),
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/introo.png"),
-                  fit: BoxFit.cover
-              )
-          ),
-          child: introductionController.loading.value ?
-              Container(
-                width: App.getDeviceWidthPercent(100, context),
-                height: App.getDeviceHeightPercent(100, context),
-                // color: App.darkGrey,
-                child: const Center(
-                  child: CupertinoActivityIndicator(
-                    color: App.orange,
+            width: App.getDeviceWidthPercent(100, context),
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/images/filter.webp"),
+                    fit: BoxFit.cover
+                )
+            ),
+            child: introductionController.loading.value ?
+            SizedBox(
+              width: App.getDeviceWidthPercent(100, context),
+              height: App.getDeviceHeightPercent(100, context),
+              child: const Center(
+                child: CupertinoActivityIndicator(
+                  color: App.orange,
+                ),
+              ),
+            ) :
+            Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox( height: Get.height * 0.1),
+                      Container(
+                        width: App.getDeviceWidthPercent(100, context),
+                        height: App.getDeviceHeightPercent(20, context),
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage("assets/images/filter-background.png"),
+                                fit: BoxFit.cover
+                            )
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      _rentalModel(context),
+                      const SizedBox(height: 10),
+                      _price(context),
+                      const SizedBox(height: 10),
+                      _brands(context),
+                      const SizedBox(height: 50),
+                      const SizedBox(height: 20),
+                    ],
                   ),
                 ),
-              ) :
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                ///header
-                _header(context),
-                ///Image
-                ContainerWithImage(
+                Positioned(
+                  top: 0,
+                  child: _header(context),
+                ),
+                Positioned(
+                  bottom: 0,
+                  child: SizedBox(
                     width: App.getDeviceWidthPercent(100, context),
-                    height: App.getDeviceHeightPercent(25, context),
-                    image: "assets/images/ad.webp",
-                    option: 1
-                ),
-                const SizedBox(height: 15),
-                ///Rental Model
-                _rentalModel(context),
-                const SizedBox(height: 15),
-                ///Price,
-                _price(context),
-                const SizedBox(height: 15),
-                ///Brands
-                _brands(context),
-                const SizedBox(height: 35),
-                Container(
-                  width: App.getDeviceWidthPercent(90, context),
-                  child: _applyClearButtos(context),
-                ),
-                const SizedBox(height: 20),
+                    height: 60,
+                    child: _applyButton(context),
+                  ),
+                )
               ],
-            ),
-          ),
-        ),
+            )
+        )
       ),
     ));
   }
 
   _header(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: () {
-              Get.back();
-              homeController.clearFilter();
-              introductionController.clearFilter();
-              introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
-              for(int i=1 ; i< introductionController.homeData!.data!.brandsWithAll.length;i++){
-                introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
-              }
-            },
-            child: ContainerWithImage(
-                width: 28,
-                height: 28,
-                image: Global.languageCode == "en" ?
-                "assets/icons/back-icon.svg" :
-                "assets/icons/back-icon_arabic.svg",
-                option: 0
+    return Container(
+      width: App.getDeviceWidthPercent(100, context),
+      height: Get.height * 0.1,
+      decoration: const BoxDecoration(
+          color: App.lightDarkGrey,
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10)
+          )
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.back();
+                homeController.clearFilter();
+                introductionController.clearFilter();
+                introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
+                for(int i=1 ; i< introductionController.homeData!.data!.brandsWithAll.length;i++){
+                  introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
+                }
+              },
+              child: const Icon(Icons.arrow_back,color: Colors.white,size: App.iconSize,)
             ),
-          ),
-        ],
+            GestureDetector(
+              onTap: () {
+                Get.back();
+                homeController.selectNavBar.value = 0;
+                homeController.key.currentState!.openEndDrawer();
+              },
+              child: SvgPicture.asset("assets/icons/logo.svg",
+              width: Get.height * 0.2,
+              ),
+            ),
+            GestureDetector(
+                onTap: () {
+                  homeController.clearFilter();
+                  introductionController.clearFilter();
+                  introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
+                  for(int i=1 ; i< introductionController.homeData!.data!.brandsWithAll.length;i++){
+                    introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
+                  }
+                },
+                child: SvgPicture.asset("assets/icons/delete.svg",color: Colors.white,)
+            ),
+          ],
+        ),
       ),
     );
   }
   _rentalModel(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: App.getDeviceWidthPercent(90, context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(App_Localization.of(context).translate("rental_model"),
-            style: CommonTextStyle.textStyleForBigWhiteBold,
+          Text(App_Localization.of(context).translate("rental_model").toUpperCase(),
+            style: const TextStyle(
+                fontSize: App.big,
+                color: App.orange,
+                fontWeight: FontWeight.bold
+            )
           ),
-          const SizedBox(height: 15),
-          _applyClearButtos(context),
-          const SizedBox(height: 15),
+          const SizedBox(height: 10),
           Row(
             children: [
               Row(
@@ -125,19 +161,20 @@ class Filter extends StatelessWidget {
                       homeController.selectRentalModel.value = 0;
                     },
                     child: Container(
-                        width: 18,
-                        height: 18,
+                        width: 20,
+                        height: 20,
                         decoration: BoxDecoration(
+                          color: App.grey,
                             shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white,width: 2)
+                            border: Border.all(color: Colors.white,width: 1)
                         ),
                         child: Center(
                           child: Container(
-                            width: 6,
-                            height: 6,
+                            width: 8,
+                            height: 8,
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: homeController.selectRentalModel.value == 0 ? Colors.white : Colors.transparent
+                                color: homeController.selectRentalModel.value == 0 ? App.orange : Colors.transparent
                             ),
                           ),
                         )
@@ -145,7 +182,11 @@ class Filter extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(App_Localization.of(context).translate("per_day"),
-                    style: CommonTextStyle.textStyleForSmallWhiteNormal,
+                    style: const TextStyle(
+                        fontSize: App.medium,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal
+                    )
                   ),
                 ],
               ),
@@ -157,19 +198,20 @@ class Filter extends StatelessWidget {
                       homeController.selectRentalModel.value = 1;
                     },
                     child: Container(
-                        width: 18,
-                        height: 18,
+                        width: 20,
+                        height: 20,
                         decoration: BoxDecoration(
+                          color: App.grey,
                             shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white,width: 2)
+                            border: Border.all(color: Colors.white,width: 1)
                         ),
                         child: Center(
                           child: Container(
-                            width: 6,
-                            height: 6,
+                            width: 8,
+                            height: 8,
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: homeController.selectRentalModel.value != 0 ? Colors.white : Colors.transparent
+                                color: homeController.selectRentalModel.value != 0 ? App.orange : Colors.transparent
                             ),
                           ),
                         )
@@ -177,7 +219,11 @@ class Filter extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(App_Localization.of(context).translate("per_hour"),
-                    style: CommonTextStyle.textStyleForSmallWhiteNormal,
+                      style: const TextStyle(
+                          fontSize: App.medium,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal
+                      )
                   ),
                 ],
               ),
@@ -206,7 +252,7 @@ class Filter extends StatelessWidget {
                   homeController.minPrice.value = value.start;
                   homeController.maxPrice.value = value.end;
                   homeController.price.value = value;
-                  homeController.priceLabel.value = RangeLabels("AED "+value.start.toStringAsFixed(2), "AED "+value.end.toStringAsFixed(2));
+                  homeController.priceLabel.value = RangeLabels("AED ${value.start.toStringAsFixed(2)}", "AED ${value.end.toStringAsFixed(2)}");
                 },
                 values: homeController.price.value,
                 labels: homeController.priceLabel.value,
@@ -215,12 +261,24 @@ class Filter extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const[
+                  children: [
                     Center(
-                        child: Text("0 AED", style: CommonTextStyle.textStyleForSmallWhiteNormal)
+                        child: Text("${homeController.minPrice.value.toStringAsFixed(0)} AED",
+                            style: const TextStyle(
+                                fontSize: App.small,
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal
+                            )
+                        )
                     ),
                     Center(
-                        child: Text("2200 AED", style: CommonTextStyle.textStyleForSmallWhiteNormal)
+                        child: Text("${homeController.maxPrice.value.toStringAsFixed(0)} AED",
+                            style: const TextStyle(
+                                fontSize: App.small,
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal
+                            )
+                        )
                     ),
                   ],
                 ),
@@ -232,16 +290,20 @@ class Filter extends StatelessWidget {
     );
   }
   _brands(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: App.getDeviceWidthPercent(90, context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(App_Localization.of(context).translate("brands").toUpperCase(),
-            style: CommonTextStyle.textStyleForBigWhiteBold,
+          Text(App_Localization.of(context).translate("brand"),
+            style: const TextStyle(
+                fontSize: App.big,
+                color: Colors.white,
+                fontWeight: FontWeight.bold
+            )
           ),
           const SizedBox(height: 15),
-          Container(
+          SizedBox(
             width: App.getDeviceWidthPercent(90, context),
             child: Wrap(
               alignment: WrapAlignment.spaceBetween,
@@ -249,18 +311,18 @@ class Filter extends StatelessWidget {
               spacing: 10,
               runSpacing: 15,
               children: introductionController.homeData!.data!.brandsWithAll.map((e) =>
-                  Container(
+                  SizedBox(
                     width: 100,
                     height: 35,
                     child: GestureDetector(
                       onTap: (){
                         ///select multi items
-                        print(e.selected.value);
+                        // print(e.selected.value);
                         if(e.id == -1){
                           e.selected.value = true;
                           homeController.selectedBrands.clear();
 
-                          for(int i=1 ; i< introductionController.homeData!.data!.brands.length;i++){
+                          for(int i=1 ; i<= introductionController.homeData!.data!.brands.length;i++){
                             introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
                           }
                         }else{
@@ -273,21 +335,21 @@ class Filter extends StatelessWidget {
                             e.selected.value = true;
                           }
                         }
-                        print(List<int>.from(homeController.selectedBrands.map((x) => x)).toString());
+                        // print(List<int>.from(homeController.selectedBrands.map((x) => x)).toString());
                       },
                       child: Obx(() => Container(
-                        padding: EdgeInsets.symmetric(horizontal: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
                         decoration: BoxDecoration(
-                          color: e.selected.value?Colors.white:App.grey,
-                          borderRadius: BorderRadius.circular(25),
+                          color: e.selected.value ? App.orange : App.grey,
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: Center(
                           child: Text(
                               e.name,textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: CommonTextStyle.xSmallTextStyle,
+                                  fontSize: App.xSmall,
                                   color: e.selected.value ? App.grey :  Colors.white ,
-                                  fontWeight: FontWeight.w500
+                                  fontWeight: FontWeight.w600
                               )
                           ),
                         ),
@@ -301,62 +363,25 @@ class Filter extends StatelessWidget {
       ),
     );
   }
-  _applyClearButtos(BuildContext context) {
+  _applyButton(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 5, bottom: 5),
-          child: Center(
-            child: Container(
-              height: 40,
-              width: App.getDeviceWidthPercent(40, context),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: App.grey,
-                  onPrimary:  App.grey,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: FittedBox(
-                    child: Row(
-                      children: [
-                        Icon(Icons.delete,color: App.orange,size: 23,),
-                        Text(App_Localization.of(context).translate("clear"),
-                            style: const TextStyle(
-                                fontSize: CommonTextStyle.mediumTextStyle,
-                                color: Colors.white,
-                                fontWeight: FontWeight.normal
-                            )
-                        ),
-                      ],
-                    )
-                ),
-                onPressed: () {
-                  homeController.clearFilter();
-                  introductionController.clearFilter();
-                  introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
-                  for(int i=1 ; i< introductionController.homeData!.data!.brandsWithAll.length;i++){
-                    introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
-                  }
-                },
-              ),
-            ),
-          ),
-        ),
         CustomButton(
-          width: App.getDeviceWidthPercent(40, context),
-          height: 40,
-          text: App_Localization.of(context).translate("apply"),
+          width: App.getDeviceWidthPercent(90, context),
+          height: 50,
+          text: App_Localization.of(context).translate("apply").toUpperCase(),
           onPressed: () {
-            ///apply
             introductionController.filterProduct(3,homeController.selectRentalModel.value,
                 homeController.minPrice.value,homeController.maxPrice.value,homeController.selectedBrands);
           },
           color: App.orange,
-          borderRadius: 10,
-          textStyle: CommonTextStyle.textStyleForMediumWhiteNormal,
+          borderRadius: 8,
+          textStyle: const TextStyle(
+              fontSize: App.medium,
+              color: Colors.white,
+              fontWeight: FontWeight.w600
+          )
         ),
       ],
     );

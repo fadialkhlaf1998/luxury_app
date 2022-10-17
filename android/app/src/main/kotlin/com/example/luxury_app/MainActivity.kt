@@ -1,4 +1,4 @@
-package com.example.luxury_app
+package com.maxart.luxury_app
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity

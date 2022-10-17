@@ -24,7 +24,7 @@ class Blog extends StatelessWidget {
             Container(
               width: App.getDeviceWidthPercent(100, context),
               height: App.getDeviceHeightPercent(100, context),
-              color: App.darkGrey,
+              color: App.primary,
             ),
             blog(context),
           ],
@@ -36,15 +36,15 @@ class Blog extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 85),
+          SizedBox(height: Get.height * 0.12),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 width: App.getDeviceWidthPercent(90, context),
-                child: Text("LUXURY BLOGS CAR",
+                child: const Text("LUXURY BLOGS CAR",
                   style: TextStyle(
-                    fontSize: CommonTextStyle.xlargeTextStyle,
+                    fontSize: App.large,
                     color: App.orange,
                     fontWeight: FontWeight.bold,
                   ),
@@ -53,18 +53,18 @@ class Blog extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           body(context),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );
   }
   body(BuildContext context) {
-    return Container(
+    return SizedBox(
       child: ListView.builder(
         itemCount: introductionController.blogs!.data!.blog.length,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemBuilder: (context,index) {
          return GestureDetector(
@@ -74,35 +74,51 @@ class Blog extends StatelessWidget {
            child: Column(
              children: [
                Container(
-                 width: App.getDeviceWidthPercent(100, context),
+                 width: App.getDeviceWidthPercent(90, context),
                  height: App.getDeviceHeightPercent(30, context),
                  decoration: BoxDecoration(
+                   borderRadius: BorderRadius.circular(15),
                      image: DecorationImage(
                          image: NetworkImage(
-                             API.url + "/" + introductionController.blogs!.data!.blog[index].cover
+                             "${API.url}/${introductionController.blogs!.data!.blog[index].cover}"
                          ),
                          fit: BoxFit.cover
                      )
                  ),
-                 child: Padding(
-                   padding: const EdgeInsets.only(bottom: 15),
-                   child: Align(
+                 child: Align(
                      alignment: Alignment.bottomCenter,
-                     child: Text(Global.languageCode == "en" ?
-                     introductionController.blogs!.data!.blog[index].titleEn :
-                     introductionController.blogs!.data!.blog[index].titleAr,
-                       style: TextStyle(
-                           color: Colors.white,
-                           fontSize: CommonTextStyle.smallTextStyle
+                     child: Container(
+                       width: App.getDeviceWidthPercent(90, context),
+                       height: 50,
+                       decoration: BoxDecoration(
+                           color: App.grey.withOpacity(0.7),
+                           borderRadius: const BorderRadius.only(
+                               bottomRight: Radius.circular(15),
+                               bottomLeft: Radius.circular(15)
+                           )
                        ),
-                     ),
-                   ),
-                 ),
+                       child: Center(
+                         child: Padding(
+                           padding: const EdgeInsets.symmetric(horizontal: 10),
+                           child: Text(Global.languageCode == "en" ?
+                           introductionController.blogs!.data!.blog[index].titleEn :
+                           introductionController.blogs!.data!.blog[index].titleAr,
+                             style: const TextStyle(
+                                 color: Colors.white,
+                                 fontSize: App.medium,
+                                 overflow: TextOverflow.ellipsis
+                             ),
+                           ),
+                         ),
+                       ),
+                     )
+                 )
                ),
-               SizedBox(height: 10),
-               Container(
+               const SizedBox(height: 15),
+               SizedBox(
+                 width: App.getDeviceWidthPercent(90, context),
                  child: Divider(
-                   color: App.field.withOpacity(0.5),
+                   color: App.lightWhite.withOpacity(0.5),
                    thickness: 1,
                  ),
                ),
@@ -113,4 +129,5 @@ class Blog extends StatelessWidget {
       ),
     );
   }
+  
 }

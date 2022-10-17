@@ -14,20 +14,19 @@ import 'package:luxury_app/view/cars_by_brand.dart';
 import 'package:luxury_app/view/home.dart';
 import 'package:luxury_app/view/no_Internet.dart';
 import 'package:luxury_app/view/product_details.dart';
-import 'package:luxury_app/view/searchDelgate.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 
 class IntroductionController extends GetxController{
 
-  final ScrollController scrollController = ScrollController(initialScrollOffset: 50.0);
+  final scrollController = ScrollController();
   HomeController homeController = Get.put(HomeController());
   HomeData? homeData;
   AllCars? allCars;
   AllCars? allCarsConst;
   RxBool loading = false.obs;
-  Rx<int> lengthproductList = 6.obs;
+  Rx<int> lazyProductsList = 0.obs;
   AllCarsBrands ? allCarsBrands;
   RxBool carsLoading = false.obs;
   RxInt selectBrand = 0.obs;
@@ -49,6 +48,7 @@ class IntroductionController extends GetxController{
            if(value != null) {
              allCars = await API.getAllCars();
              allCarsConst = await API.getAllCars();
+             initLazyProductsList();
              homeData = value;
              homeData!.data!.brandsWithAll.insert(0,Brand(id: -1, name: "ALL", titleEn: "ALL", titleAr: "جميع", img: "", cover: "", descriptionEn: "", descriptionAr: "", slug: "all", orderNum: -1,
                      metaTitleEn: "", metaTitleAr: "", metaKeywordsEn: "", metaKeywordsAr: "", metaDescriptionEn: "", metaDescriptionAr: "", metaImage: ""));
@@ -83,17 +83,17 @@ class IntroductionController extends GetxController{
     });
   }
   viewAllProducts() {
-    if(lengthproductList.value + 6 > allCars!.data!.cars.length){
-      lengthproductList.value =  allCars!.data!.cars.length;
+    if(lazyProductsList.value + 6 >= allCars!.data!.cars.length){
+      lazyProductsList.value =  allCars!.data!.cars.length;
     }else{
-      lengthproductList.value = lengthproductList.value+6;
+      lazyProductsList.value = lazyProductsList.value + 6;
     }
   }
-  initProductCount() {
+  initLazyProductsList() {
     if(allCars!.data!.cars.length > 6){
-      lengthproductList.value = 6;
+      lazyProductsList.value = 6;
     }else{
-      lengthproductList.value = allCars!.data!.cars.length;
+      lazyProductsList.value = allCars!.data!.cars.length;
     }
   }
   getCarsById(BuildContext context,index) async{
@@ -101,11 +101,11 @@ class IntroductionController extends GetxController{
       loading.value = true;
       if(internet){
         homeController.selectCategory.value = index;
-        homeController.selectAll.value = false;
+        // homeController.selectAll.value = false;
         API.filter("","0","","",[],homeData!.data!.carBody[homeController.selectCategory.value].id.toString()).then((value) {
           if(value != null) {
             allCars = value;
-            initProductCount();
+            initLazyProductsList();
             loading.value = false;
             print(allCars!.data!.cars.length);
           }
@@ -117,19 +117,11 @@ class IntroductionController extends GetxController{
       }
     });
   }
-  pressedOnSearch(BuildContext context) async {
-    final result = await showSearch(
-        context: context,
-        delegate: SearchTextField(introController: this));
-  }
+
   search(BuildContext context,String query,int index){
-    if(query.isNotEmpty){
-      API.search(query).then((value) {
-        if(value != null){
-          Get.to(()=>ProductDetails(allCars!.data!.cars[index].id));
-        }
-      });
-    }
+    API.search(query).then((value) {
+      Get.to(()=>ProductDetails(allCars!.data!.cars[index].id));
+    });
   }
   carsByBrand(BuildContext context,int brandID,int index){
     carsLoading.value = true;
@@ -151,8 +143,8 @@ class IntroductionController extends GetxController{
     API.filter(vehicleType.toString(), rentType.toString(), minPrice.toString(), maxPrice.toString(), brands, "0").then((value) {
       loading.value = false;
       allCars = value;
-      initProductCount();
-      homeController.selectNavDrawer.value = 0;
+      initLazyProductsList();
+      homeController.selectNavBar.value = 0;
       Get.back();
     });
   }

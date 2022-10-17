@@ -1,5 +1,5 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:luxury_app/app_localization.dart';
@@ -13,7 +13,6 @@ import 'package:luxury_app/view/book.dart';
 import 'package:luxury_app/view/product_details.dart';
 import 'package:luxury_app/widgets/container_with_image.dart';
 import 'package:luxury_app/widgets/image_and_text.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -34,44 +33,44 @@ class CarsByBrand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: App.darkGrey,
+      backgroundColor: App.grey,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: AppBar(
+          elevation: 0,
+          backgroundColor: App.grey,
+        ),
+      ),
       body: SafeArea(
         child: Stack(
           children: [
             Container(
               width: App.getDeviceWidthPercent(100, context),
               height: App.getDeviceHeightPercent(100, context),
-              color: App.darkGrey,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/filter.webp"),
+                      fit: BoxFit.cover
+                  )
+              ),
             ),
-            Container(
+            SizedBox(
               width: App.getDeviceWidthPercent(100, context),
               height: App.getDeviceHeightPercent(100, context),
-              color: App.darkGrey,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const SizedBox(height: 85),
-                    Container(
-                      width: App.getDeviceWidthPercent(90, context),
-                      child: Text(
-                        Global.languageCode == "en" ?
-                        introductionController.homeData!.data!.brands[index].titleEn :
-                        introductionController.homeData!.data!.brands[index].titleAr ,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: CommonTextStyle.xlargeTextStyle,
-                          color: App.orange,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                    SizedBox(height: Get.height * 0.18),
                     products(context,index),
                     const SizedBox(height: 20),
                   ],
                 ),
               ),
             ),
-            _header(context),
+            Positioned(
+              top: 0,
+              child: _header(context),
+            )
           ],
         ),
       )
@@ -81,65 +80,78 @@ class CarsByBrand extends StatelessWidget {
   _header(BuildContext context) {
     return Container(
       width: App.getDeviceWidthPercent(100, context),
-      height: 70,
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/top-nav.png"),
-              fit: BoxFit.cover
-          )
+      height: Get.height * 0.18,
+      decoration: BoxDecoration(
+          color: App.lightDarkGrey,
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15)
+          ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.4),
+            spreadRadius: 2,
+            blurRadius: 10,
+            offset: const Offset(0, 7), // changes position of shadow
+          ),
+        ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: ContainerWithImage(
-                  width: 28,
-                  height: 28,
-                  image: Global.languageCode == "en" ?
-                  "assets/icons/back-icon.svg" :
-                  "assets/icons/back-icon_arabic.svg",
-                  option: 0
+      child: Column(
+        children: [
+          Container(
+            width: App.getDeviceWidthPercent(100, context),
+            color: App.lightDarkGrey,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: const Icon(Icons.arrow_back,color: Colors.white,size: App.iconSize,)
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                      homeController.selectNavBar.value = 1;
+                    },
+                    child: SvgPicture.asset("assets/icons/logo.svg",
+                    width: Get.width * 0.4),
+                  ),
+                  const Icon(Icons.arrow_back,color: Colors.transparent,size: App.iconSize,)
+                ],
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                Get.back();
-                homeController.selectNavDrawer.value = 0;
-              },
-              child: Container(
-                child: SvgPicture.asset("assets/icons/logo.svg",
-                  width: 25,
-                  height: 25,
+          ),
+          const SizedBox(height: 10),
+          Container(
+            width: App.getDeviceWidthPercent(100, context),
+            color: App.lightDarkGrey,
+            child: Center(
+              child: Text(
+                Global.languageCode == "en" ?
+                introductionController.homeData!.data!.brands[index].titleEn :
+                introductionController.homeData!.data!.brands[index].titleAr ,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: App.large,
+                  color: App.orange,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                ///share
-              },
-              child: Container(
-                child: SvgPicture.asset("assets/icons/share.svg",
-                  width: 26,
-                  height: 26,
-                  color: Colors.transparent,
-                ),
-              ),
-            ),
-          ],
-        ),
+            )
+          ),
+        ],
       ),
     );
   }
   products(BuildContext context,int photoIndex) {
     return Column(
       children: [
-        Container(
-            width: App.getDeviceWidthPercent(92, context),
+        SizedBox(
+            width: App.getDeviceWidthPercent(90, context),
             child: GridView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 itemCount: allCarsBrands.brand.brands!.length,
@@ -155,12 +167,12 @@ class CarsByBrand extends StatelessWidget {
                   return GestureDetector(
                     onTap: () {
                       Get.to(()=>ProductDetails(allCarsBrands.brand.brands![index].id));
-                      homeController.selectNavDrawer.value = 0;
+                      homeController.selectNavBar.value = 0;
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Container(
-                        width: App.getDeviceWidthPercent(92, context),
+                        width: App.getDeviceWidthPercent(100, context),
                         decoration: BoxDecoration(
                             color: App.lightDarkGrey,
                             borderRadius: BorderRadius.circular(20)
@@ -175,24 +187,27 @@ class CarsByBrand extends StatelessWidget {
                                     Positioned(
                                       left: 15,
                                       top: 15,
-                                      child: Container(
+                                      child: SizedBox(
                                         width: 35,
                                         height: 35,
                                         child: SvgPicture.network(
-                                            API.url + "/" + introductionController.homeData!.data!.brands[photoIndex].img,
+                                            "${API.url}/${introductionController.homeData!.data!.brands[photoIndex].img}",
                                             fit: BoxFit.fill),
                                       ),
                                     )
                                   ],
                                 )
                             ),
-                            SizedBox(height: 10,),
                             Expanded(
-                              flex: 1,
-                              child: Container(
+                              flex: 2,
+                              child: SizedBox(
                                 child: Center(
                                   child: Text(allCarsBrands.brand.brands![index].slug.toUpperCase(),
-                                    style: CommonTextStyle.textStyleForBigOrangeBold,
+                                      style: const TextStyle(
+                                          fontSize: App.big,
+                                          color: App.orange,
+                                          fontWeight: FontWeight.bold
+                                      )
                                   ),
                                 ),
                               )
@@ -203,48 +218,51 @@ class CarsByBrand extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   allCarsBrands.brand.brands![index].hourlyPrice == -1 ?
-                                  Center() :
+                                  const Center() :
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Row(
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             child: Center(
-                                              child: Text(" AED " +  allCarsBrands.brand.brands![index].hourlyPrice.toString(),
-                                                style: CommonTextStyle.textStyleForMediumWhiteNormal,
+                                              child: Text(" AED ${allCarsBrands.brand.brands![index].hourlyPrice} /",
+                                                  style: const TextStyle(
+                                                      fontSize: App.medium,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold
+                                                  )
                                               ),
                                             ),
                                           ),
-                                          Text(" " + App_Localization.of(context).translate("hour"),
-                                            style: TextStyle(
-                                                color: App.lightGrey,
-                                                fontSize: CommonTextStyle.mediumTextStyle,
-                                                fontStyle: FontStyle.italic
+                                          Text(App_Localization.of(context).translate("hour"),
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: App.xSmall,
                                             ),
                                           ),
                                         ],
                                       ),
                                       SizedBox(height: allCarsBrands.brand.brands![index].oldHourlyPrice == 0 ? 0 : 5),
                                       allCarsBrands.brand.brands![index].oldHourlyPrice == 0 ?
-                                      Center() :
+                                      const Center() :
                                       Row(
                                         children: [
-                                          Text(" AED " + allCarsBrands.brand.brands![index].oldHourlyPrice.toString(),
+                                          Text(" AED ${allCarsBrands.brand.brands![index].oldHourlyPrice}",
                                             style: const TextStyle(
                                               decoration: TextDecoration.lineThrough,
                                               decorationColor: Colors.red,
-                                              color: App.lightGrey,
-                                              fontSize: CommonTextStyle.smallTextStyle,
+                                              color: App.lightWhite,
+                                              fontSize: App.small,
                                             ),
                                           ),
-                                          SizedBox(width: 5,),
-                                          Text(((100 - (allCarsBrands.brand.brands![index].hourlyPrice * 100)/allCarsBrands.brand.brands![index].oldHourlyPrice).round().toString()) + "%" +" OFF",
-                                            style:  const TextStyle(
+                                          const SizedBox(width: 5,),
+                                          Text("${(100 - (allCarsBrands.brand.brands![index].hourlyPrice * 100)/allCarsBrands.brand.brands![index].oldHourlyPrice).round()}% OFF",
+                                            style: const TextStyle(
                                                 color: Colors.green,
-                                                fontSize: CommonTextStyle.smallTextStyle,
-                                                fontStyle: FontStyle.italic
+                                                fontSize: App.small,
+                                                fontWeight: FontWeight.w600
                                             ),
                                           ),
                                         ],
@@ -252,52 +270,55 @@ class CarsByBrand extends StatelessWidget {
                                     ],
                                   ),
                                   allCarsBrands.brand.brands![index].hourlyPrice == -1 ||  allCarsBrands.brand.brands![index].dailyPrice == -1 ?
-                                  Center() :
+                                  const Center() :
                                   VerticalDivider(
-                                    color: App.orange,
+                                    color: App.white,
                                     thickness: 1,
                                     endIndent: allCarsBrands.brand.brands![index].oldHourlyPrice != 0 ? 8 : 12,
                                     indent: allCarsBrands.brand.brands![index].oldHourlyPrice != 0 ? 8 : 12,
                                   ),
                                   allCarsBrands.brand.brands![index].dailyPrice == -1 ?
-                                  Center() :
+                                  const Center() :
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Row(
                                         children: [
-                                          Text(" AED " + allCarsBrands.brand.brands![index].dailyPrice.toString(),
-                                            style: CommonTextStyle.textStyleForMediumWhiteNormal
-                                          ),
-                                          Text(" " + App_Localization.of(context).translate("day"),
+                                          Text(" AED ${allCarsBrands.brand.brands![index].dailyPrice} /",
                                             style: const TextStyle(
-                                                color: App.lightGrey,
-                                                fontSize: CommonTextStyle.mediumTextStyle,
-                                                fontStyle: FontStyle.italic
+                                                fontSize: App.medium,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold
+                                            )
+                                          ),
+                                          Text(App_Localization.of(context).translate("day"),
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: App.xSmall,
                                             ),
                                           ),
                                         ],
                                       ),
                                       SizedBox(height: allCarsBrands.brand.brands![index].oldDailyPrice == 0 ? 0 : 5),
                                       allCarsBrands.brand.brands![index].oldDailyPrice == 0 ?
-                                      Center() :
+                                      const Center() :
                                       Row(
                                         children: [
-                                          Text(" AED " + allCarsBrands.brand.brands![index].oldDailyPrice.toString(),
+                                          Text(" AED ${allCarsBrands.brand.brands![index].oldDailyPrice}",
                                             style: const TextStyle(
                                               decoration: TextDecoration.lineThrough,
                                               decorationColor: Colors.red,
-                                              color: App.lightGrey,
-                                              fontSize: CommonTextStyle.smallTextStyle,
+                                              color: App.lightWhite,
+                                              fontSize: App.small,
                                             ),
                                           ),
-                                          SizedBox(width: 5,),
-                                          Text(((100 - (allCarsBrands.brand.brands![index].dailyPrice * 100)/allCarsBrands.brand.brands![index].oldDailyPrice).round().toString()) + "%" +" OFF",
+                                          const SizedBox(width: 5,),
+                                          Text("${(100 - (allCarsBrands.brand.brands![index].dailyPrice * 100)/allCarsBrands.brand.brands![index].oldDailyPrice).round()}% OFF",
                                             style: const TextStyle(
                                                 color: Colors.green,
-                                                fontSize: CommonTextStyle.smallTextStyle,
-                                                fontStyle: FontStyle.italic
+                                                fontSize: App.small,
+                                                fontWeight: FontWeight.w600
                                             ),
                                           ),
                                         ],
@@ -328,9 +349,13 @@ class CarsByBrand extends StatelessWidget {
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 0),
                                           child: ImageAndText(
-                                              child1: Icon(Icons.whatsapp,color: Colors.green,size: 14,),
+                                              child1: const Icon(Icons.whatsapp,color: Colors.green,size: 14,),
                                               text: "whatsapp",
-                                              textStyle:  CommonTextStyle.textStyleForTinyWhiteNormal
+                                              textStyle: const TextStyle(
+                                                  fontSize: App.tiny + 1,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.normal
+                                              )
                                           ),
                                         )
                                     ),
@@ -343,15 +368,19 @@ class CarsByBrand extends StatelessWidget {
                                     },
                                     child: Container(
                                         width: App.getDeviceWidthPercent(92, context) / 5,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           color: App.grey,
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 0),
                                           child: ImageAndText(
-                                              child1: Icon(Icons.call,color: Colors.red,size: 14,),
+                                              child1: const Icon(Icons.call,color: Colors.red,size: 14,),
                                               text: "call",
-                                              textStyle:  CommonTextStyle.textStyleForTinyWhiteNormal
+                                              textStyle: const TextStyle(
+                                                  fontSize: App.tiny + 1,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.normal
+                                              )
                                           ),
                                         )
                                     ),
@@ -359,38 +388,30 @@ class CarsByBrand extends StatelessWidget {
                                   GestureDetector(
                                     onTap: () {
                                       Get.to(()=>ProductDetails(allCarsBrands.brand.brands![index].id));
-                                      homeController.selectNavDrawer.value = 0;
+                                      homeController.selectNavBar.value = 0;
                                     },
                                     child: Container(
                                         width: App.getDeviceWidthPercent(92, context) / 5,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           color: App.grey,
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 0),
                                           child: ImageAndText(
-                                              child1: Icon(Icons.info_outline,color: Colors.orange,size: 14,),
+                                              child1: const Icon(Icons.info_outline,color: Colors.orange,size: 14,),
                                               text: "detail",
-                                              textStyle:  CommonTextStyle.textStyleForTinyWhiteNormal
+                                              textStyle: const TextStyle(
+                                                  fontSize: App.tiny + 1,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.normal
+                                              )
                                           ),
                                         )
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Navigator.of(context).push(PageRouteBuilder(
-                                        pageBuilder: (context, animation, secondaryAnimation) => Book(introductionController.allCars!.data!.cars[index]),
-                                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                          const begin = Offset(1.0,0.0);
-                                          const end = Offset.zero;
-                                          const curve = Curves.easeInOut;
-                                          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                                          return SlideTransition(
-                                            position: animation.drive(tween),
-                                            child: child,
-                                          );
-                                        },
-                                      ));
+                                      Get.to(() => Book(introductionController.allCars!.data!.cars[index]));
                                     },
                                     child: Container(
                                         width: App.getDeviceWidthPercent(92, context) / 4,
@@ -412,7 +433,11 @@ class CarsByBrand extends StatelessWidget {
                                                 color: App.orange,
                                               ),
                                               text: "book",
-                                              textStyle:  CommonTextStyle.textStyleForTinyWhiteNormal
+                                              textStyle: const TextStyle(
+                                                  fontSize: App.tiny + 1,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.normal
+                                              )
                                           ),
                                         )
                                     ),
@@ -428,8 +453,8 @@ class CarsByBrand extends StatelessWidget {
                 })
         ),
         introductionController.homeData!.data!.brands[index].descriptionEn == "" ?
-            Center() :
-        Container(
+            const Center() :
+        SizedBox(
             width: App.getDeviceWidthPercent(88, context),
             height: App.getDeviceHeightPercent(35, context),
             child: MediaQuery.removePadding(
@@ -449,14 +474,14 @@ class CarsByBrand extends StatelessWidget {
                           introductionController.homeData!.data!.brands[index].descriptionAr ,
                           style: {
                             "body": Style(
-                              fontSize: FontSize(CommonTextStyle.smallTextStyle),
+                              fontSize: const FontSize(App.small),
                               fontWeight: FontWeight.normal,
-                              color: App.lightGrey,
+                              color: App.lightWhite,
                             ),
                             "h2" : Style(
                               color: App.orange,
                               fontWeight: FontWeight.bold,
-                              fontSize: FontSize(CommonTextStyle.xlargeTextStyle)
+                              fontSize: const FontSize(App.large)
                             )
                           },
                         ),
@@ -470,62 +495,30 @@ class CarsByBrand extends StatelessWidget {
     );
   }
   productImages(BuildContext context,int index) {
-    return Stack(
-      children: [
-        Container(
-          width: App.getDeviceWidthPercent(100, context),
+    return Container(
+      width: Get.width,
+      height: Get.height * 0.24,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: ImageSlideshow(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.24,
+        initialPage: 0,
+        indicatorColor: App.orange,
+        indicatorBackgroundColor: App.lightWhite,
+        autoPlayInterval: 0,
+        isLoop: false,
+        children: allCarsBrands.brand.brands![index].imgs.split(",").map((e) => Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                  image: NetworkImage("${API.url}/$e"),
+                  fit: BoxFit.cover
+              )
           ),
-          child: CarouselSlider.builder(
-            carouselController: homeController.carouselController,
-            options: CarouselOptions(
-                height: App.getDeviceHeightPercent(23, context),
-                autoPlay: false,
-                viewportFraction: 1,
-                enlargeCenterPage: true,
-                enlargeStrategy:
-                CenterPageEnlargeStrategy.height,
-                autoPlayInterval: Duration(seconds: 2),
-                onPageChanged: (sliderindex, reason) {
-                  introductionController.allCars!.data!.cars[index].index.value = sliderindex;
-                }),
-            itemCount: allCarsBrands.brand.brands![index].imgs.split(",").length,
-            itemBuilder: (BuildContext context, int photoIndex, int realIndex) {
-              return Container(
-                width: App.getDeviceWidthPercent(100, context),
-                decoration:BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    image: DecorationImage(
-                        image: NetworkImage(API.url + "/" + allCarsBrands.brand.brands![index].imgs.split(",")[photoIndex]),
-                        fit: BoxFit.cover
-                    )
-                ),
-              );
-            },
-          ),
-        ),
-        Positioned(
-            left: MediaQuery.of(context).size.width * 0.25,
-            bottom: 10,
-            child: Obx(() => Container(
-              width: App.getDeviceWidthPercent(50, context),
-              child: Center(
-                child: AnimatedSmoothIndicator(
-                  duration: Duration(milliseconds: 300),
-                  activeIndex: introductionController.allCars!.data!.cars[index].index.value,
-                  count: introductionController.allCars!.data!.cars[index].imgs.split(",").length,
-                  effect: SlideEffect(
-                    dotWidth: 6,
-                    dotHeight: 6,
-                    activeDotColor: App.orange,
-                    dotColor: App.lightGrey,
-                  ),
-                ),
-              ),
-            ))
-        )
-      ],
+        )).toList(),
+      ),
     );
   }
 }
