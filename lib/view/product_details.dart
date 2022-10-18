@@ -150,7 +150,7 @@ class ProductDetails extends StatelessWidget {
       children: [
         Container(
           width: App.getDeviceWidthPercent( 90,context),
-          child: Text(car!.slug.toUpperCase(),
+          child: Text(car!.slug.toUpperCase().replaceAll("-", " "),
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: App.large + 2,

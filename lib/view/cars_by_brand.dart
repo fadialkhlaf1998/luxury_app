@@ -202,7 +202,7 @@ class CarsByBrand extends StatelessWidget {
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 5),
                                 child: Center(
-                                  child: Text(allCarsBrands.brand.brands![index].slug.toUpperCase(),
+                                  child: Text(allCarsBrands.brand.brands![index].slug.toUpperCase().replaceAll("-", " "),
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: App.big,
@@ -509,7 +509,7 @@ class CarsByBrand extends StatelessWidget {
         indicatorColor: App.orange,
         indicatorBackgroundColor: App.lightWhite,
         autoPlayInterval: 0,
-        isLoop: false,
+        isLoop: true,
         children: allCarsBrands.brand.brands![index].imgs.split(",").map((e) => Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),

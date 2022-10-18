@@ -661,7 +661,7 @@ class _HomeState extends State<Home> {
                           flex: 2,
                           child: SizedBox(
                             child: Center(
-                              child: Text(introductionController.allCars!.data!.cars[index].slug,
+                              child: Text(introductionController.allCars!.data!.cars[index].slug.replaceAll("-", " "),
                                   style: const TextStyle(
                                       fontSize: App.big,
                                       color: App.orange,

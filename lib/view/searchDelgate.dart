@@ -107,7 +107,7 @@ class SearchTextField extends SearchDelegate<String> {
                       )
                   ),
                 ),
-                title: Text(suggestions.elementAt(index).slug,
+                title: Text(suggestions.elementAt(index).slug.replaceAll("-", " "),
                   maxLines: 2,
                   style: const TextStyle(
                     fontSize: App.medium,
@@ -177,7 +177,7 @@ class SearchTextField extends SearchDelegate<String> {
                       )
                   ),
                 ),
-                title: Text(suggestions.elementAt(index).slug,
+                title: Text(suggestions.elementAt(index).slug.replaceAll("-", " "),
                   maxLines: 2,
                   style: const TextStyle(
                     fontSize: App.medium,
