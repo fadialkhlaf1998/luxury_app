@@ -230,10 +230,29 @@ class ProductDetails extends StatelessWidget {
                       height: App.getDeviceHeightPercent(25, context),
                       decoration:BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: NetworkImage("${API.url}/${car!.imgs.split(",")[index]}"),
-                              fit: BoxFit.cover
-                          )
+                      ),
+                      child: SizedBox(
+                        child:  Image.network(
+                          "${API.url}/${car!.imgs.split(",")[index]}",
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: Container(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   )

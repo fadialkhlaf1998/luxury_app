@@ -80,8 +80,9 @@ class BrandPage extends StatelessWidget {
                         introductionController.homeData!.data!.brands[index].id,index);
                   },
                   child: SizedBox(
-                      child: Image.network(
-                        "${API.url}/${introductionController.homeData!.data!.brands[index].img}",
+                      child: FadeInImage.assetNetwork(
+                        placeholder: 'assets/loading-gif.gif',
+                        image: "${API.url}/${introductionController.homeData!.data!.brands[index].img}",
                         fit: BoxFit.contain,
                       ),
                   ),
