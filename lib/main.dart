@@ -12,7 +12,6 @@ void main() {
   runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle());
 }
-/// 18/9 from maya
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 

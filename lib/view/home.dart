@@ -19,7 +19,6 @@ import 'package:luxury_app/view/about_us.dart';
 import 'package:luxury_app/view/contact_us.dart';
 import 'package:luxury_app/view/rent_terms.dart';
 import 'package:luxury_app/view/searchDelgate.dart';
-import 'package:luxury_app/view/searchDelgate.dart';
 import 'package:luxury_app/view/settings.dart';
 import 'package:luxury_app/view/book.dart';
 import 'package:luxury_app/view/brandPage.dart';
@@ -225,7 +224,7 @@ class _HomeState extends State<Home> {
                   curve: Curves.fastOutSlowIn,
                   child: superCategory(context,widget.homeData, homeController.selectSuperCategory.value),
                 ),
-                Container(
+                SizedBox(
                   height: widget.homeData.data!.carType[homeController.selectSuperCategory.value].id != 3 ?
                   0 : Get.height * 0.3,
                   child: Column(
@@ -249,8 +248,6 @@ class _HomeState extends State<Home> {
                 ),
               ],
             )
-            // homeController.selectNavBar.value == 0 && homeController.selectNavDrawer.value == -1?
-            //  : const Center()
           ],
         ),
       ),
@@ -324,18 +321,19 @@ class _HomeState extends State<Home> {
                 ),
                 label: App_Localization.of(context).translate("settings").toUpperCase()
             ),
-
           ],
           currentIndex: homeController.selectNavBar.value,
-          onTap: (index) async{
-            if (homeController.scrollController.hasClients) {
-              await homeController.scrollController.animateTo(
-                0.0,
-                curve: Curves.fastOutSlowIn,
-                duration: const Duration(milliseconds: 1500),
-              );
-            }
+          onTap: (index) async {
             homeController.selectNavBar.value = index;
+            if(homeController.selectNavBar.value == 0){
+              if (homeController.scrollController.hasClients) {
+                await homeController.scrollController.animateTo(
+                  0.0,
+                  curve: Curves.fastOutSlowIn,
+                  duration: const Duration(milliseconds: 1500),
+                );
+              }
+            }
             homeController.selectNavDrawer.value = -1;
             contactUsController.clearTextField();
             if(homeController.selectNavDrawer.value != -1) {
@@ -625,7 +623,7 @@ class _HomeState extends State<Home> {
             scrollDirection: Axis.vertical,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return GestureDetector(
+                  return GestureDetector(
                 onTap: () {
                   Get.to(()=>ProductDetails(introductionController.allCars!.data!.cars[index].id));
                   homeController.selectNavBar.value = 0;
@@ -652,7 +650,7 @@ class _HomeState extends State<Home> {
                                     width: 35,
                                     height: 35,
                                     child: introductionController.allCars!.data!.cars[index].brands!.img == "" ? const Center() :
-                                    SvgPicture.network("${API.url}/${introductionController.allCars!.data!.cars[index].brands!.img}",
+                                    Image.network("${API.url}/${introductionController.allCars!.data!.cars[index].brands!.img}",
                                         fit: BoxFit.fill),
                                   ),
                                 )

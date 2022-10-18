@@ -126,8 +126,9 @@ class API {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 ||response.statusCode == 201 ||response.statusCode == 202) {
       var data = await response.stream.bytesToString();
+      // print(data);
       var jsonData = json.decode(data);
       return AllCars.fromMap(jsonData);
     }

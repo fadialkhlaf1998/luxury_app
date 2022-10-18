@@ -27,7 +27,7 @@ class IntroductionController extends GetxController{
   AllCars? allCarsConst;
   RxBool loading = false.obs;
   Rx<int> lazyProductsList = 0.obs;
-  AllCarsBrands ? allCarsBrands;
+  AllCarsBrands? allCarsBrands;
   RxBool carsLoading = false.obs;
   RxInt selectBrand = 0.obs;
   AboutUs? aboutUs;
@@ -53,6 +53,7 @@ class IntroductionController extends GetxController{
              homeData!.data!.brandsWithAll.insert(0,Brand(id: -1, name: "ALL", titleEn: "ALL", titleAr: "جميع", img: "", cover: "", descriptionEn: "", descriptionAr: "", slug: "all", orderNum: -1,
                      metaTitleEn: "", metaTitleAr: "", metaKeywordsEn: "", metaKeywordsAr: "", metaDescriptionEn: "", metaDescriptionAr: "", metaImage: ""));
              Get.offAll(() => Home(homeData!));
+             homeData!.data!.brandsWithAll.first.selected.value = true;
            }
          });
          API.getAboutUs().then((value) {
@@ -117,10 +118,13 @@ class IntroductionController extends GetxController{
       }
     });
   }
-
   search(BuildContext context,String query,int index){
+    // print('Begin');
     API.search(query).then((value) {
-      Get.to(()=>ProductDetails(allCars!.data!.cars[index].id));
+      // print('END');
+      if(value != null) {
+        // Get.to(()=>ProductDetails(value.data!.cars[0].id));
+      }
     });
   }
   carsByBrand(BuildContext context,int brandID,int index){
@@ -153,6 +157,6 @@ class IntroductionController extends GetxController{
     loading.value = true;
     homeController.selectCategory.value = 0;
     loading.value = false;
-    Get.back();
+    // Get.back();
   }
 }

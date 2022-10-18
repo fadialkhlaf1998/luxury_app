@@ -74,8 +74,6 @@ class ProductDetails extends StatelessWidget {
             ],
           ),
         )
-
-
     ));
   }
 
@@ -150,13 +148,17 @@ class ProductDetails extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(car!.slug.toUpperCase(),
+        Container(
+          width: App.getDeviceWidthPercent( 90,context),
+          child: Text(car!.slug.toUpperCase(),
+            textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: App.large + 2,
               color: App.orange,
               fontWeight: FontWeight.bold,
             ),
-        ),
+          ),
+        )
       ],
     );
   }

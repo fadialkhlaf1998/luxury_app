@@ -4,6 +4,7 @@ import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/controller/introduction_controller.dart';
 import 'package:luxury_app/helper/api.dart';
 import 'package:luxury_app/helper/app.dart';
+import 'package:luxury_app/view/product_details.dart';
 
 class SearchTextField extends SearchDelegate<String> {
 
@@ -65,28 +66,18 @@ class SearchTextField extends SearchDelegate<String> {
     });
     return suggestions.isEmpty ?
     Container(
-        height: App.getDeviceHeightPercent(100, context),
-        width: App.getDeviceWidthPercent(100, context),
-        color: App.primary,
-        child: Center(
-          child: Container(
-            width: App.getDeviceWidthPercent(40, context),
-            height: 35,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5)
-            ),
-            child: Center(
-              child: Text(App_Localization.of(context).translate("no_results_found!"),
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: App.small,
-                      fontWeight: FontWeight.w600
-                  )
-              ),
-            ),
-          ),
+      height: App.getDeviceHeightPercent(100, context),
+      width: App.getDeviceWidthPercent(100, context),
+      color: App.primary,
+      child: Center(
+        child: Text(App_Localization.of(context).translate("no_results_found!"),
+            style: const TextStyle(
+                color: App.lightWhite,
+                fontSize: App.small,
+                fontWeight: FontWeight.w600
+            )
         ),
+      ),
     ) :
     Container(
         height: App.getDeviceHeightPercent(100, context),
@@ -97,38 +88,41 @@ class SearchTextField extends SearchDelegate<String> {
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                child: ListTile(
-                  tileColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  style: ListTileStyle.drawer,
-                  leading: Container(
-                    width: 100,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: NetworkImage(
-                              "${API.url}/${suggestions.elementAt(index).imgs.split(",").first}",
-                            ),
-                            fit: BoxFit.contain
-                        )
-                    ),
-                  ),
-                  title: Text(suggestions.elementAt(index).slug,
-                    maxLines: 2,
-                    style: const TextStyle(
-                      fontSize: App.medium,
-                      color: App.lightWhite,
-                      overflow: TextOverflow.ellipsis,
-
-                    ),
-                  ),
-                  onTap: (){
-                    introController.search(context, query,index);
-                  },
+              child: ListTile(
+                tileColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
                 ),
+                style: ListTileStyle.drawer,
+                leading: Container(
+                  width: 100,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                          image: NetworkImage(
+                            "${API.url}/${suggestions.elementAt(index).imgs.split(",").first}",
+                          ),
+                          fit: BoxFit.contain
+                      )
+                  ),
+                ),
+                title: Text(suggestions.elementAt(index).slug,
+                  maxLines: 2,
+                  style: const TextStyle(
+                    fontSize: App.medium,
+                    color: App.lightWhite,
+                    overflow: TextOverflow.ellipsis,
+
+                  ),
+                ),
+                onTap: (){
+                  // query = suggestions.elementAt(index).slug;
+                  print(suggestions.elementAt(index).slug);
+                  introController.search(context, suggestions.elementAt(index).slug,index);
+                  Get.to(()=>ProductDetails(suggestions.elementAt(index).id));
+                },
+              ),
             );
           },
         )
@@ -142,73 +136,65 @@ class SearchTextField extends SearchDelegate<String> {
     });
     return suggestions.isEmpty ?
     Container(
-          height: App.getDeviceHeightPercent(100, context),
-          width: App.getDeviceWidthPercent(100, context),
-          color: App.primary,
-          child: Center(
-            child: Container(
-              width: App.getDeviceWidthPercent(40, context),
-              height: 35,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5)
-              ),
-              child: Center(
-                child: Text(App_Localization.of(context).translate("no_results_found!"),
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: App.small,
-                        fontWeight: FontWeight.w600
-                    )
-                ),
-              ),
-            ),
-          ),
-        ) :
+      height: App.getDeviceHeightPercent(100, context),
+      width: App.getDeviceWidthPercent(100, context),
+      color: App.primary,
+      child: Center(
+        child: Text(App_Localization.of(context).translate("no_results_found!"),
+            style: const TextStyle(
+                color: App.lightWhite,
+                fontSize: App.small,
+                fontWeight: FontWeight.w600
+            )
+        ),
+      ),
+    ) :
     Container(
-          height: App.getDeviceHeightPercent(100, context),
-          width: App.getDeviceWidthPercent(100, context),
-          color: App.primary,
-          child: ListView.builder(
-          itemCount: suggestions.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                child: ListTile(
-                  tileColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  style: ListTileStyle.drawer,
-                  leading: Container(
-                    width: 100,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: NetworkImage(
-                              "${API.url}/${suggestions.elementAt(index).imgs.split(",").first}",
-                            ),
-                            fit: BoxFit.contain
-                        )
-                    ),
-                  ),
-                  title: Text(suggestions.elementAt(index).slug,
-                    maxLines: 2,
-                    style: const TextStyle(
-                      fontSize: App.medium,
-                      color: App.lightWhite,
-                      overflow: TextOverflow.ellipsis,
-
-                    ),
-                  ),
-                  onTap: (){
-                    introController.search(context, query,index);
-                  },
+        height: App.getDeviceHeightPercent(100, context),
+        width: App.getDeviceWidthPercent(100, context),
+        color: App.primary,
+        child: ListView.builder(
+        itemCount: suggestions.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+              child: ListTile(
+                tileColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
                 ),
-            );
-        },
-      )
+                style: ListTileStyle.drawer,
+                leading: Container(
+                  width: 100,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                          image: NetworkImage(
+                            "${API.url}/${suggestions.elementAt(index).imgs.split(",").first}",
+                          ),
+                          fit: BoxFit.contain
+                      )
+                  ),
+                ),
+                title: Text(suggestions.elementAt(index).slug,
+                  maxLines: 2,
+                  style: const TextStyle(
+                    fontSize: App.medium,
+                    color: App.lightWhite,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                onTap: (){
+                  // query = suggestions.elementAt(index).slug;
+                  print(suggestions.elementAt(index).slug);
+                  introController.search(context, suggestions.elementAt(index).slug,index);
+                  Get.to(()=>ProductDetails(suggestions.elementAt(index).id));
+                },
+              ),
+          );
+      },
+    )
     );
   }
 }

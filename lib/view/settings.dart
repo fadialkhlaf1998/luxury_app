@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/controller/settings_controller.dart';
@@ -45,7 +44,7 @@ class Settings extends StatelessWidget {
           SizedBox(height: Get.height * 0.13),
           language(context),
           const SizedBox(height: 20),
-          Container(
+          SizedBox(
             width: Get.width * 0.9,
             child: const Divider(
               color: App.lightGrey,
@@ -55,7 +54,7 @@ class Settings extends StatelessWidget {
           const SizedBox(height: 20),
           ourWebsite(context),
           const SizedBox(height: 20),
-          Container(
+          SizedBox(
             width: Get.width * 0.9,
             child: const Divider(
               color: App.lightGrey,
@@ -191,7 +190,7 @@ class Settings extends StatelessWidget {
                 const Icon(Icons.language,color: App.orange,size: App.iconSize),
                 const SizedBox(width: 5),
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(color: Colors.white)
                     )

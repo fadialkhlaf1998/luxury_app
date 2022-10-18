@@ -22,8 +22,7 @@ class CarsByBrand extends StatelessWidget {
   AllCarsBrands allCarsBrands;
   int index;
 
-  CarsByBrand(this.allCarsBrands,this.index) {
-  }
+  CarsByBrand(this.allCarsBrands,this.index);
 
   HomeController homeController = Get.find();
   IntroductionController introductionController = Get.find();
@@ -190,7 +189,7 @@ class CarsByBrand extends StatelessWidget {
                                       child: SizedBox(
                                         width: 35,
                                         height: 35,
-                                        child: SvgPicture.network(
+                                        child: Image.network(
                                             "${API.url}/${introductionController.homeData!.data!.brands[photoIndex].img}",
                                             fit: BoxFit.fill),
                                       ),
@@ -199,10 +198,12 @@ class CarsByBrand extends StatelessWidget {
                                 )
                             ),
                             Expanded(
-                              flex: 2,
-                              child: SizedBox(
+                              flex: 3,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
                                 child: Center(
                                   child: Text(allCarsBrands.brand.brands![index].slug.toUpperCase(),
+                                      textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: App.big,
                                           color: App.orange,

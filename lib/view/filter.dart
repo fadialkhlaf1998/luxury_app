@@ -321,7 +321,7 @@ class Filter extends StatelessWidget {
                         if(e.id == -1){
                           e.selected.value = true;
                           homeController.selectedBrands.clear();
-
+                          introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
                           for(int i=1 ; i<= introductionController.homeData!.data!.brands.length;i++){
                             introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
                           }
