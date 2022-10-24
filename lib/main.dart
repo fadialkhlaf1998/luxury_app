@@ -2,13 +2,16 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/helper/global.dart';
 import 'package:luxury_app/view/introduction.dart';
 
-void main() {
+void main() async{
+  Stripe.publishableKey = "pk_live_51JtbeoE5T5ZSmyIsJVuX5U5wSE0fiHYKHCq4kNT1tv0KwC5cgdiM14eqVVIPkvTBtJMcOLMCLuWgWEbZbq9hJO3400zmF2DhW2";
+  Stripe.merchantIdentifier = '+92';
   runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle());
 }

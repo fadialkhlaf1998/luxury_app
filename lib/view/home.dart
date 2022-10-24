@@ -9,6 +9,7 @@ import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/controller/contact_us_controller.dart';
 import 'package:luxury_app/controller/home_controller.dart';
 import 'package:luxury_app/controller/introduction_controller.dart';
+import 'package:luxury_app/controller/payment_controller.dart';
 import 'package:luxury_app/helper/api.dart';
 import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/helper/global.dart';
@@ -123,7 +124,7 @@ class _HomeState extends State<Home> {
       Get.height * 0.23 :
       homeController.selectNavBar.value == 0 && homeController.selectNavDrawer.value == -1 ?
       homeController.showAppbar ?
-      Get.height * 0.4 : Get.height * 0.33 : Get.height * 0.1,
+      Get.height * 0.35 : Get.height * 0.3 : Get.height * 0.1,
       decoration: BoxDecoration(
         color: App.lightDarkGrey,
         borderRadius: const BorderRadius.only(
@@ -226,20 +227,20 @@ class _HomeState extends State<Home> {
                 ),
                 SizedBox(
                   height: widget.homeData.data!.carType[homeController.selectSuperCategory.value].id != 3 ?
-                  0 : Get.height * 0.3,
+                  0 : Get.height * 0.16,
                   child: Column(
                     children: [
-                      SizedBox(height: homeController.showAppbar ? 10 : 0),
-                      widget.homeData.data!.carType[homeController.selectSuperCategory.value].id != 3?
-                      const Center() : SizedBox(
-                        width: App.getDeviceWidthPercent(90, context),
-                        child: Text(App_Localization.of(context).translate("car_classes"),
-                          style: const TextStyle(
-                            color: App.lightWhite,
-                            fontSize: App.big,
-                          ),
-                        ),
-                      ),
+                      // SizedBox(height: homeController.showAppbar ? 10 : 0),
+                      // widget.homeData.data!.carType[homeController.selectSuperCategory.value].id != 3?
+                      // const Center() : SizedBox(
+                      //   width: App.getDeviceWidthPercent(90, context),
+                      //   child: Text(App_Localization.of(context).translate("car_classes"),
+                      //     style: const TextStyle(
+                      //       color: App.lightWhite,
+                      //       fontSize: App.big,
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(height: 10),
                       widget.homeData.data!.carType[homeController.selectSuperCategory.value].id != 3?
                       const Center() : category(context),
@@ -324,6 +325,11 @@ class _HomeState extends State<Home> {
           ],
           currentIndex: homeController.selectNavBar.value,
           onTap: (index) async {
+            // if(index == 2){
+            //   print('Payment');
+            //   PaymentController paymentController = Get.put(PaymentController());
+            //   paymentController.makePayment(context: context, amount: "2.00", currency: "aed", newRentNumber: 123546);
+            // }
             homeController.selectNavBar.value = index;
             if(homeController.selectNavBar.value == 0){
               if (homeController.scrollController.hasClients) {
@@ -371,8 +377,8 @@ class _HomeState extends State<Home> {
               children: [
                 SizedBox(height:
                 homeController.showAppbar?
-                Get.height * 0.4 + 5 :
-                Get.height * 0.33 + 5
+                Get.height * 0.35 + 5 :
+                Get.height * 0.3 + 5
                 ),
                 introductionController.loading.value ?
                 Container(

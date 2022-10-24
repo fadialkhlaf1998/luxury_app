@@ -87,5 +87,7 @@
   "contact_you_shortly": "سوف نتصل بك قريبا",
   "rental_number": "رقم التأجير الخاص بك هو",
   "please_select_difference_time": "الرجاء تحديد وقت مختلف",
-  "our_website": "موقعنا"
+  "our_website": "موقعنا",
+  "error_payment_msg": "أضفنا طلبك ولكن الدفع لم ينجح",
+  "close": "إغلاق"
 }

@@ -327,7 +327,7 @@ class API {
 
     if (response.statusCode == 200 || response.statusCode == 201 ||response.statusCode == 202) {
       var data = await response.stream.bytesToString();
-      // print(data);
+      print(data);
       var newData = jsonDecode(data);
       // print(newData);
       if(newData["code"] == 1){
@@ -382,11 +382,11 @@ class BookResult {
   });
 
   int rentalNumber;
-  int totalPrice;
+  double totalPrice;
 
   factory BookResult.fromJson(Map<String, dynamic> json) => BookResult(
-    rentalNumber: json["rental_number"] == null ? null : json["rental_number"],
-    totalPrice: json["total_price"] == null ? null : json["total_price"],
+    rentalNumber:  json["rental_number"],
+    totalPrice:  double.parse(json["total_price"].toString()),
   );
 
   Map<String, dynamic> toJson() => {

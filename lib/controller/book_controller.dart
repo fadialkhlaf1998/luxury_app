@@ -7,6 +7,7 @@ import 'package:luxury_app/helper/api.dart';
 import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/helper/global.dart';
 import 'package:luxury_app/model/all-cars.dart';
+import 'package:luxury_app/widgets/custom_button.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -117,23 +118,25 @@ class BookController extends GetxController {
             if(value.rentalNumber!=-1){
               rentalNumber.value = value.rentalNumber.toString();
               loading.value = false;
-              confirmReservation(context);
-              if(selectPay.value == 1){
+              if(selectPay.value == 0){
                 print('later');
+                print(total);
                 paymentController.makePayment(context: context,amount: total.toString(), currency: "aed",newRentNumber:value.rentalNumber).then((value) {
-                  clear().then((value) {
-                    Get.back();
-                    Get.back();
-                  });
-                });
+                 if(paymentController.result_id.length > 0){
+                   paymentController.result_id = "";
+                   confirmReservation(context);
+                    clear();
+                 }else{
+                   clear();
+                 }
+                }).catchError((error){
+                  clear();
+               });
+              }else{
+                confirmReservation(context);
+                print('now');
+                clear();
               }
-              print('now');
-              clear().then((value) {
-                Future.delayed(const Duration(seconds: 5)).then((value) {
-                  Get.back();
-                  Get.back();
-                });
-              });
             } else{
               loading.value = false;
               showTopSnackBar(context,
@@ -305,13 +308,43 @@ class BookController extends GetxController {
                         ),
                       ),
                       const SizedBox(height: 80),
-                      Text("${App_Localization.of(context).translate("rental_number")} ${rentalNumber.value}",
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontSize: App.small,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(App_Localization.of(context).translate("rental_number"),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: App.small,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          Text(" " + rentalNumber.value,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: App.small,
+                                color: App.orange,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      CustomButton(
+                          width: App.getDeviceWidthPercent(50, context),
+                          height: 45,
+                          text: App_Localization.of(context).translate("close").toUpperCase(),
+                          onPressed: () {
+                            Get.back();
+                            Get.back();
+                          },
+                          color: App.orange,
+                          borderRadius: 8,
+                          textStyle: const TextStyle(
+                              fontSize: App.medium,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600
+                          )
                       ),
                       const SizedBox(height: 20),
                     ],

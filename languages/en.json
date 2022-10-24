@@ -87,5 +87,7 @@
   "contact_you_shortly": "We Will Contact You Shortly",
   "rental_number": "Your Rental Number Is",
   "please_select_difference_time": "please select difference time",
-  "our_website": "Our Website"
+  "our_website": "Our Website",
+  "error_payment_msg": "We added your order but the payment not success",
+  "close": "close"
 }
