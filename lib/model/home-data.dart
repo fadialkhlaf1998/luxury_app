@@ -363,7 +363,7 @@ class Datum {
     metaKeywordsAr: json["meta_keywords_ar"] == null ? "null" : json["meta_keywords_ar"],
     metaDescriptionEn: json["meta_description_en"] == null ? "null" : json["meta_description_en"],
     metaDescriptionAr: json["meta_description_ar"] == null ? "null" : json["meta_description_ar"],
-    metaImage: json["meta_image"] == null ? null : json["meta_image"],
+    metaImage: json["meta_image"] == null ? "null" : json["meta_image"],
     //updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     brands: Brand.fromJson(json["brands"]),
     types:  CarBody.fromJson(json["types"]),
