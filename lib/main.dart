@@ -10,6 +10,8 @@ import 'package:luxury_app/helper/global.dart';
 import 'package:luxury_app/view/introduction.dart';
 
 void main() async{
+  /// from maya
+
   Stripe.publishableKey = "pk_live_51JtbeoE5T5ZSmyIsJVuX5U5wSE0fiHYKHCq4kNT1tv0KwC5cgdiM14eqVVIPkvTBtJMcOLMCLuWgWEbZbq9hJO3400zmF2DhW2";
   Stripe.merchantIdentifier = '+92';
   runApp(const MyApp());
