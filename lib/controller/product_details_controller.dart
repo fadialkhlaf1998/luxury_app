@@ -19,6 +19,4 @@ class ProductDetailsController extends GetxController {
     carouselController.animateToPage(p,duration: const Duration(milliseconds: 400));
     itemScrollController.scrollTo(index: p,duration: const Duration(milliseconds: 400));
   }
-
-
 }

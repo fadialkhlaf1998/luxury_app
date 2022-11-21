@@ -32,47 +32,47 @@ class CarsByBrand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: App.grey,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(0),
-        child: AppBar(
-          elevation: 0,
-          backgroundColor: App.grey,
+        backgroundColor: App.grey,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AppBar(
+            elevation: 0,
+            backgroundColor: App.grey,
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              width: App.getDeviceWidthPercent(100, context),
-              height: App.getDeviceHeightPercent(100, context),
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/filter.webp"),
-                      fit: BoxFit.cover
-                  )
-              ),
-            ),
-            SizedBox(
-              width: App.getDeviceWidthPercent(100, context),
-              height: App.getDeviceHeightPercent(100, context),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: Get.height * 0.18),
-                    products(context,index),
-                    const SizedBox(height: 20),
-                  ],
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Container(
+                width: App.getDeviceWidthPercent(100, context),
+                height: App.getDeviceHeightPercent(100, context),
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/filter.webp"),
+                        fit: BoxFit.cover
+                    )
                 ),
               ),
-            ),
-            Positioned(
-              top: 0,
-              child: _header(context),
-            )
-          ],
-        ),
-      )
+              SizedBox(
+                width: App.getDeviceWidthPercent(100, context),
+                height: App.getDeviceHeightPercent(100, context),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: Get.height * 0.18),
+                      products(context,index),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                child: _header(context),
+              )
+            ],
+          ),
+        )
     );
   }
 
@@ -81,11 +81,11 @@ class CarsByBrand extends StatelessWidget {
       width: App.getDeviceWidthPercent(100, context),
       height: Get.height * 0.18,
       decoration: BoxDecoration(
-          color: App.lightDarkGrey,
-          borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(15),
-              bottomRight: Radius.circular(15)
-          ),
+        color: App.lightDarkGrey,
+        borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(15),
+            bottomRight: Radius.circular(15)
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.4),
@@ -106,10 +106,10 @@ class CarsByBrand extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: const Icon(Icons.arrow_back,color: Colors.white,size: App.iconSize,)
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: const Icon(Icons.arrow_back,color: Colors.white,size: App.iconSize,)
                   ),
                   GestureDetector(
                     onTap: () {
@@ -117,7 +117,7 @@ class CarsByBrand extends StatelessWidget {
                       homeController.selectNavBar.value = 1;
                     },
                     child: SvgPicture.asset("assets/icons/logo.svg",
-                    width: Get.width * 0.4),
+                        width: Get.width * 0.4),
                   ),
                   const Icon(Icons.arrow_back,color: Colors.transparent,size: App.iconSize,)
                 ],
@@ -126,21 +126,21 @@ class CarsByBrand extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Container(
-            width: App.getDeviceWidthPercent(100, context),
-            color: App.lightDarkGrey,
-            child: Center(
-              child: Text(
-                Global.languageCode == "en" ?
-                introductionController.homeData!.data!.brands[index].titleEn :
-                introductionController.homeData!.data!.brands[index].titleAr ,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: App.large,
-                  color: App.orange,
-                  fontWeight: FontWeight.bold,
+              width: App.getDeviceWidthPercent(100, context),
+              color: App.lightDarkGrey,
+              child: Center(
+                child: Text(
+                  Global.languageCode == "en" ?
+                  introductionController.homeData!.data!.brands[index].titleEn :
+                  introductionController.homeData!.data!.brands[index].titleAr ,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: App.large,
+                    color: App.orange,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-            )
+              )
           ),
         ],
       ),
@@ -154,10 +154,10 @@ class CarsByBrand extends StatelessWidget {
             child: GridView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 itemCount: allCarsBrands.brand.brands!.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio: 6/5,
                     crossAxisSpacing: 10,
-                    crossAxisCount: 1
+                    crossAxisCount: (Get.width  / 400).toInt()
                 ),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
@@ -198,20 +198,20 @@ class CarsByBrand extends StatelessWidget {
                                 )
                             ),
                             Expanded(
-                              flex: 3,
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Center(
-                                  child: Text(allCarsBrands.brand.brands![index].slug.toUpperCase().replaceAll("-", " "),
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontSize: App.big,
-                                          color: App.orange,
-                                          fontWeight: FontWeight.bold
-                                      )
+                                flex: 3,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                  child: Center(
+                                    child: Text(allCarsBrands.brand.brands![index].slug.toUpperCase().replaceAll("-", " "),
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            fontSize: App.big,
+                                            color: App.orange,
+                                            fontWeight: FontWeight.bold
+                                        )
+                                    ),
                                   ),
-                                ),
-                              )
+                                )
                             ),
                             Expanded(
                               flex: 3,
@@ -287,11 +287,11 @@ class CarsByBrand extends StatelessWidget {
                                       Row(
                                         children: [
                                           Text(" AED ${allCarsBrands.brand.brands![index].dailyPrice} /",
-                                            style: const TextStyle(
-                                                fontSize: App.medium,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold
-                                            )
+                                              style: const TextStyle(
+                                                  fontSize: App.medium,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold
+                                              )
                                           ),
                                           Text(App_Localization.of(context).translate("day"),
                                             style: const TextStyle(
@@ -334,114 +334,125 @@ class CarsByBrand extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  GestureDetector(
-                                    onTap: () async{
-                                      await launch("https://wa.me/971581296445/?text=${Uri.parse(allCarsBrands.brand.brands![index].slug.toUpperCase().replaceAll("-", " "))}");
-                                      // App.lunchURL(context,"https://api.whatsapp.com/send/?phone=%2B971581296445&text=Hi+LUXURY+Car+Rental%2C+I+would+like+to+inquire+about+cars&type=phone_number&app_absent=0");
-                                    },
-                                    child: Container(
-                                        width: App.getDeviceWidthPercent(92, context) / 4,
-                                        decoration: BoxDecoration(
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () async{
+                                        await launch("https://wa.me/971581296445/?text=${Uri.parse(allCarsBrands.brand.brands![index].slug.toUpperCase().replaceAll("-", " "))}");
+                                        // App.lunchURL(context,"https://api.whatsapp.com/send/?phone=%2B971581296445&text=Hi+LUXURY+Car+Rental%2C+I+would+like+to+inquire+about+cars&type=phone_number&app_absent=0");
+                                      },
+                                      child: Container(
+                                          width: App.getDeviceWidthPercent(92, context) / 4,
+                                          decoration: BoxDecoration(
+                                              color: App.grey,
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft: Radius.circular(Global.languageCode == "en" ? 15 : 0),
+                                                  bottomRight: Radius.circular(Global.languageCode == "en" ? 0 : 15)
+                                              )
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 0),
+                                            child: ImageAndText(
+                                                child1: const Icon(Icons.whatsapp,color: Colors.green,size: 14,),
+                                                text: "whatsapp",
+                                                textStyle: const TextStyle(
+                                                    fontSize: App.tiny + 1,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.normal
+                                                )
+                                            ),
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 5,),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () async{
+                                        if(await canLaunchUrl(Uri.parse('tel: +971 58 129 6445'))){
+                                          await launchUrl (Uri.parse('tel: +971 58 129 6445'));
+                                        }
+                                      },
+                                      child: Container(
+                                          width: App.getDeviceWidthPercent(92, context) / 5,
+                                          decoration: const BoxDecoration(
                                             color: App.grey,
-                                            borderRadius: BorderRadius.only(
-                                                bottomLeft: Radius.circular(Global.languageCode == "en" ? 15 : 0),
-                                                bottomRight: Radius.circular(Global.languageCode == "en" ? 0 : 15)
-                                            )
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 0),
-                                          child: ImageAndText(
-                                              child1: const Icon(Icons.whatsapp,color: Colors.green,size: 14,),
-                                              text: "whatsapp",
-                                              textStyle: const TextStyle(
-                                                  fontSize: App.tiny + 1,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.normal
-                                              )
                                           ),
-                                        )
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 0),
+                                            child: ImageAndText(
+                                                child1: const Icon(Icons.call,color: Colors.red,size: 14,),
+                                                text: "call",
+                                                textStyle: const TextStyle(
+                                                    fontSize: App.tiny + 1,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.normal
+                                                )
+                                            ),
+                                          )
+                                      ),
                                     ),
                                   ),
-                                  GestureDetector(
-                                    onTap: () async{
-                                      if(await canLaunchUrl(Uri.parse('tel: +971 58 129 6445'))){
-                                        await launchUrl (Uri.parse('tel: +971 58 129 6445'));
-                                      }
-                                    },
-                                    child: Container(
-                                        width: App.getDeviceWidthPercent(92, context) / 5,
-                                        decoration: const BoxDecoration(
-                                          color: App.grey,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 0),
-                                          child: ImageAndText(
-                                              child1: const Icon(Icons.call,color: Colors.red,size: 14,),
-                                              text: "call",
-                                              textStyle: const TextStyle(
-                                                  fontSize: App.tiny + 1,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.normal
-                                              )
-                                          ),
-                                        )
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Get.to(()=>ProductDetails(allCarsBrands.brand.brands![index].id));
-                                      homeController.selectNavBar.value = 0;
-                                    },
-                                    child: Container(
-                                        width: App.getDeviceWidthPercent(92, context) / 5,
-                                        decoration: const BoxDecoration(
-                                          color: App.grey,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 0),
-                                          child: ImageAndText(
-                                              child1: const Icon(Icons.info_outline,color: Colors.orange,size: 14,),
-                                              text: "detail",
-                                              textStyle: const TextStyle(
-                                                  fontSize: App.tiny + 1,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.normal
-                                              )
-                                          ),
-                                        )
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Get.to(() => Book(introductionController.allCars!.data!.cars[index]));
-                                    },
-                                    child: Container(
-                                        width: App.getDeviceWidthPercent(92, context) / 4,
-                                        decoration: BoxDecoration(
+                                  SizedBox(width: 5,),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.to(()=>ProductDetails(allCarsBrands.brand.brands![index].id));
+                                        homeController.selectNavBar.value = 0;
+                                      },
+                                      child: Container(
+                                          width: App.getDeviceWidthPercent(92, context) / 5,
+                                          decoration: const BoxDecoration(
                                             color: App.grey,
-                                            borderRadius: BorderRadius.only(
-                                                bottomRight: Radius.circular(Global.languageCode == "en" ? 15 : 0),
-                                                bottomLeft: Radius.circular(Global.languageCode == "en" ? 0 : 15)
-                                            )
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 0),
-                                          child: ImageAndText(
-                                              child1: ContainerWithImage(
-                                                width: 16,
-                                                height: 16,
-                                                image: "assets/icons/book.svg",
-                                                option: 0,
-                                                color: App.orange,
-                                              ),
-                                              text: "book",
-                                              textStyle: const TextStyle(
-                                                  fontSize: App.tiny + 1,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.normal
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 0),
+                                            child: ImageAndText(
+                                                child1: const Icon(Icons.info_outline,color: Colors.orange,size: 14,),
+                                                text: "detail",
+                                                textStyle: const TextStyle(
+                                                    fontSize: App.tiny + 1,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.normal
+                                                )
+                                            ),
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 5,),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.to(() => Book(introductionController.allCars!.data!.cars[index]));
+                                      },
+                                      child: Container(
+                                          width: App.getDeviceWidthPercent(92, context) / 4,
+                                          decoration: BoxDecoration(
+                                              color: App.grey,
+                                              borderRadius: BorderRadius.only(
+                                                  bottomRight: Radius.circular(Global.languageCode == "en" ? 15 : 0),
+                                                  bottomLeft: Radius.circular(Global.languageCode == "en" ? 0 : 15)
                                               )
                                           ),
-                                        )
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 0),
+                                            child: ImageAndText(
+                                                child1: ContainerWithImage(
+                                                  width: 16,
+                                                  height: 16,
+                                                  image: "assets/icons/book.svg",
+                                                  option: 0,
+                                                  color: App.orange,
+                                                ),
+                                                text: "book",
+                                                textStyle: const TextStyle(
+                                                    fontSize: App.tiny + 1,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.normal
+                                                )
+                                            ),
+                                          )
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -455,7 +466,7 @@ class CarsByBrand extends StatelessWidget {
                 })
         ),
         introductionController.homeData!.data!.brands[index].descriptionEn == "" ?
-            const Center() :
+        const Center() :
         SizedBox(
             width: App.getDeviceWidthPercent(88, context),
             height: App.getDeviceHeightPercent(35, context),
@@ -481,9 +492,9 @@ class CarsByBrand extends StatelessWidget {
                               color: App.lightWhite,
                             ),
                             "h2" : Style(
-                              color: App.orange,
-                              fontWeight: FontWeight.bold,
-                              fontSize: const FontSize(App.large)
+                                color: App.orange,
+                                fontWeight: FontWeight.bold,
+                                fontSize: const FontSize(App.large)
                             )
                           },
                         ),
@@ -513,7 +524,7 @@ class CarsByBrand extends StatelessWidget {
         isLoop: true,
         children: allCarsBrands.brand.brands![index].imgs.split(",").map((e) => Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: SizedBox(
             child:  Image.network(

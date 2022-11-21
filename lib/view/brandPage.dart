@@ -34,7 +34,7 @@ class BrandPage extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 80),
+          SizedBox(height: Get.height * 0.1 + 20),
           // Column(
           //   crossAxisAlignment: CrossAxisAlignment.center,
           //   children: [
@@ -51,7 +51,7 @@ class BrandPage extends StatelessWidget {
           //     ),
           //   ],
           // ),
-          const SizedBox(height: 30),
+          // const SizedBox(height: 30),
           brandList(context),
           const SizedBox(height: 20),
         ],
@@ -65,9 +65,9 @@ class BrandPage extends StatelessWidget {
           width: App.getDeviceWidthPercent(90, context),
           child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                childAspectRatio: 1.8,
-                mainAxisSpacing: 25
+                  crossAxisCount: 4,
+                  childAspectRatio: 1.8,
+                  mainAxisSpacing: 25
               ),
               itemCount: introductionController.homeData!.data!.brands.length,
               scrollDirection: Axis.vertical,
@@ -80,11 +80,11 @@ class BrandPage extends StatelessWidget {
                         introductionController.homeData!.data!.brands[index].id,index);
                   },
                   child: SizedBox(
-                      child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/loading-gif.gif',
-                        image: "${API.url}/${introductionController.homeData!.data!.brands[index].img}",
-                        fit: BoxFit.contain,
-                      ),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/loading-gif.gif',
+                      image: "${API.url}/${introductionController.homeData!.data!.brands[index].img}",
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 );
               }),

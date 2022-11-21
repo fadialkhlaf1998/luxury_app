@@ -118,29 +118,29 @@ class ProductDetails extends StatelessWidget {
         carDetails(context),
         const SizedBox(height: 20),
         CustomButton(
-          width: App.getDeviceWidthPercent(90, context),
-          height: 50,
-          text: App_Localization.of(context).translate("book_now").toUpperCase(),
-          onPressed: () {
-            var bookedCar = Car(id: car!.id,orderNumber: car!.orderNumber,orderBrandNumber: car!.orderBrandNumber,
-                orderCategoryNumber: car!.orderCategoryNumber,typeId: car!.typeId, brandId: car!.brandId,canonical: car!.canonical,slug: car!.slug,
-                slugGroup: car!.slugGroup, model: car!.model, year: car!.year, innerColor: car!.innerColor,
-                outerColor: car!.outerColor, seats: car!.seats, oldDailyPrice: car!.oldDailyPrice, dailyPrice: car!.dailyPrice,
-                oldHourlyPrice: car!.oldHourlyPrice, hourlyPrice: car!.hourlyPrice, descriptionEn: car!.descriptionEn,
-                descriptionAr: car!.descriptionAr, imgs: car!.imgs, metaTitleEn: car!.metaTitleEn,
-                metaTitleAr: car!.metaTitleAr, metaKeywordsEn: car!.metaKeywordsEn,
-                metaKeywordsAr: car!.metaKeywordsAr, metaDescriptionEn: car!.metaDescriptionEn,
-                metaDescriptionAr: car!.metaDescriptionAr, metaImage: car!.metaImage,
-                brands: car!.brandsList!, types: null, bodies: car!.bodies);
-            Get.to(() => Book(bookedCar));
-          },
-          color: App.orange,
-          borderRadius: 8,
-          textStyle: const TextStyle(
-              fontSize: App.medium,
-              color: Colors.white,
-              fontWeight: FontWeight.w600
-          )
+            width: App.getDeviceWidthPercent(90, context),
+            height: 50,
+            text: App_Localization.of(context).translate("book_now").toUpperCase(),
+            onPressed: () {
+              var bookedCar = Car(id: car!.id,orderNumber: car!.orderNumber,orderBrandNumber: car!.orderBrandNumber,
+                  orderCategoryNumber: car!.orderCategoryNumber,typeId: car!.typeId, brandId: car!.brandId,canonical: car!.canonical,slug: car!.slug,
+                  slugGroup: car!.slugGroup, model: car!.model, year: car!.year, innerColor: car!.innerColor,
+                  outerColor: car!.outerColor, seats: car!.seats, oldDailyPrice: car!.oldDailyPrice, dailyPrice: car!.dailyPrice,
+                  oldHourlyPrice: car!.oldHourlyPrice, hourlyPrice: car!.hourlyPrice, descriptionEn: car!.descriptionEn,
+                  descriptionAr: car!.descriptionAr, imgs: car!.imgs, metaTitleEn: car!.metaTitleEn,
+                  metaTitleAr: car!.metaTitleAr, metaKeywordsEn: car!.metaKeywordsEn,
+                  metaKeywordsAr: car!.metaKeywordsAr, metaDescriptionEn: car!.metaDescriptionEn,
+                  metaDescriptionAr: car!.metaDescriptionAr, metaImage: car!.metaImage,
+                  brands: car!.brandsList!, types: null, bodies: car!.bodies);
+              Get.to(() => Book(bookedCar));
+            },
+            color: App.orange,
+            borderRadius: 8,
+            textStyle: const TextStyle(
+                fontSize: App.medium,
+                color: Colors.white,
+                fontWeight: FontWeight.w600
+            )
         ),
       ],
     );
@@ -183,7 +183,11 @@ class ProductDetails extends StatelessWidget {
                 CenterPageEnlargeStrategy.height,
                 autoPlayInterval: const Duration(seconds: 2),
                 onPageChanged: (index, reason) {
-                  productDetailsController.setIndex(index);
+                  // productDetailsController.setIndex(index);
+                  if(reason == CarouselPageChangedReason.manual){
+                    productDetailsController.setIndex(index);
+                  }
+                  print(reason);
                 }),
             itemCount: car!.imgs.split(",").length,
             itemBuilder: (BuildContext context,int photoIndex, int realIndex) {
@@ -192,6 +196,7 @@ class ProductDetails extends StatelessWidget {
                 height: App.getDeviceHeightPercent(20, context),
                 decoration:BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
+
                     image: DecorationImage(
                         image: NetworkImage("${API.url}/${car!.imgs.split(",")[photoIndex]}"),
                         fit: BoxFit.cover
@@ -221,47 +226,49 @@ class ProductDetails extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context,index){
                 return GestureDetector(
-                  onTap: () {
-                    productDetailsController.setIndex(index);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Container(
-                      width: App.getDeviceWidthPercent(25, context),
-                      height: App.getDeviceHeightPercent(25, context),
-                      decoration:BoxDecoration(
+                    onTap: () {
+                      productDetailsController.setIndex(index);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Container(
+                        width: App.getDeviceWidthPercent(25, context),
+                        height: App.getDeviceHeightPercent(25, context),
+                        decoration:BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: SizedBox(
-                        child:  Image.network(
-                          "${API.url}/${car!.imgs.split(",")[index]}",
-                          fit: BoxFit.cover,
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent? loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: Container(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  value: loadingProgress.expectedTotalBytes != null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                      : null,
+                          // border: Border.all(color: productDetailsController.activeIndex.value == index ?App.orange:App.grey),
+                        ),
+                        child: SizedBox(
+                          child:  Image.network(
+                            "${API.url}/${car!.imgs.split(",")[index]}",
+                            fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    value: loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                  )
+                    )
                 );
               },
             )
         ),
       ],
+
     );
   }
   price(BuildContext context) {

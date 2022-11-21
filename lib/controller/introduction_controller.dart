@@ -13,7 +13,6 @@ import 'package:luxury_app/model/terms.dart';
 import 'package:luxury_app/view/cars_by_brand.dart';
 import 'package:luxury_app/view/home.dart';
 import 'package:luxury_app/view/no_Internet.dart';
-import 'package:luxury_app/view/product_details.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -42,51 +41,53 @@ class IntroductionController extends GetxController{
   }
   getData() async {
     API.checkInternet().then((internet) async {
-       if(internet) {
-         API.getHome().then((value) async{
-           if(value != null) {
-             allCars = await API.getAllCars();
-             allCarsConst = await API.getAllCars();
-             initLazyProductsList();
-             homeData = value;
-              if(homeData !=null){
-                if(homeData!.data!=null){
-                  if(homeData!.data!.carBody.isNotEmpty){
-                    getCarsById(0);
-                  }
+      if(internet) {
+        API.getHome().then((value) async{
+          if(value != null) {
+            allCars = await API.getAllCars();
+            allCarsConst = await API.getAllCars();
+            initLazyProductsList();
+            homeData = value;
+            if(homeData !=null){
+              if(homeData!.data!=null){
+                if(homeData!.data!.carBody.isNotEmpty){
+                  getCarsById(0);
                 }
               }
-             homeData!.data!.brandsWithAll.insert(0,Brand(id: -1, name: "ALL", titleEn: "ALL", titleAr: "جميع", img: "", cover: "", descriptionEn: "", descriptionAr: "", slug: "all", canonical: "",orderNum: -1,
-                     metaTitleEn: "", metaTitleAr: "", metaKeywordsEn: "", metaKeywordsAr: "", metaDescriptionEn: "", metaDescriptionAr: "", metaImage: ""));
-             Get.offAll(() => Home(homeData!));
-             homeData!.data!.brandsWithAll.first.selected.value = true;
-           }
-         });
-         API.getAboutUs().then((value) {
-           if(value != null) {
-             aboutUs = value;
-           }
-         });
-         API.getTerms().then((value) {
-           if(value != null) {
-             terms = value;
-           }
-         });
-         API.getFAQ().then((value) {
-           if(value != null) {
-             faq = value;
-           }
-         });
-         API.getBlogs().then((value) {
-           if(value != null) {
-             blogs = value;
-           }
-         });
-       }else {
-         Get.to(() => NoInternet())!.then((value) {
-           getData();
-         });
-       }
+            }
+            homeData!.data!.brandsWithAll.insert(0,Brand(id: -1, name: "ALL", titleEn: "ALL", titleAr: "جميع", img: "", cover: "", descriptionEn: "", descriptionAr: "", slug: "all", canonical: "",orderNum: -1,
+                metaTitleEn: "", metaTitleAr: "", metaKeywordsEn: "", metaKeywordsAr: "", metaDescriptionEn: "", metaDescriptionAr: "", metaImage: ""));
+            Get.offAll(() => Home(homeData!));
+            homeData!.data!.brandsWithAll.first.selected.value = true;
+          }else{
+            print('no data');
+          }
+        });
+        API.getAboutUs().then((value) {
+          if(value != null) {
+            aboutUs = value;
+          }
+        });
+        API.getTerms().then((value) {
+          if(value != null) {
+            terms = value;
+          }
+        });
+        API.getFAQ().then((value) {
+          if(value != null) {
+            faq = value;
+          }
+        });
+        API.getBlogs().then((value) {
+          if(value != null) {
+            blogs = value;
+          }
+        });
+      }else {
+        Get.to(() => NoInternet())!.then((value) {
+          getData();
+        });
+      }
     });
   }
   viewAllProducts() {
@@ -114,8 +115,7 @@ class IntroductionController extends GetxController{
             allCars = value;
             initLazyProductsList();
             loading.value = false;
-
-          }
+        }
         });
       }else {
         Get.to(()=>NoInternet())!.then((value) {

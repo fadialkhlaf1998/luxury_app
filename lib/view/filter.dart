@@ -22,66 +22,68 @@ class Filter extends StatelessWidget {
     return Obx(() => Scaffold(
       backgroundColor: App.grey,
       body: SafeArea(
-        child: Container(
-            width: App.getDeviceWidthPercent(100, context),
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/filter.webp"),
-                    fit: BoxFit.cover
-                )
-            ),
-            child: introductionController.loading.value ?
-            SizedBox(
+          child: Container(
               width: App.getDeviceWidthPercent(100, context),
-              height: App.getDeviceHeightPercent(100, context),
-              child: const Center(
-                child: CupertinoActivityIndicator(
-                  color: App.orange,
-                ),
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/filter.webp"),
+                      fit: BoxFit.cover
+                  )
               ),
-            ) :
-            Stack(
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox( height: Get.height * 0.1),
-                      Container(
-                        width: App.getDeviceWidthPercent(100, context),
-                        height: App.getDeviceHeightPercent(20, context),
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("assets/images/filter-background.png"),
-                                fit: BoxFit.cover
-                            )
+              child: introductionController.loading.value ?
+              SizedBox(
+                width: App.getDeviceWidthPercent(100, context),
+                height: App.getDeviceHeightPercent(100, context),
+                child: const Center(
+                  child: CupertinoActivityIndicator(
+                    color: App.orange,
+                  ),
+                ),
+              ) :
+              Stack(
+                children: [
+                  Container(
+                    height: Get.height,
+                    child: Column(
+                      children: [
+                        SizedBox( height: Get.height * 0.1),
+                        Container(
+                          width: App.getDeviceWidthPercent(100, context),
+                          height: App.getDeviceHeightPercent(20, context),
+                          decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage("assets/images/filter-background.png"),
+                                  fit: BoxFit.cover
+                              )
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      _rentalModel(context),
-                      const SizedBox(height: 10),
-                      _price(context),
-                      const SizedBox(height: 10),
-                      _brands(context),
-                      const SizedBox(height: 50),
-                      const SizedBox(height: 20),
-                    ],
+                        // Spacer(),
+                        const SizedBox(height: 10),
+                        _rentalModel(context),
+                        const SizedBox(height: 10),
+                        _price(context),
+                        const SizedBox(height: 10),
+                        _brands(context),
+                        const SizedBox(height: 50),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: 0,
-                  child: _header(context),
-                ),
-                Positioned(
-                  bottom: 0,
-                  child: SizedBox(
-                    width: App.getDeviceWidthPercent(100, context),
-                    height: 60,
-                    child: _applyButton(context),
+                  Positioned(
+                    top: 0,
+                    child: _header(context),
                   ),
-                )
-              ],
-            )
-        )
+                  Positioned(
+                    bottom: 0,
+                    child: SizedBox(
+                      width: App.getDeviceWidthPercent(100, context),
+                      height: 60,
+                      child: _applyButton(context),
+                    ),
+                  )
+                ],
+              )
+          )
       ),
     ));
   }
@@ -103,17 +105,17 @@ class Filter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
-              onTap: () {
-                Get.back();
-                // homeController.clearFilter();
-                homeController.initializePrice(introductionController);
-                introductionController.clearFilter();
-                introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
-                for(int i=1 ; i< introductionController.homeData!.data!.brandsWithAll.length;i++){
-                  introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
-                }
-              },
-              child: const Icon(Icons.arrow_back,color: Colors.white,size: App.iconSize,)
+                onTap: () {
+                  Get.back();
+                  // homeController.clearFilter();
+                  homeController.initializePrice(introductionController);
+                  introductionController.clearFilter();
+                  introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
+                  for(int i=1 ; i< introductionController.homeData!.data!.brandsWithAll.length;i++){
+                    introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
+                  }
+                },
+                child: const Icon(Icons.arrow_back,color: Colors.white,size: App.iconSize,)
             ),
             GestureDetector(
               onTap: () {
@@ -122,7 +124,7 @@ class Filter extends StatelessWidget {
                 homeController.key.currentState!.openEndDrawer();
               },
               child: SvgPicture.asset("assets/icons/logo.svg",
-              width: Get.height * 0.2,
+                width: Get.height * 0.2,
               ),
             ),
             GestureDetector(
@@ -145,15 +147,16 @@ class Filter extends StatelessWidget {
   _rentalModel(BuildContext context) {
     return SizedBox(
       width: App.getDeviceWidthPercent(90, context),
+      height: 60,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(App_Localization.of(context).translate("rental_model").toUpperCase(),
-            style: const TextStyle(
-                fontSize: App.big,
-                color: App.orange,
-                fontWeight: FontWeight.bold
-            )
+              style: const TextStyle(
+                  fontSize: App.big,
+                  color: App.orange,
+                  fontWeight: FontWeight.bold
+              )
           ),
           const SizedBox(height: 10),
           // Row(
@@ -317,6 +320,7 @@ class Filter extends StatelessWidget {
   _price(BuildContext context) {
     return AnimatedContainer(
       width: App.getDeviceWidthPercent(95, context),
+      height: 75,
       duration: const Duration(milliseconds: 300),
       child: ScrollConfiguration(
         behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -374,74 +378,79 @@ class Filter extends StatelessWidget {
   _brands(BuildContext context) {
     return SizedBox(
       width: App.getDeviceWidthPercent(90, context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(App_Localization.of(context).translate("brand"),
-            style: const TextStyle(
-                fontSize: App.big,
-                color: Colors.white,
-                fontWeight: FontWeight.bold
-            )
-          ),
-          const SizedBox(height: 15),
-          SizedBox(
-            width: App.getDeviceWidthPercent(90, context),
-            child: Wrap(
-              alignment: WrapAlignment.spaceBetween,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              spacing: 10,
-              runSpacing: 15,
-              children: introductionController.homeData!.data!.brandsWithAll.map((e) =>
-                  SizedBox(
-                    width: 100,
-                    height: 35,
-                    child: GestureDetector(
-                      onTap: (){
-                        ///select multi items
-                        // print(e.selected.value);
-                        if(e.id == -1){
-                          e.selected.value = true;
-                          homeController.selectedBrands.clear();
-                          introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
-                          for(int i=1 ; i<= introductionController.homeData!.data!.brands.length;i++){
-                            introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
-                          }
-                        }else{
-                          introductionController.homeData!.data!.brandsWithAll.first.selected.value = false;
-                          if(e.selected.value){
-                            homeController.selectedBrands.remove(e.id);
-                            e.selected.value = false;
-                          }else{
-                            homeController.selectedBrands.add(e.id);
-                            e.selected.value = true;
-                          }
-                        }
-                        // print(List<int>.from(homeController.selectedBrands.map((x) => x)).toString());
-                      },
-                      child: Obx(() => Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6),
-                        decoration: BoxDecoration(
-                          color: e.selected.value ? App.orange : App.grey,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Center(
-                          child: Text(
-                              e.name,textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: App.xSmall,
-                                  color: e.selected.value ? App.grey :  Colors.white ,
-                                  fontWeight: FontWeight.w600
-                              )
-                          ),
-                        ),
-                      )),
-                    ),
-                  )
-              ).toList(),
+      height: Get.height*0.7 - 235 - MediaQuery.of(context).padding.bottom - 35,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(App_Localization.of(context).translate("brand"),
+                style: const TextStyle(
+                    fontSize: App.big,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold
+                )
             ),
-          )
-        ],
+            const SizedBox(height: 15),
+            SizedBox(
+              width: App.getDeviceWidthPercent(90, context),
+              child: SingleChildScrollView(
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 10,
+                  runSpacing: 15,
+                  children: introductionController.homeData!.data!.brandsWithAll.map((e) =>
+                      SizedBox(
+                        width: 100,
+                        height: 35,
+                        child: GestureDetector(
+                          onTap: (){
+                            ///select multi items
+                            // print(e.selected.value);
+                            if(e.id == -1){
+                              e.selected.value = true;
+                              homeController.selectedBrands.clear();
+                              introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
+                              for(int i=1 ; i<= introductionController.homeData!.data!.brands.length;i++){
+                                introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
+                              }
+                            }else{
+                              introductionController.homeData!.data!.brandsWithAll.first.selected.value = false;
+                              if(e.selected.value){
+                                homeController.selectedBrands.remove(e.id);
+                                e.selected.value = false;
+                              }else{
+                                homeController.selectedBrands.add(e.id);
+                                e.selected.value = true;
+                              }
+                            }
+                            // print(List<int>.from(homeController.selectedBrands.map((x) => x)).toString());
+                          },
+                          child: Obx(() => Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            decoration: BoxDecoration(
+                              color: e.selected.value ? App.orange : App.grey,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Center(
+                              child: Text(
+                                  e.name,textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: App.xSmall,
+                                      color: e.selected.value ? App.grey :  Colors.white ,
+                                      fontWeight: FontWeight.w600
+                                  )
+                              ),
+                            ),
+                          )),
+                        ),
+                      )
+                  ).toList(),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -450,24 +459,24 @@ class Filter extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CustomButton(
-          width: App.getDeviceWidthPercent(90, context),
-          height: 50,
-          text: App_Localization.of(context).translate("apply").toUpperCase(),
-          onPressed: () {
-            // print(double.parse(homeController.priceLabel.value.start));
-            // print(double.parse(homeController.priceLabel.value.end));
+            width: App.getDeviceWidthPercent(90, context),
+            height: 50,
+            text: App_Localization.of(context).translate("apply").toUpperCase(),
+            onPressed: () {
+              // print(double.parse(homeController.priceLabel.value.start));
+              // print(double.parse(homeController.priceLabel.value.end));
               introductionController.filterProduct(3,homeController.selectRentalModel.value,
                   double.parse(homeController.priceLabel.value.start),
                   double.parse(homeController.priceLabel.value.end),
-                homeController.selectedBrands);
-          },
-          color: App.orange,
-          borderRadius: 8,
-          textStyle: const TextStyle(
-              fontSize: App.medium,
-              color: Colors.white,
-              fontWeight: FontWeight.w600
-          )
+                  homeController.selectedBrands);
+            },
+            color: App.orange,
+            borderRadius: 8,
+            textStyle: const TextStyle(
+                fontSize: App.medium,
+                color: Colors.white,
+                fontWeight: FontWeight.w600
+            )
         ),
       ],
     );

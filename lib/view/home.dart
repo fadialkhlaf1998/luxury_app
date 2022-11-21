@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
     homeController.scrollController.addListener(() {
       if(homeController.scrollController.position.pixels == 0){
         setState(() {
-           homeController.showAppbar = true;
+          homeController.showAppbar = true;
         });
       }else{
         setState(() {
@@ -90,14 +90,14 @@ class _HomeState extends State<Home> {
                 color: App.primary,
               ),
               homeController.selectNavDrawer.value == -1 ?
-                homeController.selectNavBar.value == 0 ? home(context) :
-                homeController.selectNavBar.value == 1 ? BrandPage() :
-                Settings() :
-                  homeController.selectNavDrawer.value == 0 ? AboutUs() :
-                  homeController.selectNavDrawer.value == 1 ? FAQ() :
-                  homeController.selectNavDrawer.value == 2 ? Blog() :
-                  homeController.selectNavDrawer.value == 3 ?
-                  RentTermsPage() : ContactUs(),
+              homeController.selectNavBar.value == 0 ? home(context) :
+              homeController.selectNavBar.value == 1 ? BrandPage() :
+              Settings() :
+              homeController.selectNavDrawer.value == 0 ? AboutUs() :
+              homeController.selectNavDrawer.value == 1 ? FAQ() :
+              homeController.selectNavDrawer.value == 2 ? Blog() :
+              homeController.selectNavDrawer.value == 3 ?
+              RentTermsPage() : ContactUs(),
               Positioned(
                   top: 0,
                   child: header(context)
@@ -173,7 +173,7 @@ class _HomeState extends State<Home> {
                         homeController.key.currentState!.openEndDrawer();
                       },
                       child: SvgPicture.asset("assets/icons/logo.svg",
-                      width: Get.width * 0.4),
+                          width: Get.width * 0.4),
                     ),
                     GestureDetector(
                         onTap: () {
@@ -259,8 +259,8 @@ class _HomeState extends State<Home> {
   btnNavBar(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: App.primary,
-        border: Border.all(color: Colors.transparent)
+          color: App.primary,
+          border: Border.all(color: Colors.transparent)
       ),
       child: ClipRRect(
         borderRadius: const BorderRadius.only(
@@ -271,10 +271,10 @@ class _HomeState extends State<Home> {
           iconSize: App.iconSize,
           backgroundColor: App.lightGrey,
           selectedLabelStyle: TextStyle(
-            color: homeController.selectNavDrawer.value != -1 ?
-            App.lightWhite :  App.orange,
-            fontSize: App.small,
-            fontWeight: FontWeight.w600
+              color: homeController.selectNavDrawer.value != -1 ?
+              App.lightWhite :  App.orange,
+              fontSize: App.small,
+              fontWeight: FontWeight.w600
           ),
           unselectedLabelStyle: const TextStyle(
               color: App.lightWhite,
@@ -286,17 +286,17 @@ class _HomeState extends State<Home> {
           unselectedItemColor: App.lightWhite,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: homeController.selectNavBar.value == 0
-                  && homeController.selectNavDrawer.value == -1 ?
-              Padding(
-                padding: const EdgeInsets.all(3),
-                child: SvgPicture.asset("assets/icons/home-Filled.svg",color: App.orange),
-              ) :
-              Padding(
-                padding: const EdgeInsets.all(3),
-                child: SvgPicture.asset("assets/icons/home-Bold.svg",color: App.lightWhite),
-              ),
-              label: App_Localization.of(context).translate("home").toUpperCase()
+                icon: homeController.selectNavBar.value == 0
+                    && homeController.selectNavDrawer.value == -1 ?
+                Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: SvgPicture.asset("assets/icons/home-Filled.svg",color: App.orange),
+                ) :
+                Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: SvgPicture.asset("assets/icons/home-Bold.svg",color: App.lightWhite),
+                ),
+                label: App_Localization.of(context).translate("home").toUpperCase()
             ),
             BottomNavigationBarItem(
                 icon: homeController.selectNavBar.value == 1
@@ -364,16 +364,16 @@ class _HomeState extends State<Home> {
           child: SingleChildScrollView(
             controller: homeController.scrollController,
             child: widget.homeData.data!.carType[homeController.selectSuperCategory.value].id != 3 ?
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        height: Get.height * 0.25
-                    ),
-                    noResult(context),
-                    const SizedBox(height: 20,),
-                  ],
-                ) :
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    height: Get.height * 0.25
+                ),
+                noResult(context),
+                const SizedBox(height: 20,),
+              ],
+            ) :
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -420,36 +420,36 @@ class _HomeState extends State<Home> {
                     child: Row(
                       children: [
                         Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                            decoration: BoxDecoration(
-                                color: homeController.selectSuperCategory.value == index ?
-                                App.orange : App.grey,
-                                borderRadius: BorderRadius.circular(5)
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                    width: 28,
-                                    height: 28,
-                                    child: SvgPicture.network("${API.url}/${homeData.data!.carType[index].img}",
-                                        fit: BoxFit.cover,
-                                        color: homeController.selectSuperCategory.value == index ? Colors.black : App.orange,
-                                    )
+                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                          decoration: BoxDecoration(
+                              color: homeController.selectSuperCategory.value == index ?
+                              App.orange : App.grey,
+                              borderRadius: BorderRadius.circular(5)
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                  width: 28,
+                                  height: 28,
+                                  child: SvgPicture.network("${API.url}/${homeData.data!.carType[index].img}",
+                                    fit: BoxFit.cover,
+                                    color: homeController.selectSuperCategory.value == index ? Colors.black : App.orange,
+                                  )
+                              ),
+                              const SizedBox(width: 5),
+                              Text(Global.languageCode == "en" ?
+                              homeData.data!.carType[index].nameEn :
+                              homeData.data!.carType[index].nameAr,
+                                style: TextStyle(
+                                    fontSize: App.xSmall,
+                                    color: homeController.selectSuperCategory.value == index ?
+                                    Colors.black : App.white,
+                                    fontWeight: FontWeight.normal
                                 ),
-                                const SizedBox(width: 5),
-                                Text(Global.languageCode == "en" ?
-                                homeData.data!.carType[index].nameEn :
-                                homeData.data!.carType[index].nameAr,
-                                  style: TextStyle(
-                                      fontSize: App.xSmall,
-                                      color: homeController.selectSuperCategory.value == index ?
-                                      Colors.black : App.white,
-                                      fontWeight: FontWeight.normal
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -480,26 +480,26 @@ class _HomeState extends State<Home> {
                       child: Column(
                         children: [
                           Container(
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              color: App.grey,
-                              border: Border.all(
-                                  color: homeController.selectCategory.value == index ?
-                                  App.orange : Colors.transparent,
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  color: App.grey,
+                                  border: Border.all(
+                                    color: homeController.selectCategory.value == index ?
+                                    App.orange : Colors.transparent,
+                                  ),
+                                  borderRadius: BorderRadius.circular(50)
                               ),
-                             borderRadius: BorderRadius.circular(50)
-                            ),
-                            child: Center(
-                              child: Container(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                width: 50,
-                                child: SvgPicture.network("${API.url}/${widget.homeData.data!.carBody[index].img}",
-                                  fit: BoxFit.contain,
-                                  color: App.orange,
-                                ),
+                              child: Center(
+                                  child: Container(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    width: 50,
+                                    child: SvgPicture.network("${API.url}/${widget.homeData.data!.carBody[index].img}",
+                                      fit: BoxFit.contain,
+                                      color: App.orange,
+                                    ),
+                                  )
                               )
-                            )
                           ),
                           const SizedBox(height: 10,),
                           SizedBox(
@@ -508,9 +508,9 @@ class _HomeState extends State<Home> {
                               widget.homeData.data!.carBody[index].nameEn :
                               widget.homeData.data!.carBody[index].nameAr,
                                 style: TextStyle(
-                                  color: homeController.selectCategory.value == index ?
-                                  App.orange : App.lightWhite,
-                                  fontSize: App.xSmall
+                                    color: homeController.selectCategory.value == index ?
+                                    App.orange : App.lightWhite,
+                                    fontSize: App.xSmall
                                 ),
                               ),
                             ),
@@ -602,28 +602,28 @@ class _HomeState extends State<Home> {
   products(BuildContext context) {
     return introductionController.allCars!.data!.cars.isEmpty ?
     Column(
-         crossAxisAlignment: CrossAxisAlignment.center,
-         children: [
-           SizedBox(height: Get.height * 0.15),
-           SizedBox(
-             width: App.getDeviceWidthPercent(40, context),
-             height: Get.height * 0.05,
-             child: Center(
-               child: Text(App_Localization.of(context).translate("no_results_found!"),
-                   style: const TextStyle(
-                     color: App.lightWhite,
-                     fontSize: App.small,
-                     fontWeight: FontWeight.w600
-                   )
-               ),
-             ),
-           ),
-         ],
-       ) :
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(height: Get.height * 0.15),
+        SizedBox(
+          width: App.getDeviceWidthPercent(40, context),
+          height: Get.height * 0.05,
+          child: Center(
+            child: Text(App_Localization.of(context).translate("no_results_found!"),
+                style: const TextStyle(
+                    color: App.lightWhite,
+                    fontSize: App.small,
+                    fontWeight: FontWeight.w600
+                )
+            ),
+          ),
+        ),
+      ],
+    ) :
     SizedBox(
         width: App.getDeviceWidthPercent(90, context),
         child: GridView.builder(
-          controller: introductionController.scrollController,
+            controller: introductionController.scrollController,
             padding: const EdgeInsets.symmetric(vertical: 10),
             itemCount: introductionController.lazyProductsList.value,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -635,7 +635,7 @@ class _HomeState extends State<Home> {
             scrollDirection: Axis.vertical,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-                  return GestureDetector(
+              return GestureDetector(
                 onTap: () {
                   Get.to(()=>ProductDetails(introductionController.allCars!.data!.cars[index].id));
                   homeController.selectNavBar.value = 0;
@@ -705,8 +705,8 @@ class _HomeState extends State<Home> {
                                       ),
                                       Text(App_Localization.of(context).translate("hour"),
                                         style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: App.xSmall,
+                                          color: Colors.white,
+                                          fontSize: App.xSmall,
                                         ),
                                       ),
                                     ],
@@ -837,7 +837,7 @@ class _HomeState extends State<Home> {
                                     }
                                   },
                                   child: Container(
-                                      // width: App.getDeviceWidthPercent(92, context) / 5,
+                                    // width: App.getDeviceWidthPercent(92, context) / 5,
                                       decoration: const BoxDecoration(
                                         color: App.grey,
                                       ),
@@ -864,7 +864,7 @@ class _HomeState extends State<Home> {
                                     homeController.selectNavBar.value = 0;
                                   },
                                   child: Container(
-                                      // width: App.getDeviceWidthPercent(92, context) / 5,
+                                    // width: App.getDeviceWidthPercent(92, context) / 5,
                                       decoration: const BoxDecoration(
                                         color: App.grey,
                                       ),
@@ -890,7 +890,7 @@ class _HomeState extends State<Home> {
                                     Get.to(()=> Book(introductionController.allCars!.data!.cars[index]));
                                   },
                                   child: Container(
-                                      // width: App.getDeviceWidthPercent(92, context) / 4,
+                                    // width: App.getDeviceWidthPercent(92, context) / 4,
                                       decoration: BoxDecoration(
                                           color: App.grey,
                                           borderRadius: BorderRadius.only(
@@ -928,7 +928,7 @@ class _HomeState extends State<Home> {
                 ),
               );
             })
-      );
+    );
   }
   productImages(BuildContext context,int index) {
     return Container(
@@ -947,31 +947,31 @@ class _HomeState extends State<Home> {
         isLoop: true,
         children: introductionController.allCars!.data!.cars[index].imgs.split(",").map((e) => Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: SizedBox(
             child:  Image.network(
-        "${API.url}/$e",
-        fit: BoxFit.cover,
-        loadingBuilder: (BuildContext context, Widget child,
-            ImageChunkEvent? loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Center(
-            child: SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                    loadingProgress.expectedTotalBytes!
-                    : null,
-              ),
+              "${API.url}/$e",
+              fit: BoxFit.cover,
+              loadingBuilder: (BuildContext context, Widget child,
+                  ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
-        ),
+          ),
         )).toList(),
       ),
     );
