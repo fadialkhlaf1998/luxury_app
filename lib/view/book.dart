@@ -202,7 +202,7 @@ class Book extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             SizedBox(
-                width: App.getDeviceWidthPercent(80, context),
+                width: App.getDeviceWidthPercent(90, context),
                 height: 45,
                 child: IntlPhoneField(
                   textAlign: Global.languageCode == "en" ?
