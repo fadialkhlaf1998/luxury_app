@@ -157,7 +157,7 @@ class AboutUs extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 5),
                           child: SvgPicture.asset("assets/icons/checkbox.svg",width: 20,height: 20,),
                         ),
-                        Container(
+                        SizedBox(
                           width:  App.getDeviceWidthPercent(75, context),
                           child: Text(
                               App_Localization.of(context).translate("why_choose_us_content"),

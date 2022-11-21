@@ -942,7 +942,7 @@ class _HomeState extends State<Home> {
             ImageChunkEvent? loadingProgress) {
           if (loadingProgress == null) return child;
           return Center(
-            child: Container(
+            child: SizedBox(
               width: 20,
               height: 20,
               child: CircularProgressIndicator(

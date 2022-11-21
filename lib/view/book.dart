@@ -30,7 +30,7 @@ class Book extends StatelessWidget {
     return Obx(() => Scaffold(
       backgroundColor: App.primary,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(0),
+        preferredSize: const Size.fromHeight(0),
         child: AppBar(
           elevation: 0,
           backgroundColor: App.lightDarkGrey,
@@ -746,7 +746,7 @@ class Book extends StatelessWidget {
     );
   }
   payNowLater(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: App.getDeviceWidthPercent(90, context),
       child: Column(
         children: [
@@ -853,22 +853,21 @@ class Book extends StatelessWidget {
                   builder: (BuildContext context,
                       BoxConstraints constraints) {
                     final boxWidth = constraints.constrainWidth();
-                    final dashWidth = 4.0;
-                    final dashHeight = 1.5;
+                    const dashWidth = 4.0;
+                    const dashHeight = 1.5;
                     final dashCount =
                     (boxWidth / (2 * dashWidth)).floor();
                     return Flex(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       direction: Axis.horizontal,
                       children: List.generate(dashCount, (_) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 5),
+                        return const Padding(
+                          padding: EdgeInsets.only(top: 5),
                           child: SizedBox(
                             width: dashWidth,
                             height: dashHeight,
-                            child: const DecoratedBox(
-                              decoration:
-                              BoxDecoration(color: Colors.white),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(color: Colors.white),
                             ),
                           ),
                         );
@@ -904,22 +903,21 @@ class Book extends StatelessWidget {
                   builder: (BuildContext context,
                       BoxConstraints constraints) {
                     final boxWidth = constraints.constrainWidth();
-                    final dashWidth = 4.0;
-                    final dashHeight = 1.5;
+                    const dashWidth = 4.0;
+                    const dashHeight = 1.5;
                     final dashCount =
                     (boxWidth / (2 * dashWidth)).floor();
                     return Flex(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       direction: Axis.horizontal,
                       children: List.generate(dashCount, (_) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 5),
+                        return const Padding(
+                          padding: EdgeInsets.only(top: 5),
                           child: SizedBox(
                             width: dashWidth,
                             height: dashHeight,
-                            child: const DecoratedBox(
-                              decoration:
-                              BoxDecoration(color: Colors.white),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(color: Colors.white),
                             ),
                           ),
                         );
