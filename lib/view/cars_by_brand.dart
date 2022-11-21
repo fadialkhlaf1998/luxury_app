@@ -335,8 +335,9 @@ class CarsByBrand extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   GestureDetector(
-                                    onTap: () {
-                                      App.lunchURL(context,"https://api.whatsapp.com/send/?phone=%2B971581296445&text=Hi+LUXURY+Car+Rental%2C+I+would+like+to+inquire+about+cars&type=phone_number&app_absent=0");
+                                    onTap: () async{
+                                      await launch("https://wa.me/971581296445/?text=${Uri.parse(allCarsBrands.brand.brands![index].slug.toUpperCase().replaceAll("-", " "))}");
+                                      // App.lunchURL(context,"https://api.whatsapp.com/send/?phone=%2B971581296445&text=Hi+LUXURY+Car+Rental%2C+I+would+like+to+inquire+about+cars&type=phone_number&app_absent=0");
                                     },
                                     child: Container(
                                         width: App.getDeviceWidthPercent(92, context) / 4,
@@ -363,8 +364,8 @@ class CarsByBrand extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: () async{
-                                      if(await canLaunchUrl(Uri.parse('tel: +971 4 392 7704'))){
-                                        await launchUrl (Uri.parse('tel: +971 4 392 7704'));
+                                      if(await canLaunchUrl(Uri.parse('tel: +971 58 129 6445'))){
+                                        await launchUrl (Uri.parse('tel: +971 58 129 6445'));
                                       }
                                     },
                                     child: Container(

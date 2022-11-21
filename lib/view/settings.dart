@@ -230,8 +230,8 @@ class Settings extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () async {
-                  if(await canLaunchUrl(Uri.parse('tel: +971581296445'))){
-                    await launchUrl (Uri.parse('tel: +971581296445'));
+                  if(await canLaunchUrl(Uri.parse('tel: +971 58 129 6445'))){
+                    await launchUrl (Uri.parse('tel: +971 58 129 6445'));
                   }
                 },
                 child: Row(
@@ -239,7 +239,7 @@ class Settings extends StatelessWidget {
                   children: const [
                     Icon(Icons.call,color: App.orange,size: App.iconSize),
                     SizedBox(width: 5),
-                    Text("+971581296445",
+                    Text("+971 58 129 6445",
                       style: TextStyle(
                         fontSize: App.small,
                         color: Colors.white,
@@ -251,15 +251,16 @@ class Settings extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               GestureDetector(
-                onTap: () {
-                  App.lunchURL(context,"https://api.whatsapp.com/send/?phone=%2B971581296445&text=Hi+LUXURY+Car+Rental%2C+I+would+like+to+inquire+about+cars&type=phone_number&app_absent=0");
+                onTap: () async{
+                  await launch("https://wa.me/971581296445/?text=${Uri.parse("I need to contact")}");
+                  // App.lunchURL(context,"https://api.whatsapp.com/send/?phone=%2B971581296445&text=Hi+LUXURY+Car+Rental%2C+I+would+like+to+inquire+about+Audi+RS+Q8&type=phone_number&app_absent=0");
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: const [
                     Icon(Icons.whatsapp,color: App.orange,size: App.iconSize),
                     SizedBox(width: 5),
-                    Text("+971581296445",
+                    Text("+971 58 129 6445",
                       style: TextStyle(
                         fontSize: App.small,
                         color: Colors.white,
