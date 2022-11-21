@@ -10,7 +10,9 @@ import 'package:luxury_app/widgets/custom_button.dart';
 
 class Filter extends StatelessWidget {
 
-  Filter();
+  Filter(){
+    homeController.initializePrice(introductionController);
+  }
 
   HomeController homeController = Get.find();
   IntroductionController introductionController = Get.find();
@@ -103,12 +105,9 @@ class Filter extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Get.back();
-                homeController.clearFilter();
+                // homeController.clearFilter();
+                homeController.initializePrice(introductionController);
                 introductionController.clearFilter();
-                introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
-                for(int i=1 ; i< introductionController.homeData!.data!.brandsWithAll.length;i++){
-                  introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
-                }
               },
               child: const Icon(Icons.arrow_back,color: Colors.white,size: App.iconSize,)
             ),
@@ -124,12 +123,9 @@ class Filter extends StatelessWidget {
             ),
             GestureDetector(
                 onTap: () {
-                  homeController.clearFilter();
+                  // homeController.clearFilter();
+                  homeController.initializePrice(introductionController);
                   introductionController.clearFilter();
-                  introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
-                  for(int i=1 ; i< introductionController.homeData!.data!.brandsWithAll.length;i++){
-                    introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
-                  }
                 },
                 child: SvgPicture.asset("assets/icons/delete.svg",color: Colors.white,)
             ),
@@ -152,45 +148,85 @@ class Filter extends StatelessWidget {
             )
           ),
           const SizedBox(height: 10),
+          // Row(
+          //   children: [
+          //     Row(
+          //       children: [
+          //         GestureDetector(
+          //           onTap: () {
+          //             homeController.selectRentalModel.value = 0;
+          //           },
+          //           child: Container(
+          //               width: 20,
+          //               height: 20,
+          //               decoration: BoxDecoration(
+          //                 color: App.grey,
+          //                   shape: BoxShape.circle,
+          //                   border: Border.all(color: Colors.white,width: 1)
+          //               ),
+          //               child: Center(
+          //                 child: Container(
+          //                   width: 8,
+          //                   height: 8,
+          //                   decoration: BoxDecoration(
+          //                       shape: BoxShape.circle,
+          //                       color: homeController.selectRentalModel.value == 0 ? App.orange : Colors.transparent
+          //                   ),
+          //                 ),
+          //               )
+          //           ),
+          //         ),
+          //         const SizedBox(width: 8),
+          //         Text(App_Localization.of(context).translate("per_day"),
+          //           style: const TextStyle(
+          //               fontSize: App.medium,
+          //               color: Colors.white,
+          //               fontWeight: FontWeight.normal
+          //           )
+          //         ),
+          //       ],
+          //     ),
+          //     const SizedBox(width: 15),
+          //     Row(
+          //       children: [
+          //         GestureDetector(
+          //           onTap: () {
+          //             homeController.selectRentalModel.value = 1;
+          //           },
+          //           child: Container(
+          //               width: 20,
+          //               height: 20,
+          //               decoration: BoxDecoration(
+          //                 color: App.grey,
+          //                   shape: BoxShape.circle,
+          //                   border: Border.all(color: Colors.white,width: 1)
+          //               ),
+          //               child: Center(
+          //                 child: Container(
+          //                   width: 8,
+          //                   height: 8,
+          //                   decoration: BoxDecoration(
+          //                       shape: BoxShape.circle,
+          //                       color: homeController.selectRentalModel.value != 0 ? App.orange : Colors.transparent
+          //                   ),
+          //                 ),
+          //               )
+          //           ),
+          //         ),
+          //         const SizedBox(width: 8),
+          //         Text(App_Localization.of(context).translate("per_hour"),
+          //             style: const TextStyle(
+          //                 fontSize: App.medium,
+          //                 color: Colors.white,
+          //                 fontWeight: FontWeight.normal
+          //             )
+          //         ),
+          //       ],
+          //     ),
+          //   ],
+          // ),
           Row(
             children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      homeController.selectRentalModel.value = 0;
-                    },
-                    child: Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: App.grey,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white,width: 1)
-                        ),
-                        child: Center(
-                          child: Container(
-                            width: 8,
-                            height: 8,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: homeController.selectRentalModel.value == 0 ? App.orange : Colors.transparent
-                            ),
-                          ),
-                        )
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(App_Localization.of(context).translate("per_day"),
-                    style: const TextStyle(
-                        fontSize: App.medium,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal
-                    )
-                  ),
-                ],
-              ),
-              const SizedBox(width: 15),
               Row(
                 children: [
                   GestureDetector(
@@ -201,7 +237,7 @@ class Filter extends StatelessWidget {
                         width: 20,
                         height: 20,
                         decoration: BoxDecoration(
-                          color: App.grey,
+                            color: App.grey,
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.white,width: 1)
                         ),
@@ -211,7 +247,44 @@ class Filter extends StatelessWidget {
                             height: 8,
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: homeController.selectRentalModel.value != 0 ? App.orange : Colors.transparent
+                                color: homeController.selectRentalModel.value == 1 ? App.orange : Colors.transparent
+                            ),
+                          ),
+                        )
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(App_Localization.of(context).translate("per_day"),
+                      style: const TextStyle(
+                          fontSize: App.medium,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal
+                      )
+                  ),
+                ],
+              ),
+              const SizedBox(width: 15),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      homeController.selectRentalModel.value = 0;
+                    },
+                    child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                            color: App.grey,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white,width: 1)
+                        ),
+                        child: Center(
+                          child: Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: homeController.selectRentalModel.value == 0 ? App.orange : Colors.transparent
                             ),
                           ),
                         )
@@ -247,12 +320,13 @@ class Filter extends StatelessWidget {
               RangeSlider(
                 divisions: 22,
                 min: 0,
-                max: 2200,
+                max: homeController.maxPrice.value,
                 onChanged: (value){
-                  homeController.minPrice.value = value.start;
-                  homeController.maxPrice.value = value.end;
                   homeController.price.value = value;
-                  homeController.priceLabel.value = RangeLabels("AED ${value.start.toStringAsFixed(2)}", "AED ${value.end.toStringAsFixed(2)}");
+                  homeController.priceLabel.value = RangeLabels(
+                      value.start.toStringAsFixed(2),
+                      value.end.toStringAsFixed(2)
+                  );
                 },
                 values: homeController.price.value,
                 labels: homeController.priceLabel.value,
@@ -263,7 +337,7 @@ class Filter extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Center(
-                        child: Text("${homeController.minPrice.value.toStringAsFixed(0)} AED",
+                        child: Text("AED ${homeController.priceLabel.value.start}",
                             style: const TextStyle(
                                 fontSize: App.small,
                                 color: Colors.white,
@@ -272,7 +346,7 @@ class Filter extends StatelessWidget {
                         )
                     ),
                     Center(
-                        child: Text("${homeController.maxPrice.value.toStringAsFixed(0)} AED",
+                        child: Text("AED ${homeController.priceLabel.value.end}",
                             style: const TextStyle(
                                 fontSize: App.small,
                                 color: Colors.white,
@@ -372,8 +446,12 @@ class Filter extends StatelessWidget {
           height: 50,
           text: App_Localization.of(context).translate("apply").toUpperCase(),
           onPressed: () {
-            introductionController.filterProduct(3,homeController.selectRentalModel.value,
-                homeController.minPrice.value,homeController.maxPrice.value,homeController.selectedBrands);
+            print(double.parse(homeController.priceLabel.value.start));
+            print(double.parse(homeController.priceLabel.value.end));
+              introductionController.filterProduct(3,homeController.selectRentalModel.value,
+                homeController.minPrice.value,
+                homeController.maxPrice.value,
+                homeController.selectedBrands);
           },
           color: App.orange,
           borderRadius: 8,

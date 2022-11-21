@@ -40,7 +40,6 @@ class IntroductionController extends GetxController{
     super.onInit();
     getData();
   }
-
   getData() async {
     API.checkInternet().then((internet) async {
        if(internet) {
@@ -50,7 +49,14 @@ class IntroductionController extends GetxController{
              allCarsConst = await API.getAllCars();
              initLazyProductsList();
              homeData = value;
-             homeData!.data!.brandsWithAll.insert(0,Brand(id: -1, name: "ALL", titleEn: "ALL", titleAr: "جميع", img: "", cover: "", descriptionEn: "", descriptionAr: "", slug: "all", orderNum: -1,
+              if(homeData !=null){
+                if(homeData!.data!=null){
+                  if(homeData!.data!.carBody.isNotEmpty){
+                    getCarsById(0);
+                  }
+                }
+              }
+             homeData!.data!.brandsWithAll.insert(0,Brand(id: -1, name: "ALL", titleEn: "ALL", titleAr: "جميع", img: "", cover: "", descriptionEn: "", descriptionAr: "", slug: "all", canonical: "",orderNum: -1,
                      metaTitleEn: "", metaTitleAr: "", metaKeywordsEn: "", metaKeywordsAr: "", metaDescriptionEn: "", metaDescriptionAr: "", metaImage: ""));
              Get.offAll(() => Home(homeData!));
              homeData!.data!.brandsWithAll.first.selected.value = true;
@@ -97,23 +103,23 @@ class IntroductionController extends GetxController{
       lazyProductsList.value = allCars!.data!.cars.length;
     }
   }
-  getCarsById(BuildContext context,index) async{
+  getCarsById(index) async{
     API.checkInternet().then((internet){
       loading.value = true;
       if(internet){
         homeController.selectCategory.value = index;
         // homeController.selectAll.value = false;
-        API.filter("","0","","",[],homeData!.data!.carBody[homeController.selectCategory.value].id.toString()).then((value) {
+        API.filter("","1","","",[],homeData!.data!.carBody[homeController.selectCategory.value].id.toString()).then((value) {
           if(value != null) {
             allCars = value;
             initLazyProductsList();
             loading.value = false;
-            print(allCars!.data!.cars.length);
+
           }
         });
       }else {
         Get.to(()=>NoInternet())!.then((value) {
-          getCarsById(context,index);
+          getCarsById(index);
         });
       }
     });
@@ -150,6 +156,8 @@ class IntroductionController extends GetxController{
       initLazyProductsList();
       homeController.selectNavBar.value = 0;
       Get.back();
+      clearFilter();
+
     });
   }
   clearFilter(){
@@ -157,6 +165,10 @@ class IntroductionController extends GetxController{
     loading.value = true;
     homeController.selectCategory.value = 0;
     loading.value = false;
+    homeData!.data!.brandsWithAll.first.selected.value = true;
+    for(int i=1 ; i< homeData!.data!.brandsWithAll.length;i++){
+      homeData!.data!.brandsWithAll[i].selected.value = false;
+    }
     // Get.back();
   }
 }

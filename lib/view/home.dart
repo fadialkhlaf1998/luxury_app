@@ -9,7 +9,6 @@ import 'package:luxury_app/app_localization.dart';
 import 'package:luxury_app/controller/contact_us_controller.dart';
 import 'package:luxury_app/controller/home_controller.dart';
 import 'package:luxury_app/controller/introduction_controller.dart';
-import 'package:luxury_app/controller/payment_controller.dart';
 import 'package:luxury_app/helper/api.dart';
 import 'package:luxury_app/helper/app.dart';
 import 'package:luxury_app/helper/global.dart';
@@ -47,7 +46,9 @@ class _HomeState extends State<Home> {
   HomeController homeController = Get.put(HomeController());
   IntroductionController introductionController = Get.find();
   ContactUsController contactUsController = Get.put(ContactUsController());
-
+  _HomeState(){
+    homeController.initializePrice(introductionController);
+  }
   @override
   void initState() {
     super.initState();
@@ -467,7 +468,7 @@ class _HomeState extends State<Home> {
             itemBuilder: (context, index) {
               return Obx(() => GestureDetector(
                 onTap: () {
-                  introductionController.getCarsById(context, index);
+                  introductionController.getCarsById( index);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),

@@ -106,7 +106,10 @@ class API {
     if (response.statusCode == 200) {
       var data = await response.stream.bytesToString();
       var jsonData = json.decode(data);
-      return AllCars.fromMap(jsonData);
+      AllCars allCars =  AllCars.fromMap(jsonData);
+
+      print(allCars.data!.cars.length.toString()+"API");
+      return allCars;
     }
     else {
       print(response.reasonPhrase);

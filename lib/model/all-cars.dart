@@ -54,9 +54,13 @@ class Data {
 class Car {
   Car({
     required this.id,
+    required this.orderNumber,
+    required this.orderBrandNumber,
+    required this.orderCategoryNumber,
     required this.typeId,
     required this.brandId,
-    required this.bodyId,
+    // required this.bodyId,
+    required this.canonical,
     required this.slug,
     required this.slugGroup,
     required this.model,
@@ -85,9 +89,13 @@ class Car {
   });
 
   int id;
+  int orderNumber;
+  int orderBrandNumber;
+  int orderCategoryNumber;
   int typeId;
   int brandId;
-  int bodyId;
+  // int bodyId;
+  String canonical;
   String slug;
   String slugGroup;
   String model;
@@ -99,8 +107,8 @@ class Car {
   int dailyPrice;
   int oldHourlyPrice;
   int hourlyPrice;
-  DescriptionEn? descriptionEn;
-  DescriptionAr? descriptionAr;
+  String descriptionEn;
+  String descriptionAr;
   String imgs;
   String metaTitleEn;
   String metaTitleAr;
@@ -111,8 +119,8 @@ class Car {
   String metaImage;
   // DateTime updatedAt;
   Brands? brands;
-  Bodies? types;
-  Bodies? bodies;
+  Types? types;
+  List<Bodies> bodies;
   RxInt index = 0.obs;
 
   factory Car.fromJson(String str) => Car.fromMap(json.decode(str));
@@ -121,9 +129,13 @@ class Car {
 
   factory Car.fromMap(Map<String, dynamic> json) =>  Car(
     id: json["id"] == null ? -1 : json["id"],
+    orderNumber: json["order_number"] == null ? -1 : json["order_number"],
+    orderBrandNumber: json["order_brand_number"] == null ? -1 : json["order_brand_number"],
+    orderCategoryNumber: json["order_category_number"] == null ? -1 : json["order_category_number"],
     typeId: json["type_id"] == null ? -1 : json["type_id"],
     brandId: json["brand_id"] == null ? -1 : json["brand_id"],
-    bodyId: json["body_id"] == null ? -1 : json["body_id"],
+    // bodyId: json["body_id"] == null ? -1 : json["body_id"],
+    canonical: json["canonical"] == null ? "" : json["canonical"],
     slug: json["slug"] == null ? "" : json["slug"],
     slugGroup: json["slug_group"] == null ? "" : json["slug_group"],
     model: json["model"] == null ? "" : json["model"],
@@ -135,8 +147,8 @@ class Car {
     dailyPrice: json["daily_price"] == null ? -1 : json["daily_price"],
     oldHourlyPrice: json["old_hourly_price"] == null ? -1 : json["old_hourly_price"],
     hourlyPrice: json["hourly_price"] == null ? -1 : json["hourly_price"],
-    descriptionEn: json["description_en"] == null ? null : descriptionEnValues.map[json["description_en"]],
-    descriptionAr: json["description_ar"] == null ? null : descriptionArValues.map[json["description_ar"]],
+    descriptionEn: json["description_en"] == null ? "" : json["description_en"],
+    descriptionAr: json["description_ar"] == null ? "" : json["description_ar"],
     imgs: json["imgs"] == null ? "" : json["imgs"],
     metaTitleEn: json["meta_title_en"] == null ? "" : json["meta_title_en"],
     metaTitleAr: json["meta_title_ar"] == null ? "" : json["meta_title_ar"],
@@ -147,15 +159,19 @@ class Car {
     metaImage: json["meta_image"] == null ? "" : json["meta_image"],
     // updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     brands: json["brands"] == null ? null : Brands.fromJson(json["brands"]),
-    types: json["types"] == null ? null : Bodies.fromJson(json["types"]),
-    bodies: json["bodies"] == null ? null : Bodies.fromJson(json["bodies"]),
+    types: json["types"] == null ? null : Types.fromJson(json["types"]),
+    bodies: List<Bodies>.from(json["bodies"].map((x) => Bodies.fromJson(x))),
   );
 
   Map<String, dynamic> toMap() => {
     "id": id == null ? null : id,
+    "order_number": orderNumber == null ? null : orderNumber,
+    "order_brand_number": orderBrandNumber == null ? null : orderBrandNumber,
+    "order_category_number": orderCategoryNumber == null ? null : orderCategoryNumber,
     "type_id": typeId == null ? null : typeId,
     "brand_id": brandId == null ? null : brandId,
-    "body_id": bodyId == null ? null : bodyId,
+    // "body_id": bodyId == null ? null : bodyId,
+    "canonical": canonical == null ? null : canonical,
     "slug": slug == null ? null : slug,
     "slug_group": slugGroup == null ? null : slugGroup,
     "model": model == null ? null : model,
@@ -167,8 +183,8 @@ class Car {
     "daily_price": dailyPrice == null ? null : dailyPrice,
     "old_hourly_price": oldHourlyPrice == null ? null : oldHourlyPrice,
     "hourly_price": hourlyPrice == null ? null : hourlyPrice,
-    "description_en": descriptionEn == null ? null : descriptionEnValues.reverse[descriptionEn],
-    "description_ar": descriptionAr == null ? null : descriptionArValues.reverse[descriptionAr],
+    "description_en": descriptionEn == null ? null : descriptionEn,
+    "description_ar": descriptionAr == null ? null : descriptionAr,
     "imgs": imgs == null ? null : imgs,
     "meta_title_en": metaTitleEn == null ? null : metaTitleEn,
     "meta_title_ar": metaTitleAr == null ? null : metaTitleAr,
@@ -180,7 +196,7 @@ class Car {
     // "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
     "brands": brands == null ? null : brands!.toJson(),
     "types": types == null ? null : types!.toJson(),
-    "bodies": bodies == null ? null : bodies!.toJson(),
+    "bodies": bodies == null ? null : List<dynamic>.from(bodies.map((x) => x.toJson())),
   };
 
 
@@ -191,62 +207,104 @@ class Bodies {
     required this.id,
     required this.nameEn,
     required this.nameAr,
+    required this.slug,
+    required this.canonical,
     required this.img,
+    required this.descriptionEn,
+    required this.descriptionAr,
+    required this.metaTitleEn,
+    required this.metaTitleAr,
+    required this.metaKeywordsEn,
+    required this.metaKeywordsAr,
+    required this.metaDescriptionEn,
+    required this.metaDescriptionAr,
+    required this.metaImage,
     // required this.updatedAt,
+    required this.pivot,
+  
   });
 
   int id;
   NameEn? nameEn;
   NameAr? nameAr;
-  Img? img;
+  String slug;
+  String canonical;
+  String img;
+  String descriptionEn;
+  String descriptionAr;
+  String metaTitleEn;
+  String metaTitleAr;
+  String metaKeywordsEn;
+  String metaKeywordsAr;
+  String metaDescriptionEn;
+  String metaDescriptionAr;
+  String metaImage;
   // DateTime updatedAt;
+  Pivot? pivot;
+
 
   factory Bodies.fromJson(Map<String, dynamic> json) => Bodies(
-    id: json["id"] == null ? null : json["id"],
+    id: json["id"] == null ? -1 : json["id"],
     nameEn: json["name_en"] == null ? null : nameEnValues.map[json["name_en"]],
     nameAr: json["name_ar"] == null ? null : nameArValues.map[json["name_ar"]],
-    img: json["img"] == null ? null : imgValues.map[json["img"]],
+    slug: json["slug"] == null ? "" : json["slug"],
+    canonical: json["canonical"] == null ? "" : json["canonical"],
+    img: json["img"] == null ? "" : json["img"],
+    descriptionEn: json["description_en"] == null ? "" : json["description_en"],
+    descriptionAr: json["description_ar"] == null ? "" : json["description_ar"],
+    metaTitleEn: json["meta_title_en"] == null ? "" : json["meta_title_en"],
+    metaTitleAr: json["meta_title_ar"] == null ? "" : json["meta_title_ar"],
+    metaKeywordsEn: json["meta_keywords_en"] == null ? "" : json["meta_keywords_en"],
+    metaKeywordsAr: json["meta_keywords_ar"] == null ? "" : json["meta_keywords_ar"],
+    metaDescriptionEn: json["meta_description_en"] == null ? "" : json["meta_description_en"],
+    metaDescriptionAr: json["meta_description_ar"] == null ? "" : json["meta_description_ar"],
+    metaImage: json["meta_image"] == null ? "" : json["meta_image"],
     // updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    pivot: json["pivot"] == null ? null : Pivot.fromJson(json["pivot"]),
+
   );
 
   Map<String, dynamic> toJson() => {
     "id": id == null ? null : id,
-    "name_en": nameEn == null ? null : nameEnValues.reverse[nameEn],
-    "name_ar": nameAr == null ? null : nameArValues.reverse[nameAr],
-    "img": img == null ? null : imgValues.reverse[img],
+    "name_en": nameEn == null ? null : nameEn,
+    "name_ar": nameAr == null ? null : nameAr,
+    "slug": slug == null ? null : slug,
+    "canonical": canonical,
+    "img": img == null ? null : img,
+    "description_en": descriptionEn == null ? null : descriptionEn,
+    "description_ar": descriptionAr == null ? null : descriptionAr,
+    "meta_title_en": metaTitleEn == null ? null : metaTitleEn,
+    "meta_title_ar": metaTitleAr == null ? null : metaTitleAr,
+    "meta_keywords_en": metaKeywordsEn == null ? null : metaKeywordsEn,
+    "meta_keywords_ar": metaKeywordsAr == null ? null : metaKeywordsAr,
+    "meta_description_en": metaDescriptionEn == null ? null : metaDescriptionEn,
+    "meta_description_ar": metaDescriptionAr == null ? null : metaDescriptionAr,
+    "meta_image": metaImage == null ? null : metaImage,
     // "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+    "pivot": pivot == null ? null : pivot!.toJson(),
+
   };
 }
 
-enum Img { UPLOADS_BODIES_PA_XI3_SRUQL_E5_I_VZ_W0_CM_QOEA_VC_RC2_JD_SLK_YZ_HV_HH_A_SVG, UPLOADS_BODIES_8_X6_R_CS_QE_ZE_MENJ_IYBLM_GTU9_C_UFVOL_C_IPML_UM7_N9_G_SVG, UPLOADS_BODIES_4_R5_YR_TPUG_X_GPLMH8_X09_ID54_MUT_G_XP_AV_N_WO_X_OU_HDM_SVG, UPLOADS_BODIES_ZRQQ_S20_ADHW6_KY_V_JRKD_L_CEB_G_XEADSHF_O_TZ3_U_KH_NS_SVG, UPLOADS_TYPES_YUU_RBJ_QRO3_A_ILF8_Q_PEAIU_AJ0_G3_UAO4_G_KQQ49_LE_NZ_PNG }
+class Pivot {
+  Pivot({
+    required this.carId,
+    required this.bodyId,
+  });
 
-final imgValues = EnumValues({
-  "uploads/bodies/4r5yrTpugXGplmh8x09id54MutGXpAvNWoXOuHdm.svg": Img.UPLOADS_BODIES_4_R5_YR_TPUG_X_GPLMH8_X09_ID54_MUT_G_XP_AV_N_WO_X_OU_HDM_SVG,
-  "uploads/bodies/8X6rCsQEZeMenjIYBLMGtu9CUfvolCIpmlUm7n9g.svg": Img.UPLOADS_BODIES_8_X6_R_CS_QE_ZE_MENJ_IYBLM_GTU9_C_UFVOL_C_IPML_UM7_N9_G_SVG,
-  "uploads/bodies/PaXi3sruqlE5IVzW0CMQoeaVcRc2JdSLKYzHVHhA.svg": Img.UPLOADS_BODIES_PA_XI3_SRUQL_E5_I_VZ_W0_CM_QOEA_VC_RC2_JD_SLK_YZ_HV_HH_A_SVG,
-  "uploads/bodies/ZrqqS20adhw6kyVJrkdLCebGXeadshfOTz3uKhNS.svg": Img.UPLOADS_BODIES_ZRQQ_S20_ADHW6_KY_V_JRKD_L_CEB_G_XEADSHF_O_TZ3_U_KH_NS_SVG,
-  "uploads/types/yuuRBJQro3AIlf8qPeaiuAj0G3UAO4GKqq49LeNZ.png": Img.UPLOADS_TYPES_YUU_RBJ_QRO3_A_ILF8_Q_PEAIU_AJ0_G3_UAO4_G_KQQ49_LE_NZ_PNG
-});
+  int carId;
+  int bodyId;
 
-enum NameAr { EMPTY, NAME_AR, PURPLE, FLUFFY, TENTACLED }
+  factory Pivot.fromJson(Map<String, dynamic> json) => Pivot(
+    carId: json["car_id"] == null ? -1 : json["car_id"],
+    bodyId: json["body_id"] == null ? -1 : json["body_id"],
+  );
 
-final nameArValues = EnumValues({
-  "رياضي": NameAr.EMPTY,
-  "أقتصادي": NameAr.FLUFFY,
-  "رباعي الدفع": NameAr.NAME_AR,
-  "فاخر": NameAr.PURPLE,
-  "سيارات": NameAr.TENTACLED
-});
-
-enum NameEn { SPORT, SUV, LUXURY, ECONOMY, CARS }
-
-final nameEnValues = EnumValues({
-  "cars": NameEn.CARS,
-  "ECONOMY": NameEn.ECONOMY,
-  "luxury": NameEn.LUXURY,
-  "sport": NameEn.SPORT,
-  "SUV": NameEn.SUV
-});
+  Map<String, dynamic> toJson() => {
+    "car_id": carId == null ? null : carId,
+    "body_id": bodyId == null ? null : bodyId,
+  };
+}
 
 class Brands {
   Brands({
@@ -259,6 +317,7 @@ class Brands {
     required this.descriptionEn,
     required this.descriptionAr,
     required this.slug,
+    required this.canonical,
     required this.orderNum,
     required this.metaTitleEn,
     required this.metaTitleAr,
@@ -279,6 +338,7 @@ class Brands {
   String descriptionEn;
   dynamic descriptionAr;
   String slug;
+  String canonical;
   int orderNum;
   String metaTitleEn;
   String metaTitleAr;
@@ -299,6 +359,7 @@ class Brands {
     descriptionEn: json["description_en"] == null ? "null" : json["description_en"],
     descriptionAr: json["description_ar"],
     slug: json["slug"] == null ? null : json["slug"],
+    canonical: json["canonical"] == null ? "" : json["canonical"],
     orderNum: json["order_num"] == null ? null : json["order_num"],
     metaTitleEn: json["meta_title_en"] == null ? null : json["meta_title_en"],
     metaTitleAr: json["meta_title_ar"] == null ? null : json["meta_title_ar"],
@@ -320,6 +381,7 @@ class Brands {
     "description_en": descriptionEn == null ? null : descriptionEn,
     "description_ar": descriptionAr,
     "slug": slug == null ? null : slug,
+    "canonical": canonical == null ? null : canonical,
     "order_num": orderNum == null ? null : orderNum,
     "meta_title_en": metaTitleEn == null ? null : metaTitleEn,
     "meta_title_ar": metaTitleAr == null ? null : metaTitleAr,
@@ -332,18 +394,55 @@ class Brands {
   };
 }
 
-enum DescriptionAr { P_P, P_SPAN_STYLE_FONT_SIZE_144_PX_INFINITI_QX80_SPAN_BR_P }
+class Types {
+  Types({
+    required this.id,
+    required this.nameEn,
+    required this.nameAr,
+    required this.img,
+    // required this.updatedAt,
+  });
 
-final descriptionArValues = EnumValues({
-  "<p>.</p>": DescriptionAr.P_P,
-  "<p><span style=\"font-size: 14.4px;\">Infiniti Qx80</span><br></p>": DescriptionAr.P_SPAN_STYLE_FONT_SIZE_144_PX_INFINITI_QX80_SPAN_BR_P
+  int id;
+  NameEn? nameEn;
+  NameAr? nameAr;
+  Img? img;
+  // DateTime updatedAt;
+
+  factory Types.fromJson(Map<String, dynamic> json) => Types(
+    id: json["id"] == null ? -1 : json["id"],
+    nameEn: json["name_en"] == null ? null : nameEnValues.map[json["name_en"]],
+    nameAr: json["name_ar"] == null ? null : nameArValues.map[json["name_ar"]],
+    img: json["img"] == null ? null : imgValues.map[json["img"]],
+    // updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "name_en": nameEn == null ? null : nameEnValues.reverse[nameEn],
+    "name_ar": nameAr == null ? null : nameArValues.reverse[nameAr],
+    "img": img == null ? null : imgValues.reverse[img],
+    // "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+  };
+}
+
+
+enum Img { UPLOADS_TYPES_7_L_WOJEUQ6_Z_APYSG_GU_N_CQT67_A_G7_DY_OMQ_KQLY1_RTQ8_SVG }
+
+final imgValues = EnumValues({
+  "uploads/types/7lWojeuq6zAPYSGGuNCqt67aG7DYOmqKqly1Rtq8.svg": Img.UPLOADS_TYPES_7_L_WOJEUQ6_Z_APYSG_GU_N_CQT67_A_G7_DY_OMQ_KQLY1_RTQ8_SVG
 });
 
-enum DescriptionEn { P_P, P_INFINITI_QX80_BR_P }
+enum NameAr { EMPTY }
 
-final descriptionEnValues = EnumValues({
-  "<p>Infiniti Qx80<br></p>": DescriptionEn.P_INFINITI_QX80_BR_P,
-  "<p>.</p>": DescriptionEn.P_P
+final nameArValues = EnumValues({
+  "سيارات": NameAr.EMPTY
+});
+
+enum NameEn { CARS }
+
+final nameEnValues = EnumValues({
+  "CARS": NameEn.CARS
 });
 
 class EnumValues<T> {

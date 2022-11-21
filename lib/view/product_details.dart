@@ -122,7 +122,8 @@ class ProductDetails extends StatelessWidget {
           height: 50,
           text: App_Localization.of(context).translate("book_now").toUpperCase(),
           onPressed: () {
-            var bookedCar = Car(id: car!.id, typeId: car!.typeId, brandId: car!.brandId, bodyId: car!.bodyId, slug: car!.slug,
+            var bookedCar = Car(id: car!.id,orderNumber: car!.orderNumber,orderBrandNumber: car!.orderBrandNumber,
+                orderCategoryNumber: car!.orderCategoryNumber,typeId: car!.typeId, brandId: car!.brandId,canonical: car!.canonical,slug: car!.slug,
                 slugGroup: car!.slugGroup, model: car!.model, year: car!.year, innerColor: car!.innerColor,
                 outerColor: car!.outerColor, seats: car!.seats, oldDailyPrice: car!.oldDailyPrice, dailyPrice: car!.dailyPrice,
                 oldHourlyPrice: car!.oldHourlyPrice, hourlyPrice: car!.hourlyPrice, descriptionEn: car!.descriptionEn,
@@ -130,7 +131,7 @@ class ProductDetails extends StatelessWidget {
                 metaTitleAr: car!.metaTitleAr, metaKeywordsEn: car!.metaKeywordsEn,
                 metaKeywordsAr: car!.metaKeywordsAr, metaDescriptionEn: car!.metaDescriptionEn,
                 metaDescriptionAr: car!.metaDescriptionAr, metaImage: car!.metaImage,
-                brands: car!.brandsList!, types: null, bodies: car!.bodiesList);
+                brands: car!.brandsList!, types: null, bodies: car!.bodies);
             Get.to(() => Book(bookedCar));
           },
           color: App.orange,

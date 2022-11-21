@@ -61,7 +61,7 @@ class SearchTextField extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    final suggestions = introController.allCars!.data!.cars.where((elm) {
+    final suggestions = introController.allCarsConst!.data!.cars.where((elm) {
       return elm.slug.toLowerCase().contains(query.toLowerCase());
     });
     return suggestions.isEmpty ?
@@ -131,7 +131,7 @@ class SearchTextField extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestions = introController.allCars!.data!.cars.where((elm) {
+    final suggestions = introController.allCarsConst!.data!.cars.where((elm) {
       return elm.slug.toLowerCase().contains(query.toLowerCase());
     });
     return suggestions.isEmpty ?
