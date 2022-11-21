@@ -154,6 +154,7 @@ class IntroductionController extends GetxController{
       loading.value = false;
       allCars = value;
       initLazyProductsList();
+      homeController.selectNavDrawer.value = -1;
       homeController.selectNavBar.value = 0;
       Get.back();
       homeData!.data!.brandsWithAll.first.selected.value = true;
