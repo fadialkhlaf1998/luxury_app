@@ -252,7 +252,7 @@ class Settings extends StatelessWidget {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () {
-                  App.lunchURL(context,"https://api.whatsapp.com/send?phone=+971581296445&text=");
+                  App.lunchURL(context,"https://api.whatsapp.com/send/?phone=%2B971581296445&text=Hi+LUXURY+Car+Rental%2C+I+would+like+to+inquire+about+cars&type=phone_number&app_absent=0");
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,

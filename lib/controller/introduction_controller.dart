@@ -156,8 +156,10 @@ class IntroductionController extends GetxController{
       initLazyProductsList();
       homeController.selectNavBar.value = 0;
       Get.back();
-      clearFilter();
-
+      homeData!.data!.brandsWithAll.first.selected.value = true;
+      for(int i=1 ; i< homeData!.data!.brandsWithAll.length;i++){
+        homeData!.data!.brandsWithAll[i].selected.value = false;
+      }
     });
   }
   clearFilter(){
@@ -165,10 +167,6 @@ class IntroductionController extends GetxController{
     loading.value = true;
     homeController.selectCategory.value = 0;
     loading.value = false;
-    homeData!.data!.brandsWithAll.first.selected.value = true;
-    for(int i=1 ; i< homeData!.data!.brandsWithAll.length;i++){
-      homeData!.data!.brandsWithAll[i].selected.value = false;
-    }
     // Get.back();
   }
 }

@@ -108,6 +108,10 @@ class Filter extends StatelessWidget {
                 // homeController.clearFilter();
                 homeController.initializePrice(introductionController);
                 introductionController.clearFilter();
+                introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
+                for(int i=1 ; i< introductionController.homeData!.data!.brandsWithAll.length;i++){
+                  introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
+                }
               },
               child: const Icon(Icons.arrow_back,color: Colors.white,size: App.iconSize,)
             ),
@@ -126,6 +130,10 @@ class Filter extends StatelessWidget {
                   // homeController.clearFilter();
                   homeController.initializePrice(introductionController);
                   introductionController.clearFilter();
+                  introductionController.homeData!.data!.brandsWithAll.first.selected.value = true;
+                  for(int i=1 ; i< introductionController.homeData!.data!.brandsWithAll.length;i++){
+                    introductionController.homeData!.data!.brandsWithAll[i].selected.value = false;
+                  }
                 },
                 child: SvgPicture.asset("assets/icons/delete.svg",color: Colors.white,)
             ),
@@ -446,11 +454,11 @@ class Filter extends StatelessWidget {
           height: 50,
           text: App_Localization.of(context).translate("apply").toUpperCase(),
           onPressed: () {
-            print(double.parse(homeController.priceLabel.value.start));
-            print(double.parse(homeController.priceLabel.value.end));
+            // print(double.parse(homeController.priceLabel.value.start));
+            // print(double.parse(homeController.priceLabel.value.end));
               introductionController.filterProduct(3,homeController.selectRentalModel.value,
-                homeController.minPrice.value,
-                homeController.maxPrice.value,
+                  double.parse(homeController.priceLabel.value.start),
+                  double.parse(homeController.priceLabel.value.end),
                 homeController.selectedBrands);
           },
           color: App.orange,

@@ -797,7 +797,7 @@ class _HomeState extends State<Home> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  App.lunchURL(context,"https://api.whatsapp.com/send?phone=");
+                                  App.lunchURL(context,"https://api.whatsapp.com/send/?phone=%2B971581296445&text=Hi+LUXURY+Car+Rental%2C+I+would+like+to+inquire+about+cars&type=phone_number&app_absent=0");
                                 },
                                 child: Container(
                                   width: App.getDeviceWidthPercent(92, context) / 4,
@@ -1043,7 +1043,7 @@ class _HomeState extends State<Home> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      App.lunchURL(context,"https://api.whatsapp.com/send?phone=");
+                      App.lunchURL(context,"https://api.whatsapp.com/send/?phone=%2B971581296445&text=Hi+LUXURY+Car+Rental%2C+I+would+like+to+inquire+about+cars&type=phone_number&app_absent=0");
                     },
                     child: Container(
                       width: Get.width * 0.35,
