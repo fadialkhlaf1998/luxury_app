@@ -125,7 +125,7 @@ class _HomeState extends State<Home> {
       Get.height * 0.23 :
       homeController.selectNavBar.value == 0 && homeController.selectNavDrawer.value == -1 ?
       homeController.showAppbar ?
-      Get.height * 0.35 : Get.height * 0.3 : Get.height * 0.1,
+      Get.height * 0.19 + 120 : Get.height *  0.14 + 120 : Get.height * 0.1,
       decoration: BoxDecoration(
         color: App.lightDarkGrey,
         borderRadius: const BorderRadius.only(
@@ -144,6 +144,7 @@ class _HomeState extends State<Home> {
       child: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
               width: App.getDeviceWidthPercent(100, context),
@@ -228,7 +229,7 @@ class _HomeState extends State<Home> {
                 ),
                 SizedBox(
                   height: widget.homeData.data!.carType[homeController.selectSuperCategory.value].id != 3 ?
-                  0 : Get.height * 0.16,
+                  0 : 100,
                   child: Column(
                     children: [
                       // SizedBox(height: homeController.showAppbar ? 10 : 0),
@@ -378,8 +379,7 @@ class _HomeState extends State<Home> {
               children: [
                 SizedBox(height:
                 homeController.showAppbar?
-                Get.height * 0.35 + 5 :
-                Get.height * 0.3 + 5
+                Get.height * 0.19 + 130 : Get.height *  0.14 + 130
                 ),
                 introductionController.loading.value ?
                 Container(
@@ -405,118 +405,123 @@ class _HomeState extends State<Home> {
     return SizedBox(
         width: Get.width * 0.9,
         height: Get.height * 0.1,
-        child: ListView.builder(
-            itemCount: homeData.data!.carType.length,
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return Obx(() => GestureDetector(
-                onTap: () {
-                  homeController.selectSuperCategory.value = index;
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                          decoration: BoxDecoration(
-                              color: homeController.selectSuperCategory.value == index ?
-                              App.orange : App.grey,
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                  width: 28,
-                                  height: 28,
-                                  child: SvgPicture.network("${API.url}/${homeData.data!.carType[index].img}",
-                                      fit: BoxFit.cover,
-                                      color: homeController.selectSuperCategory.value == index ? Colors.black : App.orange,
-                                  )
-                              ),
-                              const SizedBox(width: 5),
-                              Text(Global.languageCode == "en" ?
-                              homeData.data!.carType[index].nameEn :
-                              homeData.data!.carType[index].nameAr,
-                                style: TextStyle(
-                                    fontSize: App.xSmall,
-                                    color: homeController.selectSuperCategory.value == index ?
-                                    Colors.black : App.white,
-                                    fontWeight: FontWeight.normal
-                                ),
-                              ),
-                            ],
-                          ),
-                      ),
-                    ],
-                  ),
-                ),
-              ));
-            })
-    );
-  }
-  category(BuildContext context) {
-    return SizedBox(
-        width: App.getDeviceWidthPercent(90, context),
-        height: Get.height * 0.13,
-        child: ListView.builder(
-            itemCount: widget.homeData.data!.carBody.length,
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return Obx(() => GestureDetector(
-                onTap: () {
-                  introductionController.getCarsById( index);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: SingleChildScrollView(
-                    child: Column(
+        child: Center(
+          child: ListView.builder(
+              itemCount: homeData.data!.carType.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Obx(() => GestureDetector(
+                  onTap: () {
+                    homeController.selectSuperCategory.value = index;
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
                       children: [
                         Container(
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: App.grey,
-                            border: Border.all(
-                                color: homeController.selectCategory.value == index ?
-                                App.orange : Colors.transparent,
+                            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                            decoration: BoxDecoration(
+                                color: homeController.selectSuperCategory.value == index ?
+                                App.orange : App.grey,
+                                borderRadius: BorderRadius.circular(5)
                             ),
-                           borderRadius: BorderRadius.circular(50)
-                          ),
-                          child: Center(
-                            child: Container(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              width: 50,
-                              child: SvgPicture.network("${API.url}/${widget.homeData.data!.carBody[index].img}",
-                                fit: BoxFit.contain,
-                                color: App.orange,
-                              ),
-                            )
-                          )
-                        ),
-                        const SizedBox(height: 10,),
-                        SizedBox(
-                          child: Center(
-                            child: Text(Global.languageCode == "en" ?
-                            widget.homeData.data!.carBody[index].nameEn :
-                            widget.homeData.data!.carBody[index].nameAr,
-                              style: TextStyle(
-                                color: homeController.selectCategory.value == index ?
-                                App.orange : App.lightWhite,
-                                fontSize: App.xSmall
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                    width: 28,
+                                    height: 28,
+                                    child: SvgPicture.network("${API.url}/${homeData.data!.carType[index].img}",
+                                        fit: BoxFit.cover,
+                                        color: homeController.selectSuperCategory.value == index ? Colors.black : App.orange,
+                                    )
+                                ),
+                                const SizedBox(width: 5),
+                                Text(Global.languageCode == "en" ?
+                                homeData.data!.carType[index].nameEn :
+                                homeData.data!.carType[index].nameAr,
+                                  style: TextStyle(
+                                      fontSize: App.xSmall,
+                                      color: homeController.selectSuperCategory.value == index ?
+                                      Colors.black : App.white,
+                                      fontWeight: FontWeight.normal
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
                         ),
                       ],
                     ),
                   ),
-                ),
-              ));
-            })
+                ));
+              }),
+        )
+    );
+  }
+  category(BuildContext context) {
+    return Container(
+        width: Get.width * 0.9,
+        height: 90,
+        // color: Colors.red,
+        child: Center(
+          child: ListView.builder(
+              itemCount: widget.homeData.data!.carBody.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Obx(() => GestureDetector(
+                  onTap: () {
+                    introductionController.getCarsById( index);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: App.grey,
+                              border: Border.all(
+                                  color: homeController.selectCategory.value == index ?
+                                  App.orange : Colors.transparent,
+                              ),
+                             borderRadius: BorderRadius.circular(50)
+                            ),
+                            child: Center(
+                              child: Container(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                width: 50,
+                                child: SvgPicture.network("${API.url}/${widget.homeData.data!.carBody[index].img}",
+                                  fit: BoxFit.contain,
+                                  color: App.orange,
+                                ),
+                              )
+                            )
+                          ),
+                          const SizedBox(height: 10,),
+                          SizedBox(
+                            child: Center(
+                              child: Text(Global.languageCode == "en" ?
+                              widget.homeData.data!.carBody[index].nameEn :
+                              widget.homeData.data!.carBody[index].nameAr,
+                                style: TextStyle(
+                                  color: homeController.selectCategory.value == index ?
+                                  App.orange : App.lightWhite,
+                                  fontSize: App.xSmall
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ));
+              }),
+        )
     );
     // ListView.builder(
     //   itemCount: 1,
@@ -621,10 +626,10 @@ class _HomeState extends State<Home> {
           controller: introductionController.scrollController,
             padding: const EdgeInsets.symmetric(vertical: 10),
             itemCount: introductionController.lazyProductsList.value,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio: 6/5,
                 crossAxisSpacing: 10,
-                crossAxisCount: 1
+                crossAxisCount: (Get.width / 400).toInt()
             ),
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
@@ -795,13 +800,13 @@ class _HomeState extends State<Home> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              GestureDetector(
+                              Expanded(child: GestureDetector(
                                 onTap: () async{
                                   await launch("https://wa.me/971581296445/?text=${Uri.parse(introductionController.allCars!.data!.cars[index].slug.replaceAll("-", " "))}");
                                   // App.lunchURL(context,"https://api.whatsapp.com/send/?phone=%2B971581296445&text=Hi+LUXURY+Car+Rental%2C+I+would+like+to+inquire+about+cars&type=phone_number&app_absent=0");
                                 },
                                 child: Container(
-                                  width: App.getDeviceWidthPercent(92, context) / 4,
+                                  // width: App.getDeviceWidthPercent(92, context) / 4,
                                     decoration: BoxDecoration(
                                         color: App.grey,
                                         borderRadius: BorderRadius.only(
@@ -822,87 +827,96 @@ class _HomeState extends State<Home> {
                                       ),
                                     )
                                 ),
-                              ),
-                              GestureDetector(
-                                onTap: () async{
-                                  if(await canLaunchUrl(Uri.parse('tel: +971 58 129 6445'))){
-                                    await launchUrl (Uri.parse('tel: +971 58 129 6445'));
-                                  }
-                                },
-                                child: Container(
-                                    width: App.getDeviceWidthPercent(92, context) / 5,
-                                    decoration: const BoxDecoration(
-                                      color: App.grey,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 0),
-                                      child: ImageAndText(
-                                          child1: const Icon(Icons.call,color: Colors.red,size: 14,),
-                                          text: "call",
-                                          textStyle: const TextStyle(
-                                              fontSize: App.tiny,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.normal
-                                          )
-                                      ),
-                                    )
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(()=>ProductDetails(introductionController.allCars!.data!.cars[index].id));
-                                  homeController.selectNavBar.value = 0;
-                                },
-                                child: Container(
-                                    width: App.getDeviceWidthPercent(92, context) / 5,
-                                    decoration: const BoxDecoration(
-                                      color: App.grey,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 0),
-                                      child: ImageAndText(
-                                          child1: const Icon(Icons.info_outline,color: Colors.orange,size: 14,),
-                                          text: "detail",
-                                          textStyle: const TextStyle(
-                                              fontSize: App.tiny,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.normal
-                                          )
-                                      ),
-                                    )
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(()=> Book(introductionController.allCars!.data!.cars[index]));
-                                },
-                                child: Container(
-                                    width: App.getDeviceWidthPercent(92, context) / 4,
-                                    decoration: BoxDecoration(
+                              ),),
+                              SizedBox(width: 5,),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () async{
+                                    if(await canLaunchUrl(Uri.parse('tel: +971 58 129 6445'))){
+                                      await launchUrl (Uri.parse('tel: +971 58 129 6445'));
+                                    }
+                                  },
+                                  child: Container(
+                                      // width: App.getDeviceWidthPercent(92, context) / 5,
+                                      decoration: const BoxDecoration(
                                         color: App.grey,
-                                        borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(Global.languageCode == "en" ? 15 : 0),
-                                            bottomLeft: Radius.circular(Global.languageCode == "en" ? 0 : 15)
-                                        )
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 0),
-                                      child: ImageAndText(
-                                          child1: ContainerWithImage(
-                                            width: 16,
-                                            height: 16,
-                                            image: "assets/icons/book.svg",
-                                            option: 0,
-                                            color: App.orange,
-                                          ),
-                                          text: "book",
-                                          textStyle: const TextStyle(
-                                              fontSize: App.tiny,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.normal
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 0),
+                                        child: ImageAndText(
+                                            child1: const Icon(Icons.call,color: Colors.red,size: 14,),
+                                            text: "call",
+                                            textStyle: const TextStyle(
+                                                fontSize: App.tiny,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.normal
+                                            )
+                                        ),
+                                      )
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 5,),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Get.to(()=>ProductDetails(introductionController.allCars!.data!.cars[index].id));
+                                    homeController.selectNavBar.value = 0;
+                                  },
+                                  child: Container(
+                                      // width: App.getDeviceWidthPercent(92, context) / 5,
+                                      decoration: const BoxDecoration(
+                                        color: App.grey,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 0),
+                                        child: ImageAndText(
+                                            child1: const Icon(Icons.info_outline,color: Colors.orange,size: 14,),
+                                            text: "detail",
+                                            textStyle: const TextStyle(
+                                                fontSize: App.tiny,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.normal
+                                            )
+                                        ),
+                                      )
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 5,),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Get.to(()=> Book(introductionController.allCars!.data!.cars[index]));
+                                  },
+                                  child: Container(
+                                      // width: App.getDeviceWidthPercent(92, context) / 4,
+                                      decoration: BoxDecoration(
+                                          color: App.grey,
+                                          borderRadius: BorderRadius.only(
+                                              bottomRight: Radius.circular(Global.languageCode == "en" ? 15 : 0),
+                                              bottomLeft: Radius.circular(Global.languageCode == "en" ? 0 : 15)
                                           )
                                       ),
-                                    )
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 0),
+                                        child: ImageAndText(
+                                            child1: ContainerWithImage(
+                                              width: 16,
+                                              height: 16,
+                                              image: "assets/icons/book.svg",
+                                              option: 0,
+                                              color: App.orange,
+                                            ),
+                                            text: "book",
+                                            textStyle: const TextStyle(
+                                                fontSize: App.tiny,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.normal
+                                            )
+                                        ),
+                                      )
+                                  ),
                                 ),
                               ),
                             ],
