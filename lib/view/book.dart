@@ -894,6 +894,7 @@ class Book extends StatelessWidget {
                       fontSize: App.xSmall,
                       color: Colors.white,
                       fontWeight: FontWeight.normal
+
                   )
               ),
               Flexible(

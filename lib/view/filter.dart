@@ -401,6 +401,7 @@ class Filter extends StatelessWidget {
                   runSpacing: 15,
                   children: introductionController.homeData!.data!.brandsWithAll.map((e) =>
                       SizedBox(
+
                         width: 100,
                         height: 35,
                         child: GestureDetector(

@@ -147,6 +147,7 @@ class IntroductionController extends GetxController{
         );
       }
     });
+
   }
   filterProduct(int vehicleType,int rentType,double minPrice,double maxPrice ,List<int> brands){
     loading.value = true;

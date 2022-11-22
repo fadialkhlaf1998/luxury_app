@@ -32,6 +32,7 @@ class BrandPage extends StatelessWidget {
 
   brands(BuildContext context) {
     return SingleChildScrollView(
+
       child: Column(
         children: [
           SizedBox(height: Get.height * 0.1 + 20),

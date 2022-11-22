@@ -157,6 +157,7 @@ class _AboutUsState extends State<AboutUs> {
                     ))
                   ],
                 ),
+
               ),
               const SizedBox(height: 15),
               AnimatedSwitcher(

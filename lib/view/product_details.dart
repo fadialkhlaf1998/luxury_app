@@ -548,6 +548,7 @@ class ProductDetails extends StatelessWidget {
                   ),
                 ],
               ),
+
             ],
           ),
         ),

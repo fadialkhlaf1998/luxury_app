@@ -255,6 +255,7 @@ class Settings extends StatelessWidget {
                   await launch("https://wa.me/971581296445/?text=${Uri.parse("I need to contact")}");
                   // App.lunchURL(context,"https://api.whatsapp.com/send/?phone=%2B971581296445&text=Hi+LUXURY+Car+Rental%2C+I+would+like+to+inquire+about+Audi+RS+Q8&type=phone_number&app_absent=0");
                 },
+
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: const [

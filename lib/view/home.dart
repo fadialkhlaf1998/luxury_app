@@ -830,6 +830,7 @@ class _HomeState extends State<Home> {
                               ),),
                               SizedBox(width: 5,),
                               Expanded(
+
                                 child: GestureDetector(
                                   onTap: () async{
                                     if(await canLaunchUrl(Uri.parse('tel: +971 58 129 6445'))){
