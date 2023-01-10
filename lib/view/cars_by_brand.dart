@@ -150,6 +150,20 @@ class CarsByBrand extends StatelessWidget {
   products(BuildContext context,int photoIndex) {
     return Column(
       children: [
+        allCarsBrands.brand.brands!.isEmpty ?
+            Container(
+              width: Get.width,
+              height: Get.width,
+              child: Center(
+                child: Text(App_Localization.of(context).translate("no_results_found!"),
+                    style: const TextStyle(
+                        color: App.lightWhite,
+                        fontSize: App.medium,
+                        fontWeight: FontWeight.w600
+                    )
+                ),
+              ),
+            ) :
         SizedBox(
             width: App.getDeviceWidthPercent(90, context),
             child: GridView.builder(
@@ -466,45 +480,45 @@ class CarsByBrand extends StatelessWidget {
                   );
                 })
         ),
-        introductionController.homeData!.data!.brands[index].descriptionEn == "" ?
-        const Center() :
-        SizedBox(
-            width: App.getDeviceWidthPercent(88, context),
-            height: App.getDeviceHeightPercent(35, context),
-            child: MediaQuery.removePadding(
-              context: context,
-              removeTop: true,
-              child: Scrollbar(
-                thumbVisibility: true,
-                trackVisibility: true,
-                controller: scrollController,
-                child: SingleChildScrollView(
-                    controller: scrollController,
-                    child: Column(
-                      children: [
-                        Html(
-                          data: Global.languageCode == "en" ?
-                          introductionController.homeData!.data!.brands[index].descriptionEn :
-                          introductionController.homeData!.data!.brands[index].descriptionAr ,
-                          style: {
-                            "body": Style(
-                              fontSize: const FontSize(App.small),
-                              fontWeight: FontWeight.normal,
-                              color: App.lightWhite,
-                            ),
-                            "h2" : Style(
-                                color: App.orange,
-                                fontWeight: FontWeight.bold,
-                                fontSize: const FontSize(App.large)
-                            )
-                          },
-                        ),
-                      ],
-                    )
-                ),
-              ),
-            )
-        ),
+        // introductionController.homeData!.data!.brands[index].descriptionEn == "" ?
+        // const Center() :
+        // SizedBox(
+        //     width: App.getDeviceWidthPercent(88, context),
+        //     height: App.getDeviceHeightPercent(35, context),
+        //     child: MediaQuery.removePadding(
+        //       context: context,
+        //       removeTop: true,
+        //       child: Scrollbar(
+        //         thumbVisibility: true,
+        //         trackVisibility: true,
+        //         controller: scrollController,
+        //         child: SingleChildScrollView(
+        //             controller: scrollController,
+        //             child: Column(
+        //               children: [
+        //                 Html(
+        //                   data: Global.languageCode == "en" ?
+        //                   introductionController.homeData!.data!.brands[index].descriptionEn :
+        //                   introductionController.homeData!.data!.brands[index].descriptionAr ,
+        //                   style: {
+        //                     "body": Style(
+        //                       fontSize: const FontSize(App.small),
+        //                       fontWeight: FontWeight.normal,
+        //                       color: App.lightWhite,
+        //                     ),
+        //                     "h2" : Style(
+        //                         color: App.orange,
+        //                         fontWeight: FontWeight.bold,
+        //                         fontSize: const FontSize(App.large)
+        //                     )
+        //                   },
+        //                 ),
+        //               ],
+        //             )
+        //         ),
+        //       ),
+        //     )
+        // ),
       ],
     );
   }
