@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
+// import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -22,17 +22,17 @@ class PaymentController extends GetxController {
       paymentIntentData = await createPaymentIntent(context,amount, currency);
       if (paymentIntentData != null) {
         print('Init Payment Sheet Successfully');
-       var result = await Stripe.instance.initPaymentSheet(
-            paymentSheetParameters: SetupPaymentSheetParameters(
-              applePay: PaymentSheetApplePay(merchantCountryCode: "+92"),
-              googlePay: PaymentSheetGooglePay(currencyCode: "UAD",merchantCountryCode: '+92',testEnv: true),
-              style: ThemeMode.dark,
-              merchantDisplayName: 'Prospects',
-              customerId: paymentIntentData!['customer'],
-              paymentIntentClientSecret: paymentIntentData!['client_secret'],
-              customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
-            ));
-        await displayPaymentSheet();
+       // var result = await Stripe.instance.initPaymentSheet(
+       //      paymentSheetParameters: SetupPaymentSheetParameters(
+       //        applePay: PaymentSheetApplePay(merchantCountryCode: "+92"),
+       //        googlePay: PaymentSheetGooglePay(currencyCode: "UAD",merchantCountryCode: '+92',testEnv: true),
+       //        style: ThemeMode.dark,
+       //        merchantDisplayName: 'Prospects',
+       //        customerId: paymentIntentData!['customer'],
+       //        paymentIntentClientSecret: paymentIntentData!['client_secret'],
+       //        customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
+       //      ));
+       //  await displayPaymentSheet();
       }else{
 
       }
@@ -41,21 +41,21 @@ class PaymentController extends GetxController {
     }
   }
 
-  displayPaymentSheet() async {
-    try {
-      print('---------------------');
-      await Stripe.instance.presentPaymentSheet();
-      print('---------------------');
-    } on Exception catch (e) {
-      if (e is StripeException) {
-        print("Error from Stripe: ${e.error.localizedMessage}");
-      } else {
-        print("Unforeseen error: ${e}");
-      }
-    } catch (e) {
-      print("exception:$e");
-    }
-  }
+  // displayPaymentSheet() async {
+  //   try {
+  //     print('---------------------');
+  //     await Stripe.instance.presentPaymentSheet();
+  //     print('---------------------');
+  //   } on Exception catch (e) {
+  //     if (e is StripeException) {
+  //       print("Error from Stripe: ${e.error.localizedMessage}");
+  //     } else {
+  //       print("Unforeseen error: ${e}");
+  //     }
+  //   } catch (e) {
+  //     print("exception:$e");
+  //   }
+  // }
   createPaymentIntent(BuildContext context,String amount, String currency) async {
     try {
       Map<String, dynamic> body = {

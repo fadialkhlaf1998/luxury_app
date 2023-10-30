@@ -14,7 +14,6 @@ import 'package:luxury_app/model/terms.dart';
 class API {
 
   static String url = "https://www.luxurycarrental.ae";
-  // static String url = "https://new.luxurycarrental.ae";
 
   static Future<bool> checkInternet() async {
     var connectivityResult = await (Connectivity().checkConnectivity());

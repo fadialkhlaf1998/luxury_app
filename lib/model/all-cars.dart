@@ -317,15 +317,15 @@ class Brands {
     required this.descriptionEn,
     required this.descriptionAr,
     required this.slug,
-    required this.canonical,
-    required this.orderNum,
-    required this.metaTitleEn,
-    required this.metaTitleAr,
-    required this.metaKeywordsEn,
-    required this.metaKeywordsAr,
-    required this.metaDescriptionEn,
-    required this.metaDescriptionAr,
-    required this.metaImage,
+    // required this.canonical,
+    // required this.orderNum,
+    // required this.metaTitleEn,
+    // required this.metaTitleAr,
+    // required this.metaKeywordsEn,
+    // required this.metaKeywordsAr,
+    // required this.metaDescriptionEn,
+    // required this.metaDescriptionAr,
+    // required this.metaImage,
     // required this.updatedAt,
   });
 
@@ -336,17 +336,17 @@ class Brands {
   String img;
   String cover;
   String descriptionEn;
-  dynamic descriptionAr;
+  String descriptionAr;
   String slug;
-  String canonical;
-  int orderNum;
-  String metaTitleEn;
-  String metaTitleAr;
-  String metaKeywordsEn;
-  String metaKeywordsAr;
-  String metaDescriptionEn;
-  String metaDescriptionAr;
-  String metaImage;
+  // String canonical;
+  // int orderNum;
+  // String metaTitleEn;
+  // String metaTitleAr;
+  // String metaKeywordsEn;
+  // String metaKeywordsAr;
+  // String metaDescriptionEn;
+  // String metaDescriptionAr;
+  // String metaImage;
   // DateTime updatedAt;
 
   factory Brands.fromJson(Map<String, dynamic> json) => Brands(
@@ -357,17 +357,17 @@ class Brands {
     img: json["img"] == null ? null : json["img"],
     cover: json["cover"] == null ? null : json["cover"],
     descriptionEn: json["description_en"] == null ? "null" : json["description_en"],
-    descriptionAr: json["description_ar"],
+    descriptionAr: json["description_ar"] == null ? "null" : json["description_ar"],
     slug: json["slug"] == null ? null : json["slug"],
-    canonical: json["canonical"] == null ? "" : json["canonical"],
-    orderNum: json["order_num"] == null ? null : json["order_num"],
-    metaTitleEn: json["meta_title_en"] == null ? null : json["meta_title_en"],
-    metaTitleAr: json["meta_title_ar"] == null ? null : json["meta_title_ar"],
-    metaKeywordsEn: json["meta_keywords_en"] == null ? null : json["meta_keywords_en"],
-    metaKeywordsAr: json["meta_keywords_ar"] == null ? null : json["meta_keywords_ar"],
-    metaDescriptionEn: json["meta_description_en"] == null ? "null" : json["meta_description_en"],
-    metaDescriptionAr: json["meta_description_ar"] == null ? "null" : json["meta_description_ar"],
-    metaImage: json["meta_image"] == null ? "null" : json["meta_image"],
+    // canonical: json["canonical"] == null ? "" : json["canonical"],
+    // orderNum: json["order_num"] == null ? null : json["order_num"],
+    // metaTitleEn: json["meta_title_en"] == null ? null : json["meta_title_en"],
+    // metaTitleAr: json["meta_title_ar"] == null ? null : json["meta_title_ar"],
+    // metaKeywordsEn: json["meta_keywords_en"] == null ? null : json["meta_keywords_en"],
+    // metaKeywordsAr: json["meta_keywords_ar"] == null ? null : json["meta_keywords_ar"],
+    // metaDescriptionEn: json["meta_description_en"] == null ? "null" : json["meta_description_en"],
+    // metaDescriptionAr: json["meta_description_ar"] == null ? "null" : json["meta_description_ar"],
+    // metaImage: json["meta_image"] == null ? "null" : json["meta_image"],
     // updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
   );
 
@@ -381,15 +381,15 @@ class Brands {
     "description_en": descriptionEn == null ? null : descriptionEn,
     "description_ar": descriptionAr,
     "slug": slug == null ? null : slug,
-    "canonical": canonical == null ? null : canonical,
-    "order_num": orderNum == null ? null : orderNum,
-    "meta_title_en": metaTitleEn == null ? null : metaTitleEn,
-    "meta_title_ar": metaTitleAr == null ? null : metaTitleAr,
-    "meta_keywords_en": metaKeywordsEn == null ? null : metaKeywordsEn,
-    "meta_keywords_ar": metaKeywordsAr == null ? null : metaKeywordsAr,
-    "meta_description_en": metaDescriptionEn == null ? null : metaDescriptionEn,
-    "meta_description_ar": metaDescriptionAr == null ? null : metaDescriptionAr,
-    "meta_image": metaImage == null ? null : metaImage,
+    // "canonical": canonical == null ? null : canonical,
+    // "order_num": orderNum == null ? null : orderNum,
+    // "meta_title_en": metaTitleEn == null ? null : metaTitleEn,
+    // "meta_title_ar": metaTitleAr == null ? null : metaTitleAr,
+    // "meta_keywords_en": metaKeywordsEn == null ? null : metaKeywordsEn,
+    // "meta_keywords_ar": metaKeywordsAr == null ? null : metaKeywordsAr,
+    // "meta_description_en": metaDescriptionEn == null ? null : metaDescriptionEn,
+    // "meta_description_ar": metaDescriptionAr == null ? null : metaDescriptionAr,
+    // "meta_image": metaImage == null ? null : metaImage,
     // "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
   };
 }
