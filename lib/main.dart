@@ -12,7 +12,6 @@ import 'package:luxury_app/view/introduction.dart';
 void main() async{
   /// from maya
 
-
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(const MyApp()));

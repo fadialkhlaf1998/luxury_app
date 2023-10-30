@@ -14,7 +14,7 @@ class PaymentController extends GetxController {
   String result_id = "";
   int rent_number = -1;
   Map<String, dynamic>? paymentIntentData;
-  String secrit = "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";
+  String secrit = "";
   Future<void> makePayment(
       {required BuildContext context,required String amount, required String currency,required int newRentNumber}) async {
     try {
